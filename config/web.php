@@ -7,6 +7,10 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+        'session' => [
+            'class' => 'yii\web\DbSession',
+            'sessionTable' => 'session',
+        ],
         'request' => [
             'baseUrl' => str_replace('/web', '', (new \yii\web\Request)->getBaseUrl()),
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -14,6 +18,10 @@ $config = [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
+        ],
+        'formatter' => [
+            'defaultTimeZone' => 'UTC',
+            'timeZone' => 'America/Lima',
         ],
         'user' => [
             'identityClass' => 'app\models\User',
