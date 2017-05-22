@@ -19,7 +19,7 @@ use yii\helpers\Url;
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido,</span>
-                        <h2><?php echo ucwords(Yii::$app->user->identity->username); ?></h2>
+                        <h2><?php echo ucwords(Yii::$app->user->identity->nombre); ?></h2>
                     </div>
                 </div>
                 <br/>

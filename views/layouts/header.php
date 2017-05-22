@@ -13,7 +13,7 @@ use yii\helpers\Html;
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                        aria-expanded="false">
                         <img src="<?php echo Yii::getAlias('@LogoHombreDefault');?>" alt="Usuario Default">
-                        <?php echo ucwords(Yii::$app->user->identity->username); ?>
+                        <?php echo ucwords(Yii::$app->user->identity->nombre); ?>
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -27,7 +27,7 @@ use yii\helpers\Html;
                                 . Html::beginForm(['/site/logout'], 'post')
                                 . Html::submitButton(
                                     "<i class='fa fa-sign-out pull-right'></i>"
-                                    . 'Cerrar Sesión (' . strtoupper(Yii::$app->user->identity->username) . ')',
+                                    . 'Cerrar Sesión (' . strtoupper(Yii::$app->user->identity->nombre) . ')',
                                     ['class' => 'btn-link logout']
                                 )
                                 . Html::endForm()

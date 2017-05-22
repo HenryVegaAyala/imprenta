@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Iniciar Sesión';
+$this->title = 'Branusac - Iniciar Sesión';
 ?>
 
 <body class="login">

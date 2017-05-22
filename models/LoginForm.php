@@ -32,6 +32,21 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+
+            [['username'], 'match', 'pattern' => "/^.{1,45}$/",  'message' => 'Mínimo 1 caracter'],
+            [['username'], 'email', 'message' => 'Tiene que ser un correo válido.'],
+
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Usuario',
+            'password' => 'Contraseña',
         ];
     }
 
@@ -48,7 +63,7 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Usuario ó Contraseña Incorrecta.');
             }
         }
     }
