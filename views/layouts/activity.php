@@ -46,22 +46,11 @@ use yii\helpers\Url;
                                     <li><a href="media_gallery.html">Media Gallery</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span
+                            <li><a><i class="fa fa-desktop"></i> UI Elements <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#level1_1">Level One</a>
-                                    <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="level2.html">Level Two</a>
-                                            </li>
-                                            <li><a href="#level2_1">Level Two</a>
-                                            </li>
-                                            <li><a href="#level2_2">Level Two</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#level1_2">Level One</a>
-                                    </li>
+                                    <li><a href="general_elements.html">General Elements</a></li>
+                                    <li><a href="media_gallery.html">Media Gallery</a></li>
                                 </ul>
                             </li>
                         </ul>
