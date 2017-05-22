@@ -28,6 +28,7 @@ use yii\web\IdentityInterface;
  * @property integer $estado
  * @property string $authKey
  * @property string $accessToken
+ * @property string $genero
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -63,7 +64,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['telefono'], 'string', 'max' => 15],
             [['dni'], 'string', 'max' => 8],
             [['correo', 'ip'], 'string', 'max' => 30],
-            [['privilegio'], 'string', 'max' => 1],
+            [['privilegio', 'genero'], 'string', 'max' => 1],
             [['contrasena'], 'string', 'max' => 150],
             [['contrasena_desc'], 'string', 'max' => 45],
             [['host'], 'string', 'max' => 40],
@@ -98,6 +99,7 @@ class User extends ActiveRecord implements IdentityInterface
             'estado' => 'Estado',
             'authKey' => 'Auth Key',
             'accessToken' => 'Access Token',
+            'genero' => 'Genero',
         ];
     }
 
