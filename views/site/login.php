@@ -9,10 +9,8 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Branusac - Iniciar Sesión';
 ?>
-
-<body class="login">
 <div>
-    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
@@ -35,6 +33,7 @@ $this->title = 'Branusac - Iniciar Sesión';
                     <?= Html::submitButton('Iniciar Sesión',
                         ['class' => 'btn btn-default submit', 'name' => 'login-button']) ?>
                 </div>
+                <?php ActiveForm::end(); ?>
                 <div class="clearfix"></div>
                 <div class="separator">
                     <div class="clearfix"></div>
@@ -43,9 +42,7 @@ $this->title = 'Branusac - Iniciar Sesión';
                         <p>©2017 Todos los Derechos Reservador por Branusac.</p>
                     </div>
                 </div>
-                <?php ActiveForm::end(); ?>
             </section>
         </div>
     </div>
 </div>
-</body>
