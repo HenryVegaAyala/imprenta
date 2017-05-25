@@ -54,7 +54,7 @@ use yii\helpers\Url;
                             <li><a><i class="fa fa-list-alt"></i> Usuario <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">Registrar Usuario</a></li>
+                                    <li><a href="<?php echo Url::to(['/user/create']) ?>">Registrar Usuario</a></li>
                                     <li><a href="<?php echo Url::to(['/user/index']) ?>">Lista de Usuarios</a></li>
                                 </ul>
                             </li>

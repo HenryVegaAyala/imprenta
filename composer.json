@@ -21,7 +21,9 @@
         "mootensai/yii2-enhanced-gii": "dev-master",
         "kartik-v/yii2-mpdf": "dev-master",
         "kartik-v/yii2-tree-manager": "dev-master",
-        "johnitvn/yii2-ajaxcrud": "*"
+        "johnitvn/yii2-ajaxcrud": "*",
+        "warrence/yii2-kartikgii": "dev-master",
+        "setasign/fpdf": "1.8.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

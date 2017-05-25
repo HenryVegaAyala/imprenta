@@ -6,6 +6,30 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'modules' => [
+        'gridview' => [
+            'class' => 'kartik\grid\Module',
+        ],
+
+        'datecontrol' => [
+            'class' => 'kartik\datecontrol\Module',
+
+            'displaySettings' => [
+                'date' => 'd-m-Y',
+                'time' => 'H:i:s A',
+                'datetime' => 'd-m-Y H:i:s A',
+            ],
+
+            'saveSettings' => [
+                'date' => 'Y-m-d',
+                'time' => 'H:i:s',
+                'datetime' => 'Y-m-d H:i:s',
+            ],
+
+            'autoWidget' => true,
+
+        ],
+    ],
     'components' => [
         'session' => [
             'class' => 'yii\web\DbSession',
@@ -94,6 +118,9 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        'generators' => [
+            'kartikgii-crud' => ['class' => 'warrence\kartikgii\crud\Generator'],
+        ]
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
