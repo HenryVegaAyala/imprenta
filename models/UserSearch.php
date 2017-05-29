@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\User;
@@ -19,7 +18,30 @@ class UserSearch extends User
     {
         return [
             [['id', 'estado'], 'integer'],
-            [['nombre', 'apellido', 'telefono', 'dni', 'correo', 'privilegio', 'contrasena', 'contrasena_desc', 'authKey', 'accessToken', 'fecha_digitada', 'fecha_modificada', 'fecha_eliminada', 'usuario_digitado', 'usuario_modificado', 'usuario_eliminado', 'ip', 'host', 'genero'], 'safe'],
+            [
+                [
+                    'nombre',
+                    'apellido',
+                    'telefono',
+                    'dni',
+                    'correo',
+                    'privilegio',
+                    'contrasena',
+                    'contrasena_desc',
+                    'authKey',
+                    'accessToken',
+                    'fecha_digitada',
+                    'fecha_modificada',
+                    'fecha_eliminada',
+                    'usuario_digitado',
+                    'usuario_modificado',
+                    'usuario_eliminado',
+                    'ip',
+                    'host',
+                    'genero',
+                ],
+                'safe',
+            ],
         ];
     }
 

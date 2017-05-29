@@ -33,7 +33,7 @@ class LoginForm extends Model
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
 
-            [['username'], 'match', 'pattern' => "/^.{1,45}$/",  'message' => 'Mínimo 1 caracter'],
+            [['username'], 'match', 'pattern' => "/^.{1,45}$/", 'message' => 'Mínimo 1 caracter'],
             [['username'], 'email', 'message' => 'Tiene que ser un correo válido.'],
 
         ];

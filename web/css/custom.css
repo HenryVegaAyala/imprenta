@@ -605,6 +605,22 @@ body {
     line-height: 1.471
 }
 
+.has-error .form-control {
+    border-color: red;
+}
+
+.control-label {
+    border-color: red;
+}
+
+.has-error.control-label {
+    border-color: red;
+}
+
+.has-error .checkbox, .has-error .checkbox-inline, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label {
+    border-color: red;
+}
+
 .main_container .top_nav {
     display: block;
     margin-left: 230px
@@ -4242,7 +4258,7 @@ form:after {
     -ms-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
     -o-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
     box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
-    border: 1px solid #c8c8c8;
+    border: 1px solid #e60a0a;
     color: #777;
     margin: 0 0 20px;
     width: 100%

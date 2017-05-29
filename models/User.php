@@ -29,6 +29,8 @@ use yii\web\IdentityInterface;
  * @property string $authKey
  * @property string $accessToken
  * @property string $genero
+ * @property string $fecha_inicio
+ * @property string $fecha_cumpleanos
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -46,7 +48,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['fecha_digitada', 'fecha_modificada', 'fecha_eliminada'], 'safe'],
+            [['fecha_digitada', 'fecha_modificada', 'fecha_eliminada', 'fecha_inicio', 'fecha_cumpleanos'], 'safe'],
             [['estado'], 'integer'],
             [
                 [
@@ -71,7 +73,13 @@ class User extends ActiveRecord implements IdentityInterface
             [['correo'], 'unique'],
             [['dni'], 'unique'],
 
-            [['dni', 'nombre', 'apellido', 'privilegio'], 'required'],
+            [['dni', 'nombre', 'apellido', 'privilegio', 'contrasena', 'correo'], 'required'],
+
+            [['correo'], 'match', 'pattern' => "/^.{3,45}$/", 'message' => 'Mínimo 3 caracteres del correo.'],
+            [['correo'], 'email', 'message' => 'Ingrese un email válido'],
+
+            [['telefono'], 'match', 'pattern' => "/^.{3,15}$/", 'message' => 'Mínimo 5 caracteres'],
+            [['dni', 'telefono'], 'integer', 'message' => 'Debe ser tipo númerico.'],
         ];
     }
 
@@ -82,11 +90,11 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'nombre' => 'Nombre',
-            'apellido' => 'Apellido',
-            'telefono' => 'Telefono',
+            'nombre' => 'Nombres',
+            'apellido' => 'Apellidos',
+            'telefono' => 'Télefono',
             'dni' => 'DNI',
-            'correo' => 'Correo',
+            'correo' => 'Email',
             'privilegio' => 'Rol',
             'contrasena' => 'Contraseña',
             'contrasena_desc' => 'Contrasena Desc',
@@ -101,7 +109,9 @@ class User extends ActiveRecord implements IdentityInterface
             'estado' => 'Estado',
             'authKey' => 'Auth Key',
             'accessToken' => 'Access Token',
-            'genero' => 'Genero',
+            'genero' => 'Género',
+            'fecha_inicio' => 'Fecha Inicio de Trabajo',
+            'fecha_cumpleanos' => 'Fecha de Cumpleaños',
         ];
     }
 
@@ -186,5 +196,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         return $this->contrasena === $password;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRutas()
+    {
+        return $this->hasMany(Ruta::className(), ['usuario_id' => 'id']);
     }
 }
