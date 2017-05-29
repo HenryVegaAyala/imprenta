@@ -6,12 +6,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
-$this->title = 'Create User';
-$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
+$this->title = 'Branusac - Crear Nuevo Usuario';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="right_col" role="main">
-    <h1><?= Html::encode($this->title) ?></h1>
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

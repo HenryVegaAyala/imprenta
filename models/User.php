@@ -70,6 +70,8 @@ class User extends ActiveRecord implements IdentityInterface
             [['host'], 'string', 'max' => 40],
             [['correo'], 'unique'],
             [['dni'], 'unique'],
+
+            [['dni', 'nombre', 'apellido', 'privilegio'], 'required'],
         ];
     }
 
@@ -83,10 +85,10 @@ class User extends ActiveRecord implements IdentityInterface
             'nombre' => 'Nombre',
             'apellido' => 'Apellido',
             'telefono' => 'Telefono',
-            'dni' => 'Dni',
+            'dni' => 'DNI',
             'correo' => 'Correo',
-            'privilegio' => 'Privilegio',
-            'contrasena' => 'Contrasena',
+            'privilegio' => 'Rol',
+            'contrasena' => 'Contraseña',
             'contrasena_desc' => 'Contrasena Desc',
             'fecha_digitada' => 'Fecha Digitada',
             'fecha_modificada' => 'Fecha Modificada',
