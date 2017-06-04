@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use kartik\widgets\Growl;
 use Yii;
 use app\models\User;
 use app\models\UserSearch;
@@ -65,8 +66,41 @@ class UserController extends Controller
     {
         $model = new User();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $startJob =
+                substr($model->fecha_inicio, 6, 4) . '-' .
+                substr($model->fecha_inicio, 3, 2) . '-' .
+                substr($model->fecha_inicio, 0, 2);
+
+            $dayBirthday =
+                substr($model->fecha_cumpleanos, 6, 4) . '-' .
+                substr($model->fecha_cumpleanos, 3, 2) . '-' .
+                substr($model->fecha_cumpleanos, 0, 2);
+
+            $model->id = intval($model->getIdTable());
+            $model->contrasena_desc = $model->contrasena;
+            $model->contrasena = md5($model->contrasena);
+            $model->authKey = md5(rand(1, 9999));
+            $model->accessToken = md5(rand(1, 9999));
+            $model->fecha_digitada = $this->zonaHoraria();
+            $model->usuario_digitado = Yii::$app->user->identity->correo;
+            $model->ip = Yii::$app->request->userIP;
+            $model->host = strval(php_uname());
+            $model->estado = 1;
+            $model->fecha_inicio = $startJob;
+            $model->fecha_cumpleanos = $dayBirthday;
+            $model->save();
+            Yii::$app->getSession()->setFlash('success', [
+                'type' => 'success',
+                'duration' => 6000,
+                'icon' => 'fa fa-users',
+                'message' => 'Se ha registrado satisfactoriamente.',
+                'title' => 'Usuario Nuevo',
+                'positonY' => 'top',
+                'positonX' => 'right',
+            ]);
+
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -120,5 +154,16 @@ class UserController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * @return false|string
+     */
+    public function zonaHoraria()
+    {
+        date_default_timezone_set('America/Lima');
+        $now = date('Y-m-d h:i:s', time());
+
+        return $now;
     }
 }

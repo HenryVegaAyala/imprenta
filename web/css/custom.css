@@ -613,7 +613,7 @@ body {
     border-color: red;
 }
 
-.has-error.control-label {
+.has-error .control-label {
     border-color: red;
 }
 

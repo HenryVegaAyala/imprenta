@@ -4,6 +4,8 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\db\Expression;
+use yii\db\Query;
 
 /**
  * This is the model class for table "usuario".
@@ -31,6 +33,9 @@ use yii\web\IdentityInterface;
  * @property string $genero
  * @property string $fecha_inicio
  * @property string $fecha_cumpleanos
+ *
+ * @property null|string|false $idTable
+ * @property Ruta[] $rutas
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -67,9 +72,8 @@ class User extends ActiveRecord implements IdentityInterface
             [['dni'], 'string', 'max' => 8],
             [['correo', 'ip'], 'string', 'max' => 30],
             [['privilegio', 'genero'], 'string', 'max' => 1],
-            [['contrasena'], 'string', 'max' => 150],
+            [['contrasena', 'host'], 'string', 'max' => 150],
             [['contrasena_desc'], 'string', 'max' => 45],
-            [['host'], 'string', 'max' => 40],
             [['correo'], 'unique'],
             [['dni'], 'unique'],
 
@@ -204,5 +208,46 @@ class User extends ActiveRecord implements IdentityInterface
     public function getRutas()
     {
         return $this->hasMany(Ruta::className(), ['usuario_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public static function genero()
+    {
+        $genero = [
+            'M' => 'Masculino',
+            'F' => 'Femenino',
+        ];
+
+        return $genero;
+    }
+
+    /**
+     * @return array
+     */
+    public static function rol()
+    {
+        $rol = [
+            'G' => 'Administrador',
+            'A' => 'Supervisor',
+            'S' => 'Secretaria',
+        ];
+
+        return $rol;
+    }
+
+    /**
+     * @return false|null|string
+     */
+    public function getIdTable()
+    {
+        $query = new Query();
+        $sentence = new Expression('IFNULL(MAX(id), 0) + 1');
+        $query->select($sentence)->from('usuario');
+        $command = $query->createCommand();
+        $value = $command->queryScalar();
+
+        return $value;
     }
 }

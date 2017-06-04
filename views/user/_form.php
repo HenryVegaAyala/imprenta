@@ -1,5 +1,6 @@
 <?php
 
+use kartik\widgets\DatePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
@@ -27,7 +28,6 @@ $descripcion = "Registrar Usuario";
                             'method' => 'post',
                             'options' => [
                                 'class' => 'form-horizontal form-label-left',
-                                'novalidate' => "true",
                                 'data-pjax' => true,
                             ],
                         ]
@@ -57,9 +57,10 @@ $descripcion = "Registrar Usuario";
                         </div>
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'privilegio')->textInput(
-                                ['maxlength' => true],
-                                ['class' => 'form-control col-md-7 col-xs-12']) ?>
+                            <?= $form->field($model, 'privilegio')->dropDownList($model->rol(), [
+                                'prompt' => 'Seleccionar Rol',
+                                'class' => 'form-control col-md-7 col-xs-12',
+                            ]) ?>
                         </div>
                     </div>
 
@@ -71,7 +72,7 @@ $descripcion = "Registrar Usuario";
                         </div>
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'contrasena')->textInput(
+                            <?= $form->field($model, 'contrasena')->passwordInput(
                                 ['maxlength' => true],
                                 ['class' => 'form-control col-md-7 col-xs-12']) ?>
                         </div>
@@ -85,27 +86,45 @@ $descripcion = "Registrar Usuario";
                         </div>
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'genero')->textInput(
-                                ['maxlength' => true],
-                                ['class' => 'form-control col-md-7 col-xs-12']) ?>
+                            <?= $form->field($model, 'genero')->dropDownList($model->genero(), [
+                                'prompt' => 'Seleccionar Género',
+                                'class' => 'form-control col-md-7 col-xs-12',
+                            ]) ?>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'fecha_inicio')->textInput(
-                                ['maxlength' => true],
-                                ['class' => 'form-control col-md-7 col-xs-12']) ?>
+                            <?= $form->field($model, 'fecha_inicio')->widget(DatePicker::classname(), [
+                                'options' => ['placeholder' => ''],
+                                'value' => date('d-M-Y'),
+                                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                                'pluginOptions' => [
+                                    'autoclose' => true,
+                                    'format' => 'dd-mm-yyyy',
+                                    'todayHighlight' => true,
+                                    'class' => 'form-control col-md-7 col-xs-12',
+                                ],
+                            ]);
+                            ?>
                         </div>
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'fecha_cumpleanos')->textInput(
-                                ['maxlength' => true],
-                                ['class' => 'form-control col-md-7 col-xs-12']) ?>
+                            <?= $form->field($model, 'fecha_cumpleanos')->widget(DatePicker::classname(), [
+                                'options' => ['placeholder' => ''],
+                                'value' => date('d-M-Y'),
+                                'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                                'pluginOptions' => [
+                                    'autoclose' => true,
+                                    'format' => 'dd-mm-yyyy',
+                                    'todayHighlight' => true,
+                                    'class' => 'form-control col-md-7 col-xs-12',
+                                ],
+                            ]);
+                            ?>
                         </div>
                     </div>
                 </div>
-
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-3">

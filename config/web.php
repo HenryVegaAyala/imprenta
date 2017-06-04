@@ -86,6 +86,7 @@ $config = [
 
                 /**Usuario**/
                 ['pattern' => '/nuevo-usuario', 'route' => '/user/create', 'suffix' => '.php'],
+                ['pattern' => '/lista-usuario', 'route' => '/user/index', 'suffix' => '.php'],
             ],
         ],
 
