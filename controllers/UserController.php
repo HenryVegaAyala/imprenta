@@ -118,8 +118,25 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->contrasena_desc = $model->contrasena;
+            $model->contrasena = md5($model->contrasena);
+            $model->fecha_modificada = $this->zonaHoraria();
+            $model->usuario_modificado = Yii::$app->user->identity->correo;
+            $model->ip = Yii::$app->request->userIP;
+            $model->host = strval(php_uname());
+            $model->save();
+            Yii::$app->getSession()->setFlash('success', [
+                'type' => 'success',
+                'duration' => 6000,
+                'icon' => 'fa fa-users',
+                'message' => 'Se ha actualizado satisfactoriamente.',
+                'title' => 'Usuario Actualizado',
+                'positonY' => 'top',
+                'positonX' => 'right',
+            ]);
+
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
