@@ -58,7 +58,7 @@ $descripcion = "Actualizar Usuario";
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <?= $form->field($model, 'privilegio')->dropDownList($model->rol(), [
-                                'prompt' => 'Seleccionar Rol',
+                                'prompt' => 'Seleccionar Privilegio',
                                 'class' => 'form-control col-md-7 col-xs-12',
                             ]) ?>
                         </div>

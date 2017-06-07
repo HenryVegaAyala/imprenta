@@ -99,7 +99,7 @@ class User extends ActiveRecord implements IdentityInterface
             'telefono' => 'Télefono',
             'dni' => 'DNI',
             'correo' => 'Email',
-            'privilegio' => 'Rol',
+            'privilegio' => 'Privilegio',
             'contrasena' => 'Contraseña',
             'contrasena_desc' => 'Contrasena Desc',
             'fecha_digitada' => 'Fecha Digitada',
