@@ -213,6 +213,19 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return array
      */
+    public static function status()
+    {
+        $status = [
+            '1' => 'Activo',
+            '0' => 'Inactivo',
+        ];
+
+        return $status;
+    }
+
+    /**
+     * @return array
+     */
     public static function genero()
     {
         $genero = [
@@ -249,5 +262,40 @@ class User extends ActiveRecord implements IdentityInterface
         $value = $command->queryScalar();
 
         return $value;
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getRol($value)
+    {
+        switch ($value) {
+            case 'A':
+                return 'Supervisor';
+                break;
+            case 'G':
+                return 'Administrador';
+                break;
+            case 'S':
+                return 'Secretaria';
+                break;
+        }
+    }
+
+    /**
+     * @param $status
+     * @return string
+     */
+    public function getStatus($status)
+    {
+        switch ($status) {
+            case 1:
+                return 'Activo';
+                break;
+            case 0:
+                return 'Inactivo';
+                break;
+        }
     }
 }

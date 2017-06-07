@@ -67,16 +67,6 @@ class UserController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
-            $startJob =
-                substr($model->fecha_inicio, 6, 4) . '-' .
-                substr($model->fecha_inicio, 3, 2) . '-' .
-                substr($model->fecha_inicio, 0, 2);
-
-            $dayBirthday =
-                substr($model->fecha_cumpleanos, 6, 4) . '-' .
-                substr($model->fecha_cumpleanos, 3, 2) . '-' .
-                substr($model->fecha_cumpleanos, 0, 2);
-
             $model->id = intval($model->getIdTable());
             $model->contrasena_desc = $model->contrasena;
             $model->contrasena = md5($model->contrasena);
@@ -86,9 +76,9 @@ class UserController extends Controller
             $model->usuario_digitado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
-            $model->estado = 1;
-            $model->fecha_inicio = $startJob;
-            $model->fecha_cumpleanos = $dayBirthday;
+            $model->estado = true;
+            $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
+            $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
             Yii::$app->getSession()->setFlash('success', [
                 'type' => 'success',
@@ -125,6 +115,8 @@ class UserController extends Controller
             $model->usuario_modificado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
+            $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
+            $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
             Yii::$app->getSession()->setFlash('success', [
                 'type' => 'success',
@@ -183,4 +175,6 @@ class UserController extends Controller
 
         return $now;
     }
+
+
 }

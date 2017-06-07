@@ -73,7 +73,7 @@ $descripcion = "Actualizar Usuario";
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <?= $form->field($model, 'contrasena')->passwordInput(
-                                ['maxlength' => true],
+                                ['maxlength' => true, 'value' => ''],
                                 ['class' => 'form-control col-md-7 col-xs-12']) ?>
                         </div>
                     </div>
