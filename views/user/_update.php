@@ -72,7 +72,21 @@ $descripcion = "Actualizar Usuario";
                         </div>
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?= $form->field($model, 'estado')->dropDownList($model->status(), [
+                                'prompt' => 'Seleccionar Estado',
+                                'class' => 'form-control col-md-7 col-xs-12',
+                            ]) ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             <?= $form->field($model, 'contrasena')->passwordInput(
+                                ['maxlength' => true, 'value' => ''],
+                                ['class' => 'form-control col-md-7 col-xs-12']) ?>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?= $form->field($model, 'password_repeat')->passwordInput(
                                 ['maxlength' => true, 'value' => ''],
                                 ['class' => 'form-control col-md-7 col-xs-12']) ?>
                         </div>

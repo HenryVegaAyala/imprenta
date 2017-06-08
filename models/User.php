@@ -39,6 +39,9 @@ use yii\db\Query;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+
+    public $password_repeat;
+
     /**
      * @inheritdoc
      */
@@ -77,13 +80,27 @@ class User extends ActiveRecord implements IdentityInterface
             [['correo'], 'unique'],
             [['dni'], 'unique'],
 
-            [['dni', 'nombre', 'apellido', 'privilegio', 'contrasena', 'correo'], 'required'],
+            [['dni', 'nombre', 'apellido', 'privilegio', 'contrasena', 'password_repeat', 'correo'], 'required'],
 
             [['correo'], 'match', 'pattern' => "/^.{3,45}$/", 'message' => 'Mínimo 3 caracteres del correo.'],
             [['correo'], 'email', 'message' => 'Ingrese un email válido'],
 
             [['telefono'], 'match', 'pattern' => "/^.{3,15}$/", 'message' => 'Mínimo 5 caracteres'],
             [['dni', 'telefono'], 'integer', 'message' => 'Debe ser tipo númerico.'],
+
+            [
+                'password_repeat',
+                'match',
+                'pattern' => "/^.{6,255}$/",
+                'message' => 'Mínimo 6 digitos para la contraseña',
+            ],
+            ['contrasena', 'match', 'pattern' => "/^.{6,255}$/", 'message' => 'Mínimo 6 digitos para la contraseña'],
+            [
+                'password_repeat',
+                'compare',
+                'compareAttribute' => 'contrasena',
+                'message' => 'Las contraseñas no coinciden.',
+            ],
         ];
     }
 
@@ -101,6 +118,7 @@ class User extends ActiveRecord implements IdentityInterface
             'correo' => 'Email',
             'privilegio' => 'Privilegio',
             'contrasena' => 'Contraseña',
+            'password_repeat' => 'Confirmar Contraseña',
             'contrasena_desc' => 'Contrasena Desc',
             'fecha_digitada' => 'Fecha Digitada',
             'fecha_modificada' => 'Fecha Modificada',
