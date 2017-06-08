@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Branusac - Lista de Usuario';
+$this->title = 'Branusac - Listas de Usuario';
 $this->params['breadcrumbs'][] = $this->title;
 $usuario = new User();
 ?>
@@ -59,8 +59,8 @@ $usuario = new User();
 
                                 [
                                     'class' => 'yii\grid\ActionColumn',
-                                    'template' => '{update} {delete} ',
                                     'header' => 'Detalle',
+                                    'template' => ' {update} {delete} ',
                                     'headerOptions' => ['class' => 'itemHide'],
                                     'contentOptions' => ['class' => 'itemHide'],
                                     'buttons' => [

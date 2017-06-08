@@ -175,6 +175,4 @@ class UserController extends Controller
 
         return $now;
     }
-
-
 }
