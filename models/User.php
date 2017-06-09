@@ -43,7 +43,7 @@ class User extends ActiveRecord implements IdentityInterface
     public $password_repeat;
 
     /**
-     * @inheritdoc
+     * @inheritdoc|
      */
     public static function tableName()
     {
@@ -76,11 +76,14 @@ class User extends ActiveRecord implements IdentityInterface
             [['correo', 'ip'], 'string', 'max' => 30],
             [['privilegio', 'genero'], 'string', 'max' => 1],
             [['contrasena', 'host'], 'string', 'max' => 150],
-            [['contrasena_desc'], 'string', 'max' => 45],
+            [['contrasena_desc', 'password_repeat'], 'string', 'max' => 45],
             [['correo'], 'unique'],
             [['dni'], 'unique'],
 
-            [['dni', 'nombre', 'apellido', 'privilegio', 'contrasena', 'password_repeat', 'correo'], 'required'],
+            [
+                ['dni', 'nombre', 'apellido', 'privilegio', 'contrasena', 'password_repeat', 'correo', 'estado'],
+                'required',
+            ],
 
             [['correo'], 'match', 'pattern' => "/^.{3,45}$/", 'message' => 'Mínimo 3 caracteres del correo.'],
             [['correo'], 'email', 'message' => 'Ingrese un email válido'],
@@ -89,12 +92,23 @@ class User extends ActiveRecord implements IdentityInterface
             [['dni', 'telefono'], 'integer', 'message' => 'Debe ser tipo númerico.'],
 
             [
+                'dni',
+                'match',
+                'pattern' => "/^.{8,8}$/",
+                'message' => 'El DNI requiere 8 digitos.',
+            ],
+            [
+                'contrasena',
+                'match',
+                'pattern' => "/^.{6,255}$/",
+                'message' => 'Mínimo 6 digitos para la contraseña',
+            ],
+            [
                 'password_repeat',
                 'match',
                 'pattern' => "/^.{6,255}$/",
                 'message' => 'Mínimo 6 digitos para la contraseña',
             ],
-            ['contrasena', 'match', 'pattern' => "/^.{6,255}$/", 'message' => 'Mínimo 6 digitos para la contraseña'],
             [
                 'password_repeat',
                 'compare',
@@ -118,8 +132,8 @@ class User extends ActiveRecord implements IdentityInterface
             'correo' => 'Email',
             'privilegio' => 'Privilegio',
             'contrasena' => 'Contraseña',
-            'password_repeat' => 'Confirmar Contraseña',
-            'contrasena_desc' => 'Contrasena Desc',
+            'contrasena_desc' => 'Contraseña',
+            'password_repeat' => 'Repetir Contraseña',
             'fecha_digitada' => 'Fecha Digitada',
             'fecha_modificada' => 'Fecha Modificada',
             'fecha_eliminada' => 'Fecha Eliminada',

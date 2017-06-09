@@ -68,15 +68,16 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->id = intval($model->getIdTable());
-            $model->contrasena_desc = $model->contrasena;
-            $model->contrasena = md5($model->contrasena);
+            $model->contrasena_desc = $model->password_repeat;
+            $model->contrasena = $model->contrasena;
+            //$model->contrasena = md5($model->contrasena);
             $model->authKey = md5(rand(1, 9999));
             $model->accessToken = md5(rand(1, 9999));
             $model->fecha_digitada = $this->zonaHoraria();
             $model->usuario_digitado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
-            $model->estado = true;
+            $model->estado = (int)$model->estado;
             $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
             $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
@@ -110,7 +111,8 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->contrasena_desc = $model->contrasena;
-            $model->contrasena = md5($model->contrasena);
+            $model->contrasena = $model->contrasena;
+            //$model->contrasena = md5($model->contrasena);
             $model->fecha_modificada = $this->zonaHoraria();
             $model->usuario_modificado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
@@ -144,6 +146,16 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
+        Yii::$app->getSession()->setFlash('success', [
+            'type' => 'success',
+            'duration' => 6000,
+            'icon' => 'fa fa-users',
+            'message' => 'Se ha eliminado satisfactoriamente.',
+            'title' => 'Usuario Eliminado',
+            'positonY' => 'top',
+            'positonX' => 'right',
+        ]);
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
