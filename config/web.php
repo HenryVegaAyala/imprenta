@@ -95,6 +95,17 @@ $config = [
                 ['pattern' => '/lista-proforma', 'route' => '/proforma/index', 'suffix' => '.php'],
                 ['pattern' => '/actualizar-proforma/<id:\d+>', 'route' => '/proforma/update'],
                 ['pattern' => '/eliminar-proforma/<id:\d+>', 'route' => '/proforma/delete'],
+
+                /**Factura**/
+                ['pattern' => '/nueva-factura', 'route' => '/factura/create', 'suffix' => '.php'],
+                ['pattern' => '/lista-factura', 'route' => '/factura/index', 'suffix' => '.php'],
+                ['pattern' => '/actualizar-factura/<id:\d+>', 'route' => '/factura/update'],
+                ['pattern' => '/eliminar-factura/<id:\d+>', 'route' => '/factura/delete'],
+
+                /**Guia**/
+                ['pattern' => '/lista-guia', 'route' => '/guia/index', 'suffix' => '.php'],
+                ['pattern' => '/actualizar-guia/<id:\d+>', 'route' => '/guia/update'],
+                ['pattern' => '/eliminar-guia/<id:\d+>', 'route' => '/guia/delete'],
             ],
         ],
 
