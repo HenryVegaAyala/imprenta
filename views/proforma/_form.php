@@ -32,11 +32,28 @@ $descripcion = "Registrar Proformar";
                         ]
                     ); ?>
 
-                    <?= $form->field($model, 'num_proforma')->textInput(['maxlength' => true]) ?>
+                    <div class="row">
+                        <div class="item form-group">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <?= $form->field($model, 'num_proforma')->textInput(
+                                    ['maxlength' => true],
+                                    ['class' => 'form-control col-md-7 col-xs-12']
+                                ) ?>
+                            </div>
 
-                    <?= $form->field($model, 'fecha_ingreso')->textInput() ?>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <?= $form->field($model, 'fecha_ingreso')->textInput(
+                                    ['maxlength' => true],
+                                    ['class' => 'form-control col-md-7 col-xs-12']) ?>
+                            </div>
 
-                    <?= $form->field($model, 'fecha_envio')->textInput() ?>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <?= $form->field($model, 'fecha_envio')->textInput(
+                                    ['maxlength' => true],
+                                    ['class' => 'form-control col-md-7 col-xs-12']) ?>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
