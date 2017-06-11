@@ -68,8 +68,8 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->id = intval($model->getIdTable());
-            //$model->contrasena_desc = $model->contrasena;
-            $model->contrasena = $model->contrasena;
+            $model->contrasena = md5($model->contrasena);
+            $model->contrasena_desc = $model->contrasena_desc;
             $model->authKey = md5(rand(1, 9999));
             $model->accessToken = md5(rand(1, 9999));
             $model->fecha_digitada = $this->zonaHoraria();
@@ -101,13 +101,13 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->contrasena_desc = $model->contrasena;
-            //$model->contrasena = $model->contrasena;
             $model->contrasena = md5($model->contrasena);
+            $model->contrasena_desc = $model->contrasena_desc;
             $model->fecha_modificada = $this->zonaHoraria();
             $model->usuario_modificado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
+            $model->estado = (int)$model->estado;
             $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
             $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
@@ -176,7 +176,7 @@ class UserController extends Controller
             $type = 'success';
             $message = 'Se ha actualizado satisfactoriamente.';
             $title = 'Usuario Actualizado';
-        } else {
+        } elseif ($estado == 3) {
             $type = 'success';
             $message = 'Se ha eliminado satisfactoriamente.';
             $title = 'Usuario Eliminado';
@@ -186,6 +186,25 @@ class UserController extends Controller
             'type' => $type,
             'duration' => 6000,
             'icon' => 'fa fa-users',
+            'message' => $message,
+            'title' => $title,
+            'positonY' => 'top',
+            'positonX' => 'right',
+        ]);
+
+        return $notification;
+    }
+
+    /**
+     * @param $title
+     * @param $message
+     */
+    public function notificationError($title, $message)
+    {
+        $notification = Yii::$app->getSession()->setFlash('success', [
+            'type' => 'danger',
+            'duration' => 6000,
+            'icon' => 'fa fa-ban',
             'message' => $message,
             'title' => $title,
             'positonY' => 'top',
