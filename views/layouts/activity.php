@@ -40,14 +40,9 @@ use yii\helpers\Url;
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-list-alt"></i> Proforma <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">Registrar Proforma</a></li>
-                                    <li><a href="#">Lista de Proformas</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-list-alt"></i> Guía de Remisión <span class="fa fa-chevron-down">
-                                    </span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#">Lista de Guías de Remisión</a></li>
+                                    <li><a href="<?php echo Url::to(['/proforma/create']) ?>">Registrar Proforma</a>
+                                    </li>
+                                    <li><a href="<?php echo Url::to(['/proforma/index']) ?>">Lista de Proformas</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-list-alt"></i> Factura <span
@@ -55,6 +50,12 @@ use yii\helpers\Url;
                                 <ul class="nav child_menu">
                                     <li><a href="#">Registrar Factura</a></li>
                                     <li><a href="#">Lista de Facturas</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-list-alt"></i> Guía de Remisión <span class="fa fa-chevron-down">
+                                    </span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="#">Lista de Guías de Remisión</a></li>
                                 </ul>
                             </li>
                             <?php if (Yii::$app->user->identity->privilegio === 'G') { ?>
