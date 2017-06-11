@@ -24,6 +24,9 @@ use yii\db\ActiveRecord;
  * @property string $ip
  * @property string $host
  * @property integer $estado
+ * @property string $distrito
+ * @property string $provincia
+ * @property string $referencia
  *
  * @property Transaccion[] $transaccions
  */
@@ -47,7 +50,7 @@ class Cliente extends ActiveRecord
             [['estado'], 'integer'],
             [['desc_cliente', 'dir_fisica'], 'string', 'max' => 100],
             [['numero_ruc', 'num_telf1', 'num_telf2'], 'string', 'max' => 20],
-            [['dir_mail1', 'dir_mail2', 'host'], 'string', 'max' => 40],
+            [['dir_mail1', 'dir_mail2', 'host', 'distrito', 'provincia', 'referencia'], 'string', 'max' => 40],
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
             [['ip'], 'string', 'max' => 30],
         ];
@@ -76,6 +79,9 @@ class Cliente extends ActiveRecord
             'ip' => 'Ip',
             'host' => 'Host',
             'estado' => 'Estado',
+            'distrito' => 'Distrito',
+            'provincia' => 'Provincia',
+            'referencia' => 'Referencia',
         ];
     }
 
