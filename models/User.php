@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use Yii;
 use yii\db\ActiveRecord;
+use yii\db\Exception;
 use yii\web\IdentityInterface;
 use yii\db\Expression;
 use yii\db\Query;
@@ -18,7 +20,6 @@ use yii\db\Query;
  * @property string $correo
  * @property string $privilegio
  * @property string $contrasena
- * @property string $contrasena_desc
  * @property string $authKey
  * @property string $accessToken
  * @property string $fecha_digitada
@@ -34,10 +35,14 @@ use yii\db\Query;
  * @property string $fecha_inicio
  * @property string $fecha_cumpleanos
  *
+ * @property null|string|false $idTable
  * @property Ruta[] $rutas
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+
+    public $contrasena_desc;
+
     /**
      * @inheritdoc
      */
@@ -59,12 +64,12 @@ class User extends ActiveRecord implements IdentityInterface
             [['dni'], 'string', 'max' => 8],
             [['correo'], 'string', 'max' => 40],
             [['privilegio', 'genero'], 'string', 'max' => 1],
-            [['contrasena', 'contrasena_desc', 'authKey', 'accessToken', 'host'], 'string', 'max' => 150],
+            [['contrasena', 'authKey', 'accessToken', 'host'], 'string', 'max' => 150],
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
             [['ip'], 'string', 'max' => 30],
 
             [
-                ['dni', 'nombre', 'apellido', 'privilegio', 'contrasena','contrasena_desc', 'correo', 'estado'],
+                ['dni', 'nombre', 'apellido', 'privilegio', 'contrasena', 'contrasena_desc', 'correo', 'estado'],
                 'required',
             ],
 
@@ -100,9 +105,6 @@ class User extends ActiveRecord implements IdentityInterface
                 'compareAttribute' => 'contrasena',
                 'message' => 'Las contraseñas no coinciden.',
             ],
-
-            [['correo'], 'unique'],
-            [['dni'], 'unique'],
         ];
     }
 
@@ -312,5 +314,32 @@ class User extends ActiveRecord implements IdentityInterface
                 return 'Inactivo';
                 break;
         }
+    }
+
+    /**
+     * @param $id
+     * @param $password
+     * @return \yii\db\Transaction
+     * @throws Exception
+     */
+    public function encryptPassword($id, $password)
+    {
+        //$db = Yii::$app->db;
+        //$transaction = $db->beginTransaction();
+        //try {
+        //    $db->createCommand("UPDATE usuario SET contrasena ='" . md5($password) . "' WHERE id = '" . $id . "';");
+        //    $transaction->commit();
+        //} catch (Exception $e) {
+        //    $transaction->rollBack();
+        //    throw $e;
+        //}
+
+        $transaction = Yii::$app->db;
+        $transaction->createCommand()
+            ->update('usuario',
+                [   'contrasena' => $password,
+                ],
+                'id = ' . $id)
+            ->execute();
     }
 }

@@ -12,7 +12,13 @@ use yii\helpers\Html;
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                        aria-expanded="false">
-                        <img src="<?php echo Yii::getAlias('@LogoHombreDefault'); ?>" alt="Usuario Default">
+                        <img src="<?php
+                        if (Yii::$app->user->identity->genero === 'M') {
+                            echo Yii::getAlias('@LogoHombreDefault');
+                        } else {
+                            echo Yii::getAlias('@LogoMujerDefault');
+                        }
+                        ?>" alt="Usuario Default">
                         <?php echo ucwords(Yii::$app->user->identity->nombre . ' ' .
                             Yii::$app->user->identity->apellido); ?>
                         <span class=" fa fa-angle-down"></span>

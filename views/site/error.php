@@ -5,15 +5,12 @@
 /* @var $message string */
 /* @var $exception Exception */
 
-use yii\helpers\Html;
-
 $this->title = 'Error del Servidor - 404';
 ?>
 <div class="right_col" role="main">
     <body class="nav-md">
     <div class="container body">
         <div class="main_container">
-            <!-- page content -->
             <div class="col-md-12">
                 <div class="col-middle">
                     <div class="text-center text-center">
@@ -25,7 +22,6 @@ $this->title = 'Error del Servidor - 404';
                     </div>
                 </div>
             </div>
-            <!-- /page content -->
         </div>
     </div>
     </body>

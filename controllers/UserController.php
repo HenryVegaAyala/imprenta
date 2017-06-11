@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use kartik\widgets\Growl;
 use Yii;
 use app\models\User;
 use app\models\UserSearch;
@@ -68,8 +67,6 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->id = intval($model->getIdTable());
-            $model->contrasena = md5($model->contrasena);
-            $model->contrasena_desc = $model->contrasena_desc;
             $model->authKey = md5(rand(1, 9999));
             $model->accessToken = md5(rand(1, 9999));
             $model->fecha_digitada = $this->zonaHoraria();
@@ -80,6 +77,7 @@ class UserController extends Controller
             $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
             $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
+            $model->encryptPassword($model->id, $model->contrasena);
             $this->notification(1);
 
             return $this->redirect(['index']);
@@ -101,8 +99,8 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->contrasena = md5($model->contrasena);
-            $model->contrasena_desc = $model->contrasena_desc;
+            $id = $model->id;
+            $password =  $model->contrasena;
             $model->fecha_modificada = $this->zonaHoraria();
             $model->usuario_modificado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
@@ -111,6 +109,7 @@ class UserController extends Controller
             $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
             $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
+            $model->encryptPassword($id, $password);
             $this->notification(2);
 
             return $this->redirect(['index']);
