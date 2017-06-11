@@ -8,7 +8,7 @@ use yii\helpers\Url;
             <div class="left_col scroll-view">
 
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="<?= Url::home() ?>" class="site_title"></i>
+                    <a href="<?php echo Url::home() ?>" class="site_title"></i>
                         <span class="pull-center">Empresa Branusac</span>
                     </a>
                 </div>
@@ -17,7 +17,13 @@ use yii\helpers\Url;
 
                 <div class="profile clearfix">
                     <div class="profile_pic">
-                        <img src="<?php echo Yii::getAlias('@LogoHombreDefault'); ?>" alt="Usuario Default"
+                        <img src="<?php
+                        if (Yii::$app->user->identity->genero === 'M') {
+                            echo Yii::getAlias('@LogoHombreDefault');
+                        } else {
+                            echo Yii::getAlias('@LogoMujerDefault');
+                        }
+                        ?>" alt="Usuario Default"
                              class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
@@ -51,19 +57,22 @@ use yii\helpers\Url;
                                     <li><a href="#">Lista de Facturas</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-list-alt"></i> Usuario <span
-                                            class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo Url::to(['/user/create']) ?>">Registrar Usuario</a></li>
-                                    <li><a href="<?php echo Url::to(['/user/index']) ?>">Lista de Usuarios</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-list-alt"></i> Reportes <span
-                                            class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#">Generar Reporte</a></li>
-                                </ul>
-                            </li>
+                            <?php if (Yii::$app->user->identity->privilegio === 'G') { ?>
+                                <li><a><i class="fa fa-list-alt"></i> Usuario <span
+                                                class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="<?php echo Url::to(['/user/create']) ?>">Registrar Usuario</a></li>
+                                        <li><a href="<?php echo Url::to(['/user/index']) ?>">Listar Privilegios</a></li>
+                                    </ul>
+                                </li>
+                                <li><a><i class="fa fa-list-alt"></i> Reportes <span
+                                                class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="#">Generar Reporte PDF</a></li>
+                                        <li><a href="#">Generar Reporte Dashboard</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
                         </ul>
                     </div>
                     <div class="sidebar-footer hidden-small">

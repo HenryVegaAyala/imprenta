@@ -44,7 +44,6 @@ AppAsset::register($this);
             'delay' => 1,
             'pluginOptions' => [
                 'delay' => (!empty($message['duration'])) ? $message['duration'] : 3000,
-                'showProgressbar' => true,
                 'placement' => [
                     'from' => (!empty($message['positonY'])) ? $message['positonY'] : 'top',
                     'align' => (!empty($message['positonX'])) ? $message['positonX'] : 'right',

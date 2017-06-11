@@ -19,6 +19,8 @@ use yii\db\Query;
  * @property string $privilegio
  * @property string $contrasena
  * @property string $contrasena_desc
+ * @property string $authKey
+ * @property string $accessToken
  * @property string $fecha_digitada
  * @property string $fecha_modificada
  * @property string $fecha_eliminada
@@ -28,22 +30,16 @@ use yii\db\Query;
  * @property string $ip
  * @property string $host
  * @property integer $estado
- * @property string $authKey
- * @property string $accessToken
  * @property string $genero
  * @property string $fecha_inicio
  * @property string $fecha_cumpleanos
  *
- * @property null|string|false $idTable
  * @property Ruta[] $rutas
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-
-    public $password_repeat;
-
     /**
-     * @inheritdoc|
+     * @inheritdoc
      */
     public static function tableName()
     {
@@ -58,30 +54,17 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['fecha_digitada', 'fecha_modificada', 'fecha_eliminada', 'fecha_inicio', 'fecha_cumpleanos'], 'safe'],
             [['estado'], 'integer'],
-            [
-                [
-                    'nombre',
-                    'apellido',
-                    'usuario_digitado',
-                    'usuario_modificado',
-                    'usuario_eliminado',
-                    'authKey',
-                    'accessToken',
-                ],
-                'string',
-                'max' => 50,
-            ],
+            [['nombre', 'apellido'], 'string', 'max' => 80],
             [['telefono'], 'string', 'max' => 15],
             [['dni'], 'string', 'max' => 8],
-            [['correo', 'ip'], 'string', 'max' => 30],
+            [['correo'], 'string', 'max' => 40],
             [['privilegio', 'genero'], 'string', 'max' => 1],
-            [['contrasena', 'host'], 'string', 'max' => 150],
-            [['contrasena_desc', 'password_repeat'], 'string', 'max' => 45],
-            [['correo'], 'unique'],
-            [['dni'], 'unique'],
+            [['contrasena', 'contrasena_desc', 'authKey', 'accessToken', 'host'], 'string', 'max' => 150],
+            [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
+            [['ip'], 'string', 'max' => 30],
 
             [
-                ['dni', 'nombre', 'apellido', 'privilegio', 'contrasena', 'password_repeat', 'correo', 'estado'],
+                ['dni', 'nombre', 'apellido', 'privilegio', 'contrasena','contrasena_desc', 'correo', 'estado'],
                 'required',
             ],
 
@@ -103,18 +86,23 @@ class User extends ActiveRecord implements IdentityInterface
                 'pattern' => "/^.{6,255}$/",
                 'message' => 'Mínimo 6 digitos para la contraseña',
             ],
+
             [
-                'password_repeat',
+                'contrasena_desc',
                 'match',
                 'pattern' => "/^.{6,255}$/",
                 'message' => 'Mínimo 6 digitos para la contraseña',
             ],
+
             [
-                'password_repeat',
+                'contrasena_desc',
                 'compare',
                 'compareAttribute' => 'contrasena',
                 'message' => 'Las contraseñas no coinciden.',
             ],
+
+            [['correo'], 'unique'],
+            [['dni'], 'unique'],
         ];
     }
 
@@ -125,15 +113,16 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'nombre' => 'Nombres',
-            'apellido' => 'Apellidos',
-            'telefono' => 'Télefono',
+            'nombre' => 'Nombre',
+            'apellido' => 'Apellido',
+            'telefono' => 'Telefono',
             'dni' => 'DNI',
-            'correo' => 'Email',
+            'correo' => 'Correo',
             'privilegio' => 'Privilegio',
             'contrasena' => 'Contraseña',
-            'contrasena_desc' => 'Contraseña',
-            'password_repeat' => 'Repetir Contraseña',
+            'contrasena_desc' => 'Repetir Contraseña',
+            'authKey' => 'Auth Key',
+            'accessToken' => 'Access Token',
             'fecha_digitada' => 'Fecha Digitada',
             'fecha_modificada' => 'Fecha Modificada',
             'fecha_eliminada' => 'Fecha Eliminada',
@@ -143,12 +132,18 @@ class User extends ActiveRecord implements IdentityInterface
             'ip' => 'Ip',
             'host' => 'Host',
             'estado' => 'Estado',
-            'authKey' => 'Auth Key',
-            'accessToken' => 'Access Token',
-            'genero' => 'Género',
-            'fecha_inicio' => 'Fecha Inicio de Trabajo',
-            'fecha_cumpleanos' => 'Fecha de Cumpleaños',
+            'genero' => 'Genero',
+            'fecha_inicio' => 'Fecha Inicio',
+            'fecha_cumpleanos' => 'Fecha Cumpleanos',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRutas()
+    {
+        return $this->hasMany(Ruta::className(), ['usuario_id' => 'id']);
     }
 
     /**
@@ -235,14 +230,6 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRutas()
-    {
-        return $this->hasMany(Ruta::className(), ['usuario_id' => 'id']);
-    }
-
-    /**
      * @return array
      */
     public static function status()
@@ -275,7 +262,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $rol = [
             'G' => 'Administrador',
-            'A' => 'Supervisor',
             'S' => 'Secretaria',
         ];
 
@@ -303,9 +289,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function getRol($value)
     {
         switch ($value) {
-            case 'A':
-                return 'Supervisor';
-                break;
             case 'G':
                 return 'Administrador';
                 break;

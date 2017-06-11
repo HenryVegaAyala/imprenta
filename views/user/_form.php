@@ -86,7 +86,7 @@ $descripcion = "Registrar Usuario";
                                 ['class' => 'form-control col-md-7 col-xs-12']) ?>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'password_repeat')->passwordInput(
+                            <?= $form->field($model, 'contrasena_desc')->passwordInput(
                                 ['maxlength' => true],
                                 ['class' => 'form-control col-md-7 col-xs-12']) ?>
                         </div>

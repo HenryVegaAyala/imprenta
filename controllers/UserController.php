@@ -68,9 +68,8 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->id = intval($model->getIdTable());
-            $model->contrasena_desc = $model->password_repeat;
+            //$model->contrasena_desc = $model->contrasena;
             $model->contrasena = $model->contrasena;
-            //$model->contrasena = md5($model->contrasena);
             $model->authKey = md5(rand(1, 9999));
             $model->accessToken = md5(rand(1, 9999));
             $model->fecha_digitada = $this->zonaHoraria();
@@ -81,15 +80,7 @@ class UserController extends Controller
             $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
             $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
-            Yii::$app->getSession()->setFlash('success', [
-                'type' => 'success',
-                'duration' => 6000,
-                'icon' => 'fa fa-users',
-                'message' => 'Se ha registrado satisfactoriamente.',
-                'title' => 'Usuario Nuevo',
-                'positonY' => 'top',
-                'positonX' => 'right',
-            ]);
+            $this->notification(1);
 
             return $this->redirect(['index']);
         } else {
@@ -111,8 +102,8 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->contrasena_desc = $model->contrasena;
-            $model->contrasena = $model->contrasena;
-            //$model->contrasena = md5($model->contrasena);
+            //$model->contrasena = $model->contrasena;
+            $model->contrasena = md5($model->contrasena);
             $model->fecha_modificada = $this->zonaHoraria();
             $model->usuario_modificado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
@@ -120,15 +111,7 @@ class UserController extends Controller
             $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
             $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
-            Yii::$app->getSession()->setFlash('success', [
-                'type' => 'success',
-                'duration' => 6000,
-                'icon' => 'fa fa-users',
-                'message' => 'Se ha actualizado satisfactoriamente.',
-                'title' => 'Usuario Actualizado',
-                'positonY' => 'top',
-                'positonX' => 'right',
-            ]);
+            $this->notification(2);
 
             return $this->redirect(['index']);
         } else {
@@ -146,16 +129,7 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        Yii::$app->getSession()->setFlash('success', [
-            'type' => 'success',
-            'duration' => 6000,
-            'icon' => 'fa fa-users',
-            'message' => 'Se ha eliminado satisfactoriamente.',
-            'title' => 'Usuario Eliminado',
-            'positonY' => 'top',
-            'positonX' => 'right',
-        ]);
-
+        $this->notification(3);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -186,5 +160,38 @@ class UserController extends Controller
         $now = date('Y-m-d h:i:s', time());
 
         return $now;
+    }
+
+    /**
+     * @param $estado
+     */
+    public function notification($estado)
+    {
+
+        if ($estado == 1) {
+            $type = 'success';
+            $message = 'Se ha registrado satisfactoriamente.';
+            $title = 'Usuario Nuevo';
+        } elseif ($estado == 2) {
+            $type = 'success';
+            $message = 'Se ha actualizado satisfactoriamente.';
+            $title = 'Usuario Actualizado';
+        } else {
+            $type = 'success';
+            $message = 'Se ha eliminado satisfactoriamente.';
+            $title = 'Usuario Eliminado';
+        }
+
+        $notification = Yii::$app->getSession()->setFlash('success', [
+            'type' => $type,
+            'duration' => 6000,
+            'icon' => 'fa fa-users',
+            'message' => $message,
+            'title' => $title,
+            'positonY' => 'top',
+            'positonX' => 'right',
+        ]);
+
+        return $notification;
     }
 }
