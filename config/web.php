@@ -11,6 +11,10 @@ $config = [
             'class' => 'kartik\grid\Module',
         ],
 
+        'dynamicrelations' => [
+            'class' => '\synatree\dynamicrelations\Module',
+        ],
+
         'datecontrol' => [
             'class' => 'kartik\datecontrol\Module',
 
