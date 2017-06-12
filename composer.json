@@ -25,7 +25,8 @@
         "warrence/yii2-kartikgii": "dev-master",
         "setasign/fpdf": "1.8.1",
         "kartik-v/yii2-widget-growl": "*",
-        "wbraganca/yii2-dynamicform": "dev-master"
+        "wbraganca/yii2-dynamicform": "dev-master",
+        "synatree/yii2-dynamic-relations": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

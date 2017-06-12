@@ -79,6 +79,9 @@ $descripcion = "Registrar Proformar";
 
                         </div>
                     </div>
+
+                    <?php echo Yii::$app->view->renderFile('@app/views/proforma/details.php'); ?>
+
                 </div>
             </div>
             <div class="ln_solid"></div>

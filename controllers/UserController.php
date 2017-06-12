@@ -58,6 +58,7 @@ class UserController extends Controller
             $model->authKey = md5(rand(1, 9999));
             $model->accessToken = md5(rand(1, 9999));
             $model->fecha_digitada = $this->zonaHoraria();
+            /** @noinspection PhpUndefinedFieldInspection */
             $model->usuario_digitado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
@@ -90,6 +91,7 @@ class UserController extends Controller
             $id = $model->id;
             $password = $model->contrasena;
             $model->fecha_modificada = $this->zonaHoraria();
+            /** @noinspection PhpUndefinedFieldInspection */
             $model->usuario_modificado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
