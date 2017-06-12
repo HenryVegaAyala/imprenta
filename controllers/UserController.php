@@ -45,18 +45,6 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -100,7 +88,7 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $id = $model->id;
-            $password =  $model->contrasena;
+            $password = $model->contrasena;
             $model->fecha_modificada = $this->zonaHoraria();
             $model->usuario_modificado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
@@ -159,7 +147,7 @@ class UserController extends Controller
         $now = date('Y-m-d h:i:s', time());
 
         return $now;
-    }
+    }/** @noinspection PhpInconsistentReturnPointsInspection */
 
     /**
      * @param $estado
@@ -181,17 +169,23 @@ class UserController extends Controller
             $title = 'Usuario Eliminado';
         }
 
-        $notification = Yii::$app->getSession()->setFlash('success', [
-            'type' => $type,
-            'duration' => 6000,
-            'icon' => 'fa fa-users',
-            'message' => $message,
-            'title' => $title,
-            'positonY' => 'top',
-            'positonX' => 'right',
-        ]);
+        if (isset($type)) {
+            if (isset($message)) {
+                if (isset($title)) {
+                    $notification = Yii::$app->getSession()->setFlash('success', [
+                        'type' => $type,
+                        'duration' => 6000,
+                        'icon' => 'fa fa-users',
+                        'message' => $message,
+                        'title' => $title,
+                        'positonY' => 'top',
+                        'positonX' => 'right',
+                    ]);
 
-        return $notification;
+                    return $notification;
+                }
+            }
+        }
     }
 
     /**

@@ -2,10 +2,8 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Proforma;
 
 /**
  * ProformaSearch represents the model behind the search form about `app\models\Proforma`.
@@ -19,7 +17,22 @@ class ProformaSearch extends Proforma
     {
         return [
             [['id', 'estado'], 'integer'],
-            [['num_proforma', 'fecha_ingreso', 'fecha_envio', 'fecha_digitada', 'fecha_modificada', 'fecha_eliminada', 'usuario_digitado', 'usuario_modificado', 'usuario_eliminado', 'ip', 'host'], 'safe'],
+            [
+                [
+                    'num_proforma',
+                    'fecha_ingreso',
+                    'fecha_envio',
+                    'fecha_digitada',
+                    'fecha_modificada',
+                    'fecha_eliminada',
+                    'usuario_digitado',
+                    'usuario_modificado',
+                    'usuario_eliminado',
+                    'ip',
+                    'host',
+                ],
+                'safe',
+            ],
             [['monto_subtotal', 'monto_igv', 'monto_total'], 'number'],
         ];
     }

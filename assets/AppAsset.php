@@ -30,10 +30,8 @@ class AppAsset extends AssetBundle
         'css/custom.css',
     ];
     public $js = [
-        //'repository/jquery/dist/jquery.min.js',
         'repository/bootstrap/dist/js/bootstrap.min.js',
         'repository/fastclick/lib/fastclick.js',
-        //'repository/validator/validator.js',
         'repository/nprogress/nprogress.js',
         'repository/Chart.js/dist/Chart.min.js',
         'repository/gauge.js/dist/gauge.min.js',
@@ -55,6 +53,7 @@ class AppAsset extends AssetBundle
         'repository/jqvmap/examples/js/moment.min.js',
         'repository/bootstrap-daterangepicker/daterangepicker.js',
         'js/custom.min.js',
+        'js/branusac.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

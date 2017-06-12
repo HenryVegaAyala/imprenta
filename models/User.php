@@ -276,13 +276,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function getIdTable()
     {
         $query = new Query();
-        $sentence = new Expression('IFNULL(MAX(id), 0) + 1');
+        $sentence = new Expression('IF NULL(MAX(id), 0) + 1');
         $query->select($sentence)->from('usuario');
         $command = $query->createCommand();
         $value = $command->queryScalar();
 
         return $value;
-    }
+    }/** @noinspection PhpInconsistentReturnPointsInspection */
 
     /**
      * @param $value
@@ -298,7 +298,7 @@ class User extends ActiveRecord implements IdentityInterface
                 return 'Secretaria';
                 break;
         }
-    }
+    }/** @noinspection PhpInconsistentReturnPointsInspection */
 
     /**
      * @param $status
@@ -314,7 +314,7 @@ class User extends ActiveRecord implements IdentityInterface
                 return 'Inactivo';
                 break;
         }
-    }
+    }/** @noinspection PhpInconsistentReturnPointsInspection */
 
     /**
      * @param $id

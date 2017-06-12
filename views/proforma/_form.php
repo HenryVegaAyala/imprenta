@@ -31,30 +31,54 @@ $descripcion = "Registrar Proformar";
                             ],
                         ]
                     ); ?>
-
                     <div class="row">
                         <div class="item form-group">
-                            <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="col-md-3 col-sm-6 col-xs-12">
                                 <?= $form->field($model, 'num_proforma')->textInput(
-                                    ['maxlength' => true],
+                                    ['maxlength' => 12],
                                     ['class' => 'form-control col-md-7 col-xs-12']
                                 ) ?>
                             </div>
 
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <?= $form->field($model, 'fecha_ingreso')->textInput(
-                                    ['maxlength' => true],
-                                    ['class' => 'form-control col-md-7 col-xs-12']) ?>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <?= $form->field($model, 'fecha_ingreso')->widget(DatePicker::classname(), [
+                                    'options' => ['placeholder' => ''],
+                                    'value' => date('d-M-Y'),
+                                    'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                                    'pluginOptions' => [
+                                        'autoclose' => true,
+                                        'format' => 'dd-mm-yyyy',
+                                        'todayHighlight' => true,
+                                        'class' => 'form-control col-md-7 col-xs-12',
+                                    ],
+                                ]);
+                                ?>
                             </div>
 
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <?= $form->field($model, 'fecha_envio')->textInput(
-                                    ['maxlength' => true],
-                                    ['class' => 'form-control col-md-7 col-xs-12']) ?>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <?= $form->field($model, 'fecha_envio')->widget(DatePicker::classname(), [
+                                    'options' => ['placeholder' => ''],
+                                    'value' => date('d-M-Y'),
+                                    'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                                    'pluginOptions' => [
+                                        'autoclose' => true,
+                                        'format' => 'dd-mm-yyyy',
+                                        'todayHighlight' => true,
+                                        'class' => 'form-control col-md-7 col-xs-12',
+                                    ],
+                                ]);
+                                ?>
                             </div>
+
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <?= $form->field($model, 'client')->dropDownList($model->getListCliente(), [
+                                    'prompt' => 'Seleccionar Cliente',
+                                    'class' => 'form-control col-md-7 col-xs-12',
+                                ]) ?>
+                            </div>
+
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="ln_solid"></div>

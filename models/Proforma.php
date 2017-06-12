@@ -3,7 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
-
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "proforma".
@@ -26,10 +26,14 @@ use yii\db\ActiveRecord;
  * @property integer $estado
  *
  * @property ProformaDetalle[] $proformaDetalles
+ * @property array $listCliente
  * @property Transaccion[] $transaccions
  */
 class Proforma extends ActiveRecord
 {
+
+    public $client;
+
     /**
      * @inheritdoc
      */
@@ -51,6 +55,12 @@ class Proforma extends ActiveRecord
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
             [['ip'], 'string', 'max' => 30],
             [['host'], 'string', 'max' => 40],
+            [['client'], 'string', 'max' => 1],
+
+            [['fecha_ingreso', 'fecha_envio', 'num_proforma', 'client'], 'required'],
+
+            ['num_proforma', 'match', 'pattern' => "/^.{1,12}$/", 'message' => 'Mínimo un dígito en la proforma.'],
+
         ];
     }
 
@@ -61,9 +71,9 @@ class Proforma extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'num_proforma' => 'Num Proforma',
-            'fecha_ingreso' => 'Fecha Ingreso',
-            'fecha_envio' => 'Fecha Envio',
+            'num_proforma' => 'Número de Proforma',
+            'fecha_ingreso' => 'Fecha de Ingreso',
+            'fecha_envio' => 'Fecha de Envio',
             'monto_subtotal' => 'Monto Subtotal',
             'monto_igv' => 'Monto Igv',
             'monto_total' => 'Monto Total',
@@ -76,6 +86,7 @@ class Proforma extends ActiveRecord
             'ip' => 'Ip',
             'host' => 'Host',
             'estado' => 'Estado',
+            'client' => 'Cliente',
         ];
     }
 
@@ -93,5 +104,20 @@ class Proforma extends ActiveRecord
     public function getTransaccions()
     {
         return $this->hasMany(Transaccion::className(), ['proforma_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getListCliente()
+    {
+        $list = ArrayHelper::map(
+            Cliente::find()
+                ->select(['id' => 'id', 'desc_cliente' => "desc_cliente"])
+                ->where('estado = 1')
+                ->asArray()
+                ->all(), 'id', 'desc_cliente');
+
+        return $list;
     }
 }

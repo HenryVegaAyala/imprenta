@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use yii\db\ActiveRecord;
+
 /**
  * This is the model class for table "auditoria".
  *
@@ -13,7 +15,7 @@ namespace app\models;
  * @property string $host
  * @property integer $estado
  */
-class Auditoria extends \yii\db\ActiveRecord
+class Auditoria extends ActiveRecord
 {
     /**
      * @inheritdoc

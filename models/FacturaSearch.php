@@ -2,10 +2,8 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Factura;
 
 /**
  * FacturaSearch represents the model behind the search form about `app\models\Factura`.
@@ -19,7 +17,21 @@ class FacturaSearch extends Factura
     {
         return [
             [['id', 'estado'], 'integer'],
-            [['num_factura', 'fecha_pago', 'fecha_digitada', 'fecha_modificada', 'fecha_eliminada', 'usuario_digitado', 'usuario_modificado', 'usuario_eliminado', 'ip', 'host'], 'safe'],
+            [
+                [
+                    'num_factura',
+                    'fecha_pago',
+                    'fecha_digitada',
+                    'fecha_modificada',
+                    'fecha_eliminada',
+                    'usuario_digitado',
+                    'usuario_modificado',
+                    'usuario_eliminado',
+                    'ip',
+                    'host',
+                ],
+                'safe',
+            ],
             [['monto_subtotal', 'monto_igv', 'monto_total'], 'number'],
         ];
     }
