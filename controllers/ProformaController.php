@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\ProformaDetalle;
+use synatree\dynamicrelations\DynamicRelations;
 use Yii;
 use app\models\Proforma;
 use app\models\ProformaSearch;
@@ -53,8 +55,14 @@ class ProformaController extends Controller
     {
         $model = new Proforma();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->fecha_ingreso = Yii::$app->formatter->asDate(strtotime($model->fecha_ingreso), 'Y-MM-dd');
+            $model->fecha_envio = Yii::$app->formatter->asDate(strtotime($model->fecha_envio), 'Y-MM-dd');
+            $model->save();
+            DynamicRelations::relate($model, 'proformaDetalles', Yii::$app->request->post(), 'ProformaDetalle',
+                ProformaDetalle::className());
+
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,

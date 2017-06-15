@@ -1,6 +1,8 @@
 <?php
 
+use app\models\ProformaDetalle;
 use kartik\widgets\DatePicker;
+use synatree\dynamicrelations\DynamicRelations;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
@@ -80,7 +82,17 @@ $descripcion = "Registrar Proformar";
                         </div>
                     </div>
 
-                    <?php echo Yii::$app->view->renderFile('@app/views/proforma/details.php'); ?>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <?= DynamicRelations::widget([
+                                'title' => 'Lista de Productos:',
+                                'collection' => $model->proformaDetalles,
+                                'viewPath' => '@app/views/proforma-detalle/create.php',
+                                'collectionType' => new ProformaDetalle(),
+
+                            ]); ?>
+                        </div>
+                    </div>
 
                 </div>
             </div>

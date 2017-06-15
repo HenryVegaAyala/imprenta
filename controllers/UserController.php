@@ -174,6 +174,7 @@ class UserController extends Controller
         if (isset($type)) {
             if (isset($message)) {
                 if (isset($title)) {
+                    /** @noinspection PhpVoidFunctionResultUsedInspection */
                     $notification = Yii::$app->getSession()->setFlash('success', [
                         'type' => $type,
                         'duration' => 6000,
