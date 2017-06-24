@@ -54,7 +54,7 @@ class UserController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->id = intval($model->getIdTable());
+            $model->id = (int)$model->getIdTable();
             $model->authKey = md5(rand(1, 9999));
             $model->accessToken = md5(rand(1, 9999));
             $model->fecha_digitada = $this->zonaHoraria();
@@ -66,7 +66,7 @@ class UserController extends Controller
             $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
             $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
-            $model->encryptPassword($model->id, $model->contrasena);
+            $this->encryptPassword($model->id, $model->contrasena);
             $this->notification(1);
 
             return $this->redirect(['index']);
@@ -99,7 +99,7 @@ class UserController extends Controller
             $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
             $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->save();
-            $model->encryptPassword($id, $password);
+            $this->encryptPassword($id, $password);
             $this->notification(2);
 
             return $this->redirect(['index']);
@@ -208,5 +208,24 @@ class UserController extends Controller
         ]);
 
         return $notification;
+    }
+
+    /**
+     * @param $id
+     * @param $password
+     * @return string
+     */
+    public function encryptPassword($id, $password)
+    {
+        $transaction = Yii::$app->db;
+        $transaction->createCommand()
+            ->update('usuario',
+                [
+                    'contrasena' => (string)Yii::$app->getSecurity()->generatePasswordHash($password),
+                ],
+                'id = ' . (int)$id)
+            ->execute();
+
+        return 'ok';
     }
 }

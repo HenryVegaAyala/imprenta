@@ -136,7 +136,7 @@ class User extends ActiveRecord implements IdentityInterface
             'estado' => 'Estado',
             'genero' => 'Genero',
             'fecha_inicio' => 'Fecha Inicio',
-            'fecha_cumpleanos' => 'Fecha Cumpleanos',
+            'fecha_cumpleanos' => 'Fecha Cumpleaños',
         ];
     }
 
@@ -276,7 +276,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getIdTable()
     {
         $query = new Query();
-        $sentence = new Expression('IF NULL(MAX(id), 0) + 1');
+        $sentence = new Expression('IFNULL(MAX(id), 0) + 1');
         $query->select($sentence)->from('usuario');
         $command = $query->createCommand();
         $value = $command->queryScalar();
@@ -314,32 +314,6 @@ class User extends ActiveRecord implements IdentityInterface
                 return 'Inactivo';
                 break;
         }
-    }/** @noinspection PhpInconsistentReturnPointsInspection */
-
-    /**
-     * @param $id
-     * @param $password
-     * @return \yii\db\Transaction
-     * @throws Exception
-     */
-    public function encryptPassword($id, $password)
-    {
-        //$db = Yii::$app->db;
-        //$transaction = $db->beginTransaction();
-        //try {
-        //    $db->createCommand("UPDATE usuario SET contrasena ='" . md5($password) . "' WHERE id = '" . $id . "';");
-        //    $transaction->commit();
-        //} catch (Exception $e) {
-        //    $transaction->rollBack();
-        //    throw $e;
-        //}
-
-        $transaction = Yii::$app->db;
-        $transaction->createCommand()
-            ->update('usuario',
-                [   'contrasena' => $password,
-                ],
-                'id = ' . $id)
-            ->execute();
     }
+    /** @noinspection PhpInconsistentReturnPointsInspection */
 }
