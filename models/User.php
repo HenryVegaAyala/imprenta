@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use yii\db\Exception;
 use yii\web\IdentityInterface;
 use yii\db\Expression;
 use yii\db\Query;
@@ -36,6 +35,7 @@ use yii\db\Query;
  * @property string $fecha_cumpleanos
  *
  * @property null|string|false $idTable
+ * @property mixed $password
  * @property Ruta[] $rutas
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -228,7 +228,15 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->contrasena === $password;
+        return Yii::$app->getSecurity()->validatePassword($password, $this->contrasena);
+    }
+
+    /**
+     * @param $password
+     */
+    public function setPassword($password)
+    {
+        $this->contrasena = Yii::$app->getSecurity()->generatePasswordHash($password);
     }
 
     /**
