@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\FacturaDetalle;
+use synatree\dynamicrelations\DynamicRelations;
 use Yii;
 use app\models\Factura;
 use app\models\FacturaSearch;
@@ -53,8 +55,13 @@ class FacturaController extends Controller
     {
         $model = new Factura();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->fecha_pago = Yii::$app->formatter->asDate(strtotime($model->fecha_pago), 'Y-MM-dd');
+            $model->save();
+            DynamicRelations::relate($model, 'facturaDetalles', Yii::$app->request->post(), 'FacturaDetalle',
+                FacturaDetalle::className());
+
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,

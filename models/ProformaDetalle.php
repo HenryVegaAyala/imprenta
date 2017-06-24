@@ -26,6 +26,8 @@ use yii\db\ActiveRecord;
  */
 class ProformaDetalle extends ActiveRecord
 {
+    public $total;
+
     /**
      * @inheritdoc
      */
@@ -76,6 +78,7 @@ class ProformaDetalle extends ActiveRecord
             'usuario_digitado' => 'Usuario Digitado',
             'usuario_modificado' => 'Usuario Modificado',
             'usuario_eliminado' => 'Usuario Eliminado',
+            'total' => 'Total'
         ];
     }
 

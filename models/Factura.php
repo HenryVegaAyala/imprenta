@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "factura".
@@ -24,10 +25,14 @@ use yii\db\ActiveRecord;
  * @property integer $estado
  *
  * @property FacturaDetalle[] $facturaDetalles
+ * @property array $listCliente
  * @property Transaccion[] $transaccions
  */
 class Factura extends ActiveRecord
 {
+
+    public $client;
+
     /**
      * @inheritdoc
      */
@@ -49,6 +54,9 @@ class Factura extends ActiveRecord
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
             [['ip'], 'string', 'max' => 30],
             [['host'], 'string', 'max' => 40],
+
+            [['fecha_pago', 'num_factura', 'client'], 'required'],
+            ['num_factura', 'match', 'pattern' => "/^.{1,12}$/", 'message' => 'Mínimo un dígito en la proforma.'],
         ];
     }
 
@@ -59,7 +67,7 @@ class Factura extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'num_factura' => 'Num Factura',
+            'num_factura' => 'Número de Factura',
             'fecha_pago' => 'Fecha Pago',
             'monto_subtotal' => 'Monto Subtotal',
             'monto_igv' => 'Monto Igv',
@@ -73,6 +81,7 @@ class Factura extends ActiveRecord
             'ip' => 'Ip',
             'host' => 'Host',
             'estado' => 'Estado',
+            'client' => 'Cliente',
         ];
     }
 
@@ -90,5 +99,20 @@ class Factura extends ActiveRecord
     public function getTransaccions()
     {
         return $this->hasMany(Transaccion::className(), ['factura_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getListCliente()
+    {
+        $list = ArrayHelper::map(
+            Cliente::find()
+                ->select(['id' => 'id', 'desc_cliente' => "desc_cliente"])
+                ->where('estado = 1')
+                ->asArray()
+                ->all(), 'id', 'desc_cliente');
+
+        return $list;
     }
 }

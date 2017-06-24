@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $model app\models\Proforma */
 /* @var $form yii\widgets\ActiveForm */
-$descripcion = "Registrar Proformar";
+$descripcion = "Registrar Proforma";
 ?>
 
 <div class="clearfix"></div>

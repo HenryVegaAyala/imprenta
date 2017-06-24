@@ -1,8 +1,6 @@
 <?php
 
-use app\models\FacturaDetalle;
 use kartik\widgets\DatePicker;
-use synatree\dynamicrelations\DynamicRelations;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
@@ -11,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $model app\models\Factura */
 /* @var $form yii\widgets\ActiveForm */
 
-$descripcion = "Registrar Factura";
+$descripcion = "Actualizar Factura";
 ?>
 <div class="clearfix"></div>
 <div class="row">
@@ -63,19 +61,6 @@ $descripcion = "Registrar Factura";
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <?= DynamicRelations::widget([
-                                'title' => 'Lista de Productos:',
-                                'collection' => $model->facturaDetalles,
-                                'viewPath' => '@app/views/factura-detalle/create.php',
-                                'collectionType' => new FacturaDetalle(),
-
-                            ]); ?>
-                        </div>
-                    </div>
-
                 </div>
             </div>
             <div class="ln_solid"></div>
