@@ -74,10 +74,10 @@ class User extends ActiveRecord implements IdentityInterface
             ],
 
             [['correo'], 'match', 'pattern' => "/^.{3,45}$/", 'message' => 'Mínimo 3 caracteres del correo.'],
-            [['correo'], 'email', 'message' => 'Ingrese un email válido'],
+            [['correo'], 'email', 'message' => 'El campo correo debe de ser válido.'],
 
             [['telefono'], 'match', 'pattern' => "/^.{3,15}$/", 'message' => 'Mínimo 5 caracteres'],
-            [['dni', 'telefono'], 'integer', 'message' => 'Debe ser tipo númerico.'],
+            [['dni', 'telefono'], 'integer', 'message' => 'El campo debe de ser númerico.'],
 
             [
                 'dni',
@@ -135,8 +135,8 @@ class User extends ActiveRecord implements IdentityInterface
             'host' => 'Host',
             'estado' => 'Estado',
             'genero' => 'Genero',
-            'fecha_inicio' => 'Fecha Inicio',
-            'fecha_cumpleanos' => 'Fecha Cumpleaños',
+            'fecha_inicio' => 'Fecha de Inicio',
+            'fecha_cumpleanos' => 'Fecha de Cumpleaños',
         ];
     }
 
@@ -215,11 +215,12 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @param $username
+     * @param $estado
      * @return static
      */
-    public static function findByUsername($username)
+    public static function findByUsername($username, $estado)
     {
-        return self::findOne(['correo' => $username]);
+        return self::findOne(['correo' => $username, 'estado' => (int)$estado]);
     }
 
     /**
