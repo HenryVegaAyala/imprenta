@@ -60,18 +60,18 @@ use yii\helpers\Url;
                                 </ul>
                             </li>
                             <?php if (Yii::$app->user->identity->privilegio === 'G') { ?>
-                                <li><a><i class="fa fa-list-alt"></i> Usuario <span
-                                                class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="<?php echo Url::to(['/user/create']) ?>">Registrar Usuario</a></li>
-                                        <li><a href="<?php echo Url::to(['/user/index']) ?>">Listar Privilegios</a></li>
-                                    </ul>
-                                </li>
                                 <li><a><i class="fa fa-list-alt"></i> Reportes <span
                                                 class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="#">Generar Reporte PDF</a></li>
                                         <li><a href="#">Generar Reporte Dashboard</a></li>
+                                    </ul>
+                                </li>
+                                <li><a><i class="fa fa-list-alt"></i> Usuario <span
+                                                class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="<?php echo Url::to(['/user/create']) ?>">Registrar Usuario</a></li>
+                                        <li><a href="<?php echo Url::to(['/user/index']) ?>">Listar Privilegios</a></li>
                                     </ul>
                                 </li>
                             <?php } ?>

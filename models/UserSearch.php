@@ -21,25 +21,8 @@ class UserSearch extends User
                 [
                     'nombre',
                     'apellido',
-                    'telefono',
-                    'dni',
                     'correo',
                     'privilegio',
-                    'contrasena',
-                    'contrasena_desc',
-                    'authKey',
-                    'accessToken',
-                    'fecha_digitada',
-                    'fecha_modificada',
-                    'fecha_eliminada',
-                    'usuario_digitado',
-                    'usuario_modificado',
-                    'usuario_eliminado',
-                    'ip',
-                    'host',
-                    'genero',
-                    'fecha_inicio',
-                    'fecha_cumpleanos',
                 ],
                 'safe',
             ],
@@ -83,30 +66,13 @@ class UserSearch extends User
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'fecha_digitada' => $this->fecha_digitada,
-            'fecha_modificada' => $this->fecha_modificada,
-            'fecha_eliminada' => $this->fecha_eliminada,
             'estado' => $this->estado,
-            'fecha_inicio' => $this->fecha_inicio,
-            'fecha_cumpleanos' => $this->fecha_cumpleanos,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
             ->andFilterWhere(['like', 'apellido', $this->apellido])
-            ->andFilterWhere(['like', 'telefono', $this->telefono])
-            ->andFilterWhere(['like', 'dni', $this->dni])
             ->andFilterWhere(['like', 'correo', $this->correo])
-            ->andFilterWhere(['like', 'privilegio', $this->privilegio])
-            ->andFilterWhere(['like', 'contrasena', $this->contrasena])
-            ->andFilterWhere(['like', 'contrasena_desc', $this->contrasena_desc])
-            ->andFilterWhere(['like', 'authKey', $this->authKey])
-            ->andFilterWhere(['like', 'accessToken', $this->accessToken])
-            ->andFilterWhere(['like', 'usuario_digitado', $this->usuario_digitado])
-            ->andFilterWhere(['like', 'usuario_modificado', $this->usuario_modificado])
-            ->andFilterWhere(['like', 'usuario_eliminado', $this->usuario_eliminado])
-            ->andFilterWhere(['like', 'ip', $this->ip])
-            ->andFilterWhere(['like', 'host', $this->host])
-            ->andFilterWhere(['like', 'genero', $this->genero]);
+            ->andFilterWhere(['like', 'privilegio', $this->privilegio]);
 
         return $dataProvider;
     }

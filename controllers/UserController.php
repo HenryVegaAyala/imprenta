@@ -156,19 +156,22 @@ class UserController extends Controller
      */
     public function notification($estado)
     {
-
-        if ($estado == 1) {
-            $type = 'success';
-            $message = 'Se ha registrado satisfactoriamente.';
-            $title = 'Usuario Nuevo';
-        } elseif ($estado == 2) {
-            $type = 'success';
-            $message = 'Se ha actualizado satisfactoriamente.';
-            $title = 'Usuario Actualizado';
-        } elseif ($estado == 3) {
-            $type = 'success';
-            $message = 'Se ha eliminado satisfactoriamente.';
-            $title = 'Usuario Eliminado';
+        switch ($estado) {
+            case 1:
+                $type = 'success';
+                $message = 'Se ha registrado satisfactoriamente este usuario.';
+                $title = 'Usuario Nuevo';
+                break;
+            case 2:
+                $type = 'success';
+                $message = 'Se ha actualizado satisfactoriamente este usuario.';
+                $title = 'Usuario Actualizado';
+                break;
+            case 3:
+                $type = 'success';
+                $message = 'Se ha eliminado satisfactoriamente este usuario.';
+                $title = 'Usuario Eliminado';
+                break;
         }
 
         if (isset($type)) {

@@ -43,7 +43,7 @@ class Transaccion extends ActiveRecord
     public function rules()
     {
         return [
-            [['cliente_id', 'proforma_id', 'guia_id', 'factura_id'], 'required'],
+            [['cliente_id'], 'required'],
             [['cliente_id', 'proforma_id', 'guia_id', 'factura_id', 'estado'], 'integer'],
             [['fecha_digitada', 'fecha_modificada', 'fecha_eliminada'], 'safe'],
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
