@@ -3,6 +3,8 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\db\Expression;
+use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -27,6 +29,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property ProformaDetalle[] $proformaDetalles
  * @property array $listCliente
+ * @property null|string|false $idTable
  * @property Transaccion[] $transaccions
  */
 class Proforma extends ActiveRecord
@@ -54,13 +57,11 @@ class Proforma extends ActiveRecord
             [['num_proforma'], 'string', 'max' => 12],
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
             [['ip'], 'string', 'max' => 30],
-            [['host'], 'string', 'max' => 40],
-            [['client'], 'string', 'max' => 1],
+            [['host'], 'string', 'max' => 150],
 
             [['fecha_ingreso', 'fecha_envio', 'num_proforma', 'client'], 'required'],
 
             ['num_proforma', 'match', 'pattern' => "/^.{1,12}$/", 'message' => 'Mínimo un dígito en la proforma.'],
-
         ];
     }
 
@@ -119,5 +120,56 @@ class Proforma extends ActiveRecord
                 ->all(), 'id', 'desc_cliente');
 
         return $list;
+    }
+
+    /**
+     * @return false|null|string
+     */
+    public function getIdTable()
+    {
+        $query = new Query();
+        $sentence = new Expression('IFNULL(MAX(id), 0) + 1');
+        $query->select($sentence)->from('proforma');
+        $command = $query->createCommand();
+        $value = $command->queryScalar();
+
+        return $value;
+    }
+
+    /**
+     * @param $status
+     * @return string
+     */
+    public function getStatus($status)
+    {
+        switch ($status) {
+            case 1:
+                return 'Creado';
+                break;
+            case 2:
+                return 'En Proceso';
+                break;
+            case 3:
+                return 'Despachadado / Atendido';
+                break;
+            case 0:
+                return 'Anulado';
+                break;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function status()
+    {
+        $status = [
+            '1' => 'Creado',
+            '2' => 'En Proceso',
+            '3' => 'Despachadado / Atendido',
+            '0' => 'Anulado',
+        ];
+
+        return $status;
     }
 }

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\db\Expression;
+use yii\db\Query;
 
 /**
  * This is the model class for table "transaccion".
@@ -48,7 +50,7 @@ class Transaccion extends ActiveRecord
             [['fecha_digitada', 'fecha_modificada', 'fecha_eliminada'], 'safe'],
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
             [['ip'], 'string', 'max' => 30],
-            [['host'], 'string', 'max' => 40],
+            [['host'], 'string', 'max' => 150],
             [
                 ['cliente_id'],
                 'exist',
@@ -133,5 +135,19 @@ class Transaccion extends ActiveRecord
     public function getProforma()
     {
         return $this->hasOne(Proforma::className(), ['id' => 'proforma_id']);
+    }
+
+    /**
+     * @return false|null|string
+     */
+    public function getIdTable()
+    {
+        $query = new Query();
+        $sentence = new Expression('IFNULL(MAX(id), 0) + 1');
+        $query->select($sentence)->from('transaccion');
+        $command = $query->createCommand();
+        $value = $command->queryScalar();
+
+        return $value;
     }
 }

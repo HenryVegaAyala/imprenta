@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Proforma;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -9,6 +10,7 @@ use yii\grid\GridView;
 
 $this->title = 'Branusac - Lista de Proformas';
 $this->params['breadcrumbs'][] = $this->title;
+$proforma = new Proforma();
 ?>
 <div class="right_col" role="main">
     <div class="container-fluid">
@@ -29,11 +31,42 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ['class' => 'yii\grid\SerialColumn'],
 
                                 'num_proforma',
-                                'fecha_ingreso',
-                                'fecha_envio',
-                                'monto_total',
-                                'estado',
+                                [
+                                    'attribute' => 'fecha_ingreso',
+                                    'label' => 'Fecha de Ingreso',
+                                    'value' => function ($data) {
+                                        return date('d-m-Y', strtotime($data->fecha_ingreso));
+                                    },
+                                ],
+                                [
+                                    'attribute' => 'fecha_envio',
+                                    'label' => 'Fecha de Envio',
+                                    'value' => function ($data) {
+                                        return date('d-m-Y', strtotime($data->fecha_envio));
+                                    },
+                                ],
+                                [
+                                    'attribute' => 'monto_total',
+                                    'label' => 'Monto Total',
+                                    'value' => function ($data) {
+                                        if (empty($data->monto_total)) {
+                                            return 'S/. 0.00';
+                                        } else {
+                                            return $data->monto_total;
+                                        }
+                                    },
+                                ],
+                                [
+                                    'attribute' => 'estado',
+                                    'label' => 'Estado',
+                                    'filter' => $proforma->status(),
+                                    'value' => function ($data) {
+                                        $proforma = new Proforma();
+                                        $status = $proforma->getStatus($data->estado);
 
+                                        return $status;
+                                    },
+                                ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
                                     'header' => 'Detalle',
