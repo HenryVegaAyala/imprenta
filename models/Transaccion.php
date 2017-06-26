@@ -27,6 +27,7 @@ use yii\db\Query;
  * @property Cliente $cliente
  * @property Factura $factura
  * @property Guia $guia
+ * @property null|string|false $idTable
  * @property Proforma $proforma
  */
 class Transaccion extends ActiveRecord

@@ -39,7 +39,7 @@ class ProformaController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProformaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->post());
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -82,6 +82,8 @@ class ProformaController extends Controller
             $transaccion->estado = true;
             $transaccion->save();
 
+            $this->notification(1, $model->num_proforma);
+
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -100,8 +102,11 @@ class ProformaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            $this->notification(2, $model->num_proforma);
+
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -126,12 +131,24 @@ class ProformaController extends Controller
      * Finds the Proforma model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Proforma the loaded model
+     * @return Proforma|array|\yii\db\ActiveRecord
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Proforma::findOne($id)) !== null) {
+        $model = Proforma::find()
+            ->select([
+                'proforma.id AS id',
+                'num_proforma',
+                'fecha_ingreso',
+                'fecha_envio',
+                'cliente_id AS client',
+                'proforma.estado AS estado',
+            ])
+            ->leftJoin('transaccion', 'transaccion.proforma_id = proforma.id')
+            ->where(['proforma.id' => $id])
+            ->one();
+        if (($model) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -149,4 +166,48 @@ class ProformaController extends Controller
         return $now;
     }
     /** @noinspection PhpInconsistentReturnPointsInspection */
+
+    /**
+     * @param $estado
+     * @param $proforma
+     */
+    public function notification($estado, $proforma)
+    {
+        switch ($estado) {
+            case 1:
+                $type = 'success';
+                $message = 'Se ha registrado la Proforma N° - ' . $proforma . ' satisfactoriamente.';
+                $title = 'Usuario Nuevo';
+                break;
+            case 2:
+                $type = 'success';
+                $message = 'Se ha actualizado la Proforma N° - ' . $proforma . ' satisfactoriamente.';
+                $title = 'Usuario Actualizado';
+                break;
+            case 3:
+                $type = 'success';
+                $message = 'Se ha eliminado satisfactoriamente este usuario.';
+                $title = 'Usuario Eliminado';
+                break;
+        }
+
+        if (isset($type)) {
+            if (isset($message)) {
+                if (isset($title)) {
+                    /** @noinspection PhpVoidFunctionResultUsedInspection */
+                    $notification = Yii::$app->getSession()->setFlash('success', [
+                        'type' => $type,
+                        'duration' => 6000,
+                        'icon' => 'fa fa-users',
+                        'message' => $message,
+                        'title' => $title,
+                        'positonY' => 'top',
+                        'positonX' => 'right',
+                    ]);
+
+                    return $notification;
+                }
+            }
+        }
+    }
 }

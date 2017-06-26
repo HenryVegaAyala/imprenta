@@ -55,7 +55,7 @@ class ProformaSearch extends Proforma
      */
     public function search($params)
     {
-        $query = Proforma::find();
+        $query = Proforma::find()->orderBy(['num_proforma' => SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -76,21 +76,11 @@ class ProformaSearch extends Proforma
             'id' => $this->id,
             'fecha_ingreso' => $this->fecha_ingreso,
             'fecha_envio' => $this->fecha_envio,
-            'monto_subtotal' => $this->monto_subtotal,
-            'monto_igv' => $this->monto_igv,
             'monto_total' => $this->monto_total,
-            'fecha_digitada' => $this->fecha_digitada,
-            'fecha_modificada' => $this->fecha_modificada,
-            'fecha_eliminada' => $this->fecha_eliminada,
             'estado' => $this->estado,
         ]);
 
-        $query->andFilterWhere(['like', 'num_proforma', $this->num_proforma])
-            ->andFilterWhere(['like', 'usuario_digitado', $this->usuario_digitado])
-            ->andFilterWhere(['like', 'usuario_modificado', $this->usuario_modificado])
-            ->andFilterWhere(['like', 'usuario_eliminado', $this->usuario_eliminado])
-            ->andFilterWhere(['like', 'ip', $this->ip])
-            ->andFilterWhere(['like', 'host', $this->host]);
+        $query->andFilterWhere(['like', 'num_proforma', $this->num_proforma]);
 
         return $dataProvider;
     }
