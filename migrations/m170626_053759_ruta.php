@@ -1,8 +1,8 @@
 <?php
 
-use yii\db\Schema;
+use yii\db\Migration;
 
-class m170626_050101_ruta extends \yii\db\Migration
+class m170626_053759_ruta extends Migration
 {
     public function up()
     {
@@ -10,7 +10,7 @@ class m170626_050101_ruta extends \yii\db\Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
         }
-        
+
         $this->createTable('ruta', [
             'id' => $this->primaryKey(),
             'usuario_id' => $this->integer(11)->notNull(),
@@ -21,8 +21,7 @@ class m170626_050101_ruta extends \yii\db\Migration
             'host' => $this->string(40),
             'estado' => $this->smallInteger(1),
             'FOREIGN KEY ([[usuario_id]]) REFERENCES usuario ([[id]]) ON DELETE CASCADE ON UPDATE CASCADE',
-            ], $tableOptions);
-                
+        ], $tableOptions);
     }
 
     public function down()
