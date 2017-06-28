@@ -1,7 +1,7 @@
 <?php
 
-Yii::setAlias('@LogoHombreDefault', '/images/usuario_hombre.png');
-Yii::setAlias('@LogoMujerDefault', '/images/usuario_mujer.png');
+Yii::setAlias('@LogoHombreDefault', '/imprenta/images/usuario_hombre.png');
+Yii::setAlias('@LogoMujerDefault', '/imprenta/images/usuario_mujer.png');
 
 return [
     'adminEmail' => 'admin@example.com',
