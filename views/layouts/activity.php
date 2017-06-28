@@ -19,9 +19,9 @@ use yii\helpers\Url;
                     <div class="profile_pic">
                         <img src="<?php
                         if (Yii::$app->user->identity->genero === 'M') {
-                            echo Yii::getAlias('@LogoHombreDefault');
+                            echo Url::to(Yii::getAlias('@LogoHombreDefault'), '');
                         } else {
-                            echo Yii::getAlias('@LogoMujerDefault');
+                            echo Url::to(Yii::getAlias('@LogoMujerDefault'), '');
                         }
                         ?>" alt="Usuario Default"
                              class="img-circle profile_img">

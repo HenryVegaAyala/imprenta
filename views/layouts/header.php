@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 ?>
 <div class="top_nav">
@@ -14,9 +15,9 @@ use yii\helpers\Html;
                        aria-expanded="false">
                         <img src="<?php
                         if (Yii::$app->user->identity->genero === 'M') {
-                            echo Yii::getAlias('@LogoHombreDefault');
+                            echo Url::to(Yii::getAlias('@LogoHombreDefault'), '');
                         } else {
-                            echo Yii::getAlias('@LogoMujerDefault');
+                            echo Url::to(Yii::getAlias('@LogoMujerDefault'), '');
                         }
                         ?>" alt="Usuario Default">
                         <?php echo ucwords(Yii::$app->user->identity->nombre . ' ' .
