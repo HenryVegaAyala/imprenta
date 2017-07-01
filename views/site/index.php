@@ -1,7 +1,6 @@
 <?php
 $this->title = 'Sistema de Gestión Documentaria';
 ?>
-
 <!-- page content -->
 <div class="right_col" role="main">
     <!-- top tiles -->
@@ -747,6 +746,36 @@ $this->title = 'Sistema de Gestión Documentaria';
             </div>
         </div>
     </div>
+
+    <?php
+
+    $hostname = '{imap.gmail.com:993/imap/ssl}INBOX';
+    $username = 'ingenierovega9321@gmail.com';
+    $password = 'teamodiana';
+
+    $mbox = imap_open($hostname, $username, $password);
+
+    $comprobar = imap_mailboxmsginfo($mbox);
+
+    if ($comprobar) {
+        echo "Fecha: "       . $comprobar->Date    . "<br />\n" ;
+        echo "Controlador: " . $comprobar->Driver  . "<br />\n" ;
+        echo "Buzón: "       . $comprobar->Mailbox . "<br />\n" ;
+        echo "Mensajes: "    . $comprobar->Nmsgs   . "<br />\n" ;
+        echo "Recientes: "   . $comprobar->Recent  . "<br />\n" ;
+        echo "No leídos: "   . $comprobar->Unread  . "<br />\n" ;
+        echo "Eliminados: "  . $comprobar->Deleted . "<br />\n" ;
+        echo "Tamaño: "      . $comprobar->Size    . "<br />\n" ;
+    } else {
+        echo "Falló imap_mailboxmsginfo(): " . imap_last_error() . "<br />\n";
+    }
+
+
+    imap_close($mbox);
+
+    ?>
+
+
 </div>
 <!-- /page content -->
 

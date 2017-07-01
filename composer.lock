@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd59eb6ab96d296ccf8334813fc299ce",
+    "content-hash": "879e3bc674206d330fede50759cfaa8a",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -601,16 +601,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v4.4.1",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "aa4e1a520cef078922ed2c7c8e3e944d496388f6"
+                "reference": "28c89de2708f32814879241b6f112ee27b8f4ec8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/aa4e1a520cef078922ed2c7c8e3e944d496388f6",
-                "reference": "aa4e1a520cef078922ed2c7c8e3e944d496388f6",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/28c89de2708f32814879241b6f112ee27b8f4ec8",
+                "reference": "28c89de2708f32814879241b6f112ee27b8f4ec8",
                 "shasum": ""
             },
             "type": "library",
@@ -650,7 +650,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2017-05-25T19:06:59+00:00"
+            "time": "2017-06-24T05:15:30+00:00"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
@@ -1153,16 +1153,16 @@
         },
         {
             "name": "kartik-v/yii2-editable",
-            "version": "v1.7.5",
+            "version": "v1.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-editable.git",
-                "reference": "489d2772f92f0da434edff1916c6e5a52bf8546d"
+                "reference": "e07d78660e1d74cf831824855c46742d7ff784da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/489d2772f92f0da434edff1916c6e5a52bf8546d",
-                "reference": "489d2772f92f0da434edff1916c6e5a52bf8546d",
+                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/e07d78660e1d74cf831824855c46742d7ff784da",
+                "reference": "e07d78660e1d74cf831824855c46742d7ff784da",
                 "shasum": ""
             },
             "require": {
@@ -1202,7 +1202,7 @@
                 "popover-x",
                 "widget"
             ],
-            "time": "2017-01-08T07:09:14+00:00"
+            "time": "2017-06-28T05:11:45+00:00"
         },
         {
             "name": "kartik-v/yii2-export",
@@ -1469,7 +1469,7 @@
         },
         {
             "name": "kartik-v/yii2-mpdf",
-            "version": "dev-master",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-mpdf.git",
@@ -1517,7 +1517,7 @@
                 "utf8",
                 "yii2"
             ],
-            "time": "2017-01-14 11:51:12"
+            "time": "2017-01-14T11:51:12+00:00"
         },
         {
             "name": "kartik-v/yii2-popover-x",
@@ -3098,6 +3098,53 @@
             "time": "2016-04-07T12:29:16+00:00"
         },
         {
+            "name": "roopz/yii2-imap",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiioverflow/yii2-imap.git",
+                "reference": "75911e70ed9112eeefd9cfb29aae6c83b49272fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiioverflow/yii2-imap/zipball/75911e70ed9112eeefd9cfb29aae6c83b49272fe",
+                "reference": "75911e70ed9112eeefd9cfb29aae6c83b49272fe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "roopz\\imap\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Roopan Valiya Veetil",
+                    "email": "yiioverflow@gmail.com",
+                    "homepage": "http://www.yiioverflow.com/"
+                }
+            ],
+            "description": "yii2 extension to read and process mails from IMAP and PHP",
+            "homepage": "https://github.com/yiioverflow/yii2-imap.git",
+            "keywords": [
+                "cron",
+                "extension",
+                "imap",
+                "inbox",
+                "mail",
+                "widget",
+                "yii2"
+            ],
+            "time": "2017-04-20 10:58:10"
+        },
+        {
             "name": "setasign/fpdf",
             "version": "1.8.1",
             "source": {
@@ -3446,6 +3493,58 @@
                 "yii2"
             ],
             "time": "2015-12-21 02:15:32"
+        },
+        {
+            "name": "unyii2/yii2-imap",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/unyii2/yii2-imap.git",
+                "reference": "5422f0e57e88aa15a5f111d2f00070a54b761066"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/unyii2/yii2-imap/zipball/5422f0e57e88aa15a5f111d2f00070a54b761066",
+                "reference": "5422f0e57e88aa15a5f111d2f00070a54b761066",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "unyii2\\imap\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Roopan Valiya Veetil",
+                    "email": "yiioverflow@gmail.com",
+                    "homepage": "http://www.yiioverflow.com/"
+                },
+                {
+                    "name": "Uldis Nelson",
+                    "email": "uldisw@weberp.lvm",
+                    "homepage": "http://www.weberp.lv/"
+                }
+            ],
+            "description": "yii2 extension to read and process mails from IMAP and PHP",
+            "homepage": "https://github.com/yiioverflow/yii2-imap.git",
+            "keywords": [
+                "cron",
+                "extension",
+                "imap",
+                "inbox",
+                "mail",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-08-22 13:07:28"
         },
         {
             "name": "warrence/yii2-kartikgii",
@@ -4889,16 +4988,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.2.1",
+            "version": "6.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "16999a1e9a8a25d68f0ab8cc8ab818b043ad5374"
+                "reference": "f2786490399836d2a544a34785c4a8d3ab32cf0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/16999a1e9a8a25d68f0ab8cc8ab818b043ad5374",
-                "reference": "16999a1e9a8a25d68f0ab8cc8ab818b043ad5374",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f2786490399836d2a544a34785c4a8d3ab32cf0e",
+                "reference": "f2786490399836d2a544a34785c4a8d3ab32cf0e",
                 "shasum": ""
             },
             "require": {
@@ -4969,7 +5068,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-06-02T12:24:37+00:00"
+            "time": "2017-06-13T14:07:07+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -5290,16 +5389,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "3.0.3",
+            "version": "3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "02b6b2c7aefe2cdb1185b8dbf8718b0bcedf3ab3"
+                "reference": "74776f8dbc081cab9287c2a601c0c1d842568744"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/02b6b2c7aefe2cdb1185b8dbf8718b0bcedf3ab3",
-                "reference": "02b6b2c7aefe2cdb1185b8dbf8718b0bcedf3ab3",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/74776f8dbc081cab9287c2a601c0c1d842568744",
+                "reference": "74776f8dbc081cab9287c2a601c0c1d842568744",
                 "shasum": ""
             },
             "require": {
@@ -5336,7 +5435,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2017-05-18T10:10:00+00:00"
+            "time": "2017-06-20T16:25:05+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -6269,11 +6368,12 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "mootensai/yii2-enhanced-gii": 20,
-        "kartik-v/yii2-mpdf": 20,
         "kartik-v/yii2-tree-manager": 20,
         "warrence/yii2-kartikgii": 20,
         "wbraganca/yii2-dynamicform": 20,
-        "synatree/yii2-dynamic-relations": 20
+        "synatree/yii2-dynamic-relations": 20,
+        "roopz/yii2-imap": 20,
+        "unyii2/yii2-imap": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
