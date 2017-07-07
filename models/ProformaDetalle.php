@@ -42,7 +42,7 @@ class ProformaDetalle extends ActiveRecord
     public function rules()
     {
         return [
-            [['proforma_id'], 'required'],
+            [['cantidad', 'precio', 'descripcion'], 'required'],
             [['proforma_id', 'cantidad'], 'integer'],
             [['precio', 'monto_subtotal', 'monto_igv', 'monto_total'], 'number'],
             [['fecha_digitada', 'fecha_modificada', 'fecha_eliminada'], 'safe'],
@@ -78,7 +78,7 @@ class ProformaDetalle extends ActiveRecord
             'usuario_digitado' => 'Usuario Digitado',
             'usuario_modificado' => 'Usuario Modificado',
             'usuario_eliminado' => 'Usuario Eliminado',
-            'total' => 'Total'
+            'total' => 'Total',
         ];
     }
 

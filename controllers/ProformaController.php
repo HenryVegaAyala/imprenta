@@ -3,11 +3,14 @@
 namespace app\controllers;
 
 use app\models\ProformaDetalle;
-use app\models\Transaccion;
-use synatree\dynamicrelations\DynamicRelations;
+use Exception;
 use Yii;
 use app\models\Proforma;
 use app\models\ProformaSearch;
+use app\models\Model;
+use yii\web\Response;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -54,42 +57,53 @@ class ProformaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Proforma();
-        $transaccion = new Transaccion();
+        $modelProforma = new Proforma();
+        $modelsProformaDetalle = [new ProformaDetalle];
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->id = $model->getIdTable();
-            $model->fecha_ingreso = Yii::$app->formatter->asDate(strtotime($model->fecha_ingreso), 'Y-MM-dd');
-            $model->fecha_envio = Yii::$app->formatter->asDate(strtotime($model->fecha_envio), 'Y-MM-dd');
-            $model->fecha_digitada = $this->zonaHoraria();
-            /** @noinspection PhpUndefinedFieldInspection */
-            $model->usuario_digitado = Yii::$app->user->identity->correo;
-            $model->ip = Yii::$app->request->userIP;
-            $model->host = strval(php_uname());
-            $model->estado = true;
-            $model->save();
-            DynamicRelations::relate($model, 'proformaDetalles', Yii::$app->request->post(), 'ProformaDetalle',
-                ProformaDetalle::className());
+        if ($modelProforma->load(Yii::$app->request->post())) {
+            /** Proforma **/
+            $modelProforma->id = $modelProforma->getIdTable();
+            $modelProforma->fecha_ingreso = Yii::$app->formatter->asDate(strtotime($modelProforma->fecha_ingreso),
+                'Y-MM-dd');
+            $modelProforma->fecha_envio = Yii::$app->formatter->asDate(strtotime($modelProforma->fecha_envio),
+                'Y-MM-dd');
 
-            $transaccion->id = $transaccion->getIdTable();
-            $transaccion->cliente_id = $model->client;
-            $transaccion->proforma_id = $model->id;
-            $transaccion->fecha_digitada = $this->zonaHoraria();
-            /** @noinspection PhpUndefinedFieldInspection */
-            $transaccion->usuario_digitado = Yii::$app->user->identity->correo;
-            $transaccion->ip = Yii::$app->request->userIP;
-            $transaccion->host = strval(php_uname());
-            $transaccion->estado = true;
-            $transaccion->save();
+            $modelsProformaDetalle = Model::createMultiple(ProformaDetalle::classname());
+            Model::loadMultiple($modelsProformaDetalle, Yii::$app->request->post());
 
-            $this->notification(1, $model->num_proforma);
+            // validate all models
+            $valid = $modelProforma->validate();
+            $valid = Model::validateMultiple($modelsProformaDetalle) && $valid;
 
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            if (!$valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $modelProforma->save(false)) {
+                        foreach ($modelsProformaDetalle as $modelProformaDetalle) {
+                            $modelProformaDetalle->proforma_id = $modelProforma->id;
+
+                            //echo ($modelProformaDetalle->cantidad) . '<br>';
+                            if (!($flag = $modelProformaDetalle->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+
+                        return $this->redirect(['index']);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
         }
+
+        return $this->render('create', [
+            'modelProforma' => $modelProforma,
+            'modelsProformaDetalle' => (empty($modelsProformaDetalle)) ? [new ProformaDetalle()] : $modelsProformaDetalle,
+        ]);
     }
 
     /**
@@ -98,8 +112,9 @@ class ProformaController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate(
+        $id
+    ) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
@@ -120,8 +135,10 @@ class ProformaController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public
+    function actionDelete(
+        $id
+    ) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -134,8 +151,10 @@ class ProformaController extends Controller
      * @return Proforma|array|\yii\db\ActiveRecord
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected
+    function findModel(
+        $id
+    ) {
         $model = Proforma::find()
             ->select([
                 'proforma.id AS id',
@@ -158,21 +177,26 @@ class ProformaController extends Controller
     /**
      * @return false|string
      */
-    public function zonaHoraria()
+    public
+    function zonaHoraria()
     {
         date_default_timezone_set('America/Lima');
         $now = date('Y-m-d h:i:s', time());
 
         return $now;
     }
+
     /** @noinspection PhpInconsistentReturnPointsInspection */
 
     /**
      * @param $estado
      * @param $proforma
      */
-    public function notification($estado, $proforma)
-    {
+    public
+    function notification(
+        $estado,
+        $proforma
+    ) {
         switch ($estado) {
             case 1:
                 $type = 'success';

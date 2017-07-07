@@ -8,6 +8,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="right_col" role="main">
     <?= $this->render('_form', [
-        'model' => $model,
+        'modelProforma' => $modelProforma,
+        'modelsProformaDetalle' => $modelsProformaDetalle,
     ]) ?>
 </div>

@@ -134,7 +134,7 @@ class Proforma extends ActiveRecord
         $value = $command->queryScalar();
 
         return $value;
-    }
+    }/** @noinspection PhpInconsistentReturnPointsInspection */
 
     /**
      * @param $status
@@ -164,10 +164,10 @@ class Proforma extends ActiveRecord
     public static function status()
     {
         $status = [
+            '0' => 'Anulado',
             '1' => 'Creado',
             '2' => 'En Proceso',
             '3' => 'Despachadado / Atendido',
-            '0' => 'Anulado',
         ];
 
         return $status;

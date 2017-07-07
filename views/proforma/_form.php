@@ -2,13 +2,14 @@
 
 use app\models\ProformaDetalle;
 use kartik\widgets\DatePicker;
-use synatree\dynamicrelations\DynamicRelations;
+use wbraganca\dynamicform\DynamicFormWidget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Proforma */
+/* @var $modelProforma app\models\Proforma */
+/* @var $modelsProformaDetalle app\models\ProformaDetalle */
 /* @var $form yii\widgets\ActiveForm */
 $descripcion = "Registrar Proforma";
 ?>
@@ -21,27 +22,29 @@ $descripcion = "Registrar Proforma";
                 <?php Pjax::begin(); ?>
                 <?php $form = ActiveForm::begin(
                     [
+                        'id' => 'dynamic-form',
                         'enableAjaxValidation' => false,
                         'enableClientValidation' => true,
-                        'method' => 'post',
-                        'options' => [
-                            'class' => 'form-horizontal form-label-left',
-                            'data-pjax' => true,
-                        ],
+                        'validateOnChange' => false
+                        //'method' => 'post',
+                        //'options' => [
+                        //    'class' => 'form-horizontal form-label-left',
+                        //    'data-pjax' => true,
+                        //],
                     ]
                 ); ?>
                 <span class="section"><?php echo Html::encode($descripcion) ?></span>
                 <div class="row">
                     <div class="item form-group">
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'num_proforma')->textInput(
+                            <?= $form->field($modelProforma, 'num_proforma')->textInput(
                                 ['maxlength' => 12],
                                 ['class' => 'form-control col-md-7 col-xs-12']
                             ) ?>
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'fecha_ingreso')->widget(DatePicker::classname(), [
+                            <?= $form->field($modelProforma, 'fecha_ingreso')->widget(DatePicker::classname(), [
                                 'options' => ['placeholder' => ''],
                                 'value' => date('d-M-Y'),
                                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -56,7 +59,7 @@ $descripcion = "Registrar Proforma";
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'fecha_envio')->widget(DatePicker::classname(), [
+                            <?= $form->field($modelProforma, 'fecha_envio')->widget(DatePicker::classname(), [
                                 'options' => ['placeholder' => ''],
                                 'value' => date('d-M-Y'),
                                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -71,7 +74,7 @@ $descripcion = "Registrar Proforma";
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'client')->dropDownList($model->getListCliente(), [
+                            <?= $form->field($modelProforma, 'client')->dropDownList($modelProforma->getListCliente(), [
                                 'prompt' => 'Seleccionar Cliente',
                                 'class' => 'form-control col-md-7 col-xs-12',
                             ]) ?>
@@ -79,17 +82,82 @@ $descripcion = "Registrar Proforma";
 
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <?= DynamicRelations::widget([
-                            'title' => 'Lista de Productos:',
-                            'collection' => $model->proformaDetalles,
-                            'viewPath' => '@app/views/proforma-detalle/create.php',
-                            'collectionType' => new ProformaDetalle(),
 
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <?php DynamicFormWidget::begin([
+                            'widgetContainer' => 'dynamicform_wrapper',
+                            'widgetBody' => '.container-items',
+                            'widgetItem' => '.item', // required: css class
+                            'limit' => 200,
+                            'min' => 0,
+                            'insertButton' => '.add-item',
+                            'deleteButton' => '.remove-item',
+                            'model' => $modelsProformaDetalle[0],
+                            'formId' => 'dynamic-form',
+                            'formFields' => [
+                                'cantidad',
+                                'descripcion',
+                                'precio',
+                            ],
                         ]); ?>
+                        <div class="container-items">
+                            <?php foreach ($modelsProformaDetalle as $i => $modelProformaDetalle) { ?>
+
+                                <div class="container">
+                                    <button type="button" class="pull-left add-item btn btn-success btn-default">
+                                        <i class="fa fa-plus"></i> Agregar Producto
+                                    </button>
+                                </div>
+
+                                <div class="item">
+                                    <div class="pull-right"></div>
+                                    <div class="clearfix"></div>
+                                    <?php
+                                    if (!$modelProformaDetalle->isNewRecord) {
+                                        echo Html::activeHiddenInput($modelProformaDetalle, "[{$i}]id");
+                                    }
+                                    ?>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <?= $form->field($modelProformaDetalle,
+                                                "[{$i}]cantidad")->textInput([
+                                                'maxlength' => true,
+                                                'placeholder' => 'Cantidad',
+                                            ])->label(false) ?>
+                                        </div>
+
+                                        <div class="col-sm-5">
+                                            <?= $form->field($modelProformaDetalle,
+                                                "[{$i}]descripcion")->textInput([
+                                                'maxlength' => true,
+                                                'placeholder' => 'Descripción',
+                                            ])->label(false) ?>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <?= $form->field($modelProformaDetalle,
+                                                "[{$i}]precio")->textInput([
+                                                'maxlength' => true,
+                                                'placeholder' => 'Precio',
+                                            ])->label(false) ?>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <center>
+                                                <button type="button" class="remove-item btn btn-danger btn-xs">
+                                                    <i class="glyphicon glyphicon-minus"></i>
+                                                </button>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+
+                        <?php DynamicFormWidget::end(); ?>
                     </div>
                 </div>
+
             </div>
             <div class="ln_solid"></div>
             <div class="form-group">
