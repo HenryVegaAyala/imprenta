@@ -33,11 +33,7 @@ use yii\helpers\Url;
                                 '<li>'
                                 . '<a>'
                                 . Html::beginForm(['/site/logout'], 'post')
-                                . Html::submitButton(
-                                    "<i class='fa fa-sign-out pull-right'></i>"
-                                    . 'Cerrar Sesión',
-                                    ['class' => 'btn-link']
-                                )
+                                . Html::submitButton('Cerrar Sesión', ['class' => 'btn-link'])
                                 . Html::endForm()
                                 . '</a>'
                                 . '</li>';

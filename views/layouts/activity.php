@@ -63,8 +63,11 @@ use yii\helpers\Url;
                                 <li><a><i class="fa fa-list-alt"></i> Reportes <span
                                                 class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#">Generar Reporte PDF</a></li>
-                                        <li><a href="#">Generar Reporte Dashboard</a></li>
+                                        <li><a href="<?php echo Url::to(['/reporte/reporte']) ?>">Generar Reporte
+                                                PDF</a>
+                                        </li>
+                                        <li><a href="<?php echo Url::to(['/reporte/dashboard']) ?>">Generar Reporte
+                                                Dashboard</a></li>
                                     </ul>
                                 </li>
                                 <li><a><i class="fa fa-list-alt"></i> Usuario <span

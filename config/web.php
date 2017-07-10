@@ -110,6 +110,10 @@ $config = [
                 ['pattern' => '/lista-guia', 'route' => '/guia/index', 'suffix' => '.php'],
                 ['pattern' => '/actualizar-guia/<id:\d+>', 'route' => '/guia/update'],
                 ['pattern' => '/eliminar-guia/<id:\d+>', 'route' => '/guia/delete'],
+
+                /** Reporte **/
+                ['pattern' => '/reporte', 'route' => '/reporte/reporte', 'suffix' => '.php'],
+                ['pattern' => '/dashboard', 'route' => '/reporte/dashboard', 'suffix' => '.php'],
             ],
         ],
 

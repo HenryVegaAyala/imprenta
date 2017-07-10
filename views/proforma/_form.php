@@ -1,6 +1,5 @@
 <?php
 
-use app\models\ProformaDetalle;
 use kartik\widgets\DatePicker;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\helpers\Html;
@@ -13,7 +12,6 @@ use yii\widgets\Pjax;
 /* @var $form yii\widgets\ActiveForm */
 $descripcion = "Registrar Proforma";
 ?>
-
 <div class="clearfix"></div>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -161,10 +159,12 @@ $descripcion = "Registrar Proforma";
             </div>
             <div class="ln_solid"></div>
             <div class="form-group">
-                <div class="col-md-6 col-md-offset-3">
-                    <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
-                    <?= Html::resetButton('Cancelar', ['class' => 'btn btn-primary']) ?>
-                </div>
+                <center>
+                    <div class="col-md-6 col-md-offset-3">
+                        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+                        <?= Html::resetButton('Cancelar', ['class' => 'btn btn-primary']) ?>
+                    </div>
+                </center>
             </div>
             <?php ActiveForm::end(); ?>
             <?php Pjax::end(); ?>

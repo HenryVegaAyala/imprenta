@@ -55,7 +55,7 @@ class ProformaSearch extends Proforma
      */
     public function search($params)
     {
-        $query = Proforma::find()->orderBy(['num_proforma' => SORT_DESC]);
+        $query = Proforma::find()->orderBy(['id' => SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -83,5 +83,10 @@ class ProformaSearch extends Proforma
         $query->andFilterWhere(['like', 'num_proforma', $this->num_proforma]);
 
         return $dataProvider;
+    }
+
+    public function dateFormatQuery($date)
+    {
+        return date('Y-m-d', strtotime($date));
     }
 }

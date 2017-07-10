@@ -9,5 +9,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="right_col" role="main">
     <?= $this->render('_update', [
         'model' => $model,
+        'modelsProformaDetalle' => $modelsProformaDetalle,
     ]) ?>
 </div>

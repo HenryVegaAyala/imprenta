@@ -112,9 +112,8 @@ class ProformaController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate(
-        $id
-    ) {
+    public function actionUpdate($id)
+    {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
@@ -135,10 +134,8 @@ class ProformaController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public
-    function actionDelete(
-        $id
-    ) {
+    public function actionDelete($id)
+    {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -151,10 +148,8 @@ class ProformaController extends Controller
      * @return Proforma|array|\yii\db\ActiveRecord
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected
-    function findModel(
-        $id
-    ) {
+    protected function findModel($id)
+    {
         $model = Proforma::find()
             ->select([
                 'proforma.id AS id',
@@ -177,8 +172,7 @@ class ProformaController extends Controller
     /**
      * @return false|string
      */
-    public
-    function zonaHoraria()
+    public function zonaHoraria()
     {
         date_default_timezone_set('America/Lima');
         $now = date('Y-m-d h:i:s', time());
@@ -192,11 +186,8 @@ class ProformaController extends Controller
      * @param $estado
      * @param $proforma
      */
-    public
-    function notification(
-        $estado,
-        $proforma
-    ) {
+    public function notification($estado, $proforma)
+    {
         switch ($estado) {
             case 1:
                 $type = 'success';
@@ -233,5 +224,13 @@ class ProformaController extends Controller
                 }
             }
         }
+    }
+
+    public function actionProceso()
+    {
+        $request = Yii::$app->request->post();
+
+        var_dump($request['selection']);
+
     }
 }
