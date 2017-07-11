@@ -23,12 +23,12 @@ $descripcion = "Registrar Proforma";
                         'id' => 'dynamic-form',
                         'enableAjaxValidation' => false,
                         'enableClientValidation' => true,
-                        'validateOnChange' => false
-                        //'method' => 'post',
-                        //'options' => [
-                        //    'class' => 'form-horizontal form-label-left',
-                        //    'data-pjax' => true,
-                        //],
+                        'validateOnChange' => false,
+                        'method' => 'post',
+                        'options' => [
+                            'class' => 'form-horizontal form-label-left',
+                            'data-pjax' => true,
+                        ],
                     ]
                 ); ?>
                 <span class="section"><?php echo Html::encode($descripcion) ?></span>
@@ -99,57 +99,74 @@ $descripcion = "Registrar Proforma";
                                 'precio',
                             ],
                         ]); ?>
+
                         <div class="container-items">
-                            <?php foreach ($modelsProformaDetalle as $i => $modelProformaDetalle) { ?>
+                            <table class="table table-bordered table-striped">
+                                <th class="col-sm-2">Cantidad</th>
+                                <th class="col-sm-5">Descripción</th>
+                                <th class="col-sm-2">Precio</th>
+                                <th class="col-sm-2">Total</th>
+                                <th class="col-sm-1">
+                                    <div class="text-center" style="width: 90px;">
+                                        <button type="button" class="pull-center add-item btn btn-success btn-xs">
+                                            <span class="fa fa-plus"> Agregar</span>
+                                        </button>
+                                    </div>
+                                </th>
+                                <?php foreach ($modelsProformaDetalle as $i => $modelProformaDetalle) { ?>
+                                    <div class="item">
+                                        <div class="pull-right"></div>
+                                        <div class="clearfix"></div>
+                                        <?php
+                                        if (!$modelProformaDetalle->isNewRecord) {
+                                            echo Html::activeHiddenInput($modelProformaDetalle, "[{$i}]id");
+                                        }
+                                        ?>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <?= $form->field($modelProformaDetalle,
+                                                    "[{$i}]cantidad")->textInput([
+                                                    'maxlength' => true,
+                                                    'placeholder' => 'Cantidad',
+                                                ])->label(false) ?>
+                                            </div>
 
-                                <div class="container">
-                                    <button type="button" class="pull-left add-item btn btn-success btn-default">
-                                        <i class="fa fa-plus"></i> Agregar Producto
-                                    </button>
-                                </div>
+                                            <div class="col-sm-5">
+                                                <?= $form->field($modelProformaDetalle,
+                                                    "[{$i}]descripcion")->textInput([
+                                                    'maxlength' => true,
+                                                    'placeholder' => 'Descripción',
+                                                ])->label(false) ?>
+                                            </div>
 
-                                <div class="item">
-                                    <div class="pull-right"></div>
-                                    <div class="clearfix"></div>
-                                    <?php
-                                    if (!$modelProformaDetalle->isNewRecord) {
-                                        echo Html::activeHiddenInput($modelProformaDetalle, "[{$i}]id");
-                                    }
-                                    ?>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <?= $form->field($modelProformaDetalle,
-                                                "[{$i}]cantidad")->textInput([
-                                                'maxlength' => true,
-                                                'placeholder' => 'Cantidad',
-                                            ])->label(false) ?>
-                                        </div>
+                                            <div class="col-sm-2">
+                                                <?= $form->field($modelProformaDetalle,
+                                                    "[{$i}]precio")->textInput([
+                                                    'maxlength' => true,
+                                                    'placeholder' => 'Precio',
+                                                ])->label(false) ?>
+                                            </div>
 
-                                        <div class="col-sm-5">
-                                            <?= $form->field($modelProformaDetalle,
-                                                "[{$i}]descripcion")->textInput([
-                                                'maxlength' => true,
-                                                'placeholder' => 'Descripción',
-                                            ])->label(false) ?>
-                                        </div>
+                                            <div class="col-sm-2">
+                                                <?= $form->field($modelProformaDetalle,
+                                                    "[{$i}]total")->textInput([
+                                                    'maxlength' => true,
+                                                    'placeholder' => 'Total',
+                                                ])->label(false) ?>
+                                            </div>
 
-                                        <div class="col-sm-3">
-                                            <?= $form->field($modelProformaDetalle,
-                                                "[{$i}]precio")->textInput([
-                                                'maxlength' => true,
-                                                'placeholder' => 'Precio',
-                                            ])->label(false) ?>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <center>
-                                                <button type="button" class="remove-item btn btn-danger btn-xs">
-                                                    <i class="glyphicon glyphicon-minus"></i>
-                                                </button>
-                                            </center>
+                                            <div class="col-sm-1">
+                                                <div class="text-center" style="width: 90px;">
+                                                    <button type="button"
+                                                            class="pull-center remove-item btn btn-danger btn-xs">
+                                                        <i class="glyphicon glyphicon-minus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            <?php } ?>
+                                <?php } ?>
+                            </table>
                         </div>
 
                         <?php DynamicFormWidget::end(); ?>
