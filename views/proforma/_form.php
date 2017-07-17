@@ -80,18 +80,24 @@ $descripcion = "Registrar Proforma";
                         </div>
                     </div>
 
-                    <div class="col-md-12 col-sm-12 col-xs-12" id="contenedorCliente">
-                        <div class="x_panel">
-                            <div class="x_content">
-
-                                <div name="namecompany">Ripley:</div>
-                                <div name="ruc">484296798215</div>
-                                <div name="razonsocial">BANCO RIPLEY PERU S.A.</div>
-                                <div name="direccion">(Piso 11) Lima Lima, Perú</div>
-
+                    <div class="container-fluid">
+                        <legend>Datos del Cliente</legend>
+                        <div class="form-group">
+                            <div class="col-sm-3 control-label">
+                                <input type="text" id="txtruc" class="form-control input-sm"/>
+                            </div>
+                            <div class="col-sm-3 control-label">
+                                <input type="text" id="txtRaZo" class="form-control input-sm"/>
+                            </div>
+                            <div class="col-sm-3 control-label">
+                                <input type="text" id="txtRaZo" class="form-control input-sm"/>
+                            </div>
+                            <div class="col-sm-3 control-label">
+                                <input type="text" id="txtRaZo" class="form-control input-sm"/>
                             </div>
                         </div>
                     </div>
+
 
                 </div>
 
