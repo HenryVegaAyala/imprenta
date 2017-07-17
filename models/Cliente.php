@@ -29,6 +29,8 @@ use yii\db\ActiveRecord;
  * @property string $referencia
  *
  * @property Transaccion[] $transaccions
+ * @property string $razon_social [varchar(100)]
+ * @property string $departamento [varchar(40)]
  */
 class Cliente extends ActiveRecord
 {

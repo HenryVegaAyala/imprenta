@@ -2,9 +2,7 @@
 
 namespace app\controllers;
 
-use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 class ReporteController extends Controller
@@ -26,13 +24,11 @@ class ReporteController extends Controller
 
     public function actionDashboard()
     {
-
         return $this->render('dashboard');
     }
 
     public function actionReporte()
     {
-
         return $this->render('reporte');
     }
 }

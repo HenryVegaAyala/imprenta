@@ -21,7 +21,7 @@ class AppAsset extends AssetBundle
         'repository/bootstrap/dist/css/bootstrap.min.css',
         'repository/font-awesome/css/font-awesome.min.css',
         'repository/animate.css/animate.min.css',
-        'repository/iCheck/skins/flat/green.css',
+        //'repository/iCheck/skins/flat/green.css',
         //'repository/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css',
         //'repository/jqvmap/dist/jqvmap.min.css',
         'repository/bootstrap-daterangepicker/daterangepicker.css',

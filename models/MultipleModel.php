@@ -3,9 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
-class Model extends \yii\base\Model
+class MultipleModel extends Model
 {
     /**
      * Creates and populates a set of models.
@@ -17,6 +18,7 @@ class Model extends \yii\base\Model
     public static function createMultiple($modelClass, $multipleModels = null)
     {
         $model = new $modelClass;
+        /** @noinspection PhpUndefinedMethodInspection */
         $formName = $model->formName();
         $post = Yii::$app->request->post($formName);
         $models = [];
@@ -45,5 +47,4 @@ class Model extends \yii\base\Model
 
         return $models;
     }
-
 }

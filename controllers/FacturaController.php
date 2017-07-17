@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\FacturaDetalle;
-use synatree\dynamicrelations\DynamicRelations;
 use Yii;
 use app\models\Factura;
 use app\models\FacturaSearch;

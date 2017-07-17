@@ -75,10 +75,24 @@ $descripcion = "Registrar Proforma";
                             <?= $form->field($modelProforma, 'client')->dropDownList($modelProforma->getListCliente(), [
                                 'prompt' => 'Seleccionar Cliente',
                                 'class' => 'form-control col-md-7 col-xs-12',
+                                'onchange' => "dataCliente(this.value);",
                             ]) ?>
                         </div>
-
                     </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12" id="contenedorCliente">
+                        <div class="x_panel">
+                            <div class="x_content">
+
+                                <div name="namecompany">Ripley:</div>
+                                <div name="ruc">484296798215</div>
+                                <div name="razonsocial">BANCO RIPLEY PERU S.A.</div>
+                                <div name="direccion">(Piso 11) Lima Lima, Perú</div>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="panel panel-default">
@@ -86,8 +100,8 @@ $descripcion = "Registrar Proforma";
                         <?php DynamicFormWidget::begin([
                             'widgetContainer' => 'dynamicform_wrapper',
                             'widgetBody' => '.container-items',
-                            'widgetItem' => '.item', // required: css class
-                            'limit' => 200,
+                            'widgetItem' => '.item',
+                            'limit' => 50,
                             'min' => 0,
                             'insertButton' => '.add-item',
                             'deleteButton' => '.remove-item',
@@ -97,6 +111,7 @@ $descripcion = "Registrar Proforma";
                                 'cantidad',
                                 'descripcion',
                                 'precio',
+                                'total',
                             ],
                         ]); ?>
 
@@ -113,6 +128,7 @@ $descripcion = "Registrar Proforma";
                                         </button>
                                     </div>
                                 </th>
+
                                 <?php foreach ($modelsProformaDetalle as $i => $modelProformaDetalle) { ?>
                                     <div class="item">
                                         <div class="pull-right"></div>
@@ -178,7 +194,8 @@ $descripcion = "Registrar Proforma";
             <div class="form-group">
                 <center>
                     <div class="col-md-6 col-md-offset-3">
-                        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton($modelProforma->isNewRecord ? 'Guardar' : 'Actualizar',
+                            ['class' => 'btn btn-primary']) ?>
                         <?= Html::resetButton('Cancelar', ['class' => 'btn btn-primary']) ?>
                     </div>
                 </center>

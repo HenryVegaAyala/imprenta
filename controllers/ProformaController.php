@@ -7,10 +7,7 @@ use Exception;
 use Yii;
 use app\models\Proforma;
 use app\models\ProformaSearch;
-use app\models\Model;
-use yii\web\Response;
-use yii\bootstrap\ActiveForm;
-use yii\helpers\ArrayHelper;
+use yii\base\Model;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,7 +45,7 @@ class ProformaController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }
+    }/** @noinspection PhpInconsistentReturnPointsInspection */
 
     /**
      * Creates a new Proforma model.
@@ -57,53 +54,57 @@ class ProformaController extends Controller
      */
     public function actionCreate()
     {
-        $modelProforma = new Proforma();
+        $model = new Proforma();
         $modelsProformaDetalle = [new ProformaDetalle];
 
-        if ($modelProforma->load(Yii::$app->request->post())) {
-            /** Proforma **/
-            $modelProforma->id = $modelProforma->getIdTable();
-            $modelProforma->fecha_ingreso = Yii::$app->formatter->asDate(strtotime($modelProforma->fecha_ingreso),
-                'Y-MM-dd');
-            $modelProforma->fecha_envio = Yii::$app->formatter->asDate(strtotime($modelProforma->fecha_envio),
-                'Y-MM-dd');
+        if ($model->load(Yii::$app->request->post())) {
+            $requestDayStart = Yii::$app->formatter->asDate(strtotime($model->fecha_ingreso), 'Y-MM-dd');
+            $requestDaySend = Yii::$app->formatter->asDate(strtotime($model->fecha_envio), 'Y-MM-dd');
+            $model->id = $model->getIdTable();
+            $model->fecha_ingreso = $requestDayStart;
+            $model->fecha_envio = $requestDaySend;
+            /** @noinspection PhpUndefinedFieldInspection */
+            $model->usuario_digitado = Yii::$app->user->identity->correo;
+            $model->fecha_digitada = $this->zonaHoraria();
+            $model->ip = Yii::$app->request->userIP;
+            $model->host = strval(php_uname());
+            $model->estado = true;
 
-            $modelsProformaDetalle = Model::createMultiple(ProformaDetalle::classname());
-            Model::loadMultiple($modelsProformaDetalle, Yii::$app->request->post());
-
-            // validate all models
-            $valid = $modelProforma->validate();
-            $valid = Model::validateMultiple($modelsProformaDetalle) && $valid;
-
-            if (!$valid) {
-                $transaction = \Yii::$app->db->beginTransaction();
-                try {
-                    if ($flag = $modelProforma->save(false)) {
-                        foreach ($modelsProformaDetalle as $modelProformaDetalle) {
-                            $modelProformaDetalle->proforma_id = $modelProforma->id;
-
-                            //echo ($modelProformaDetalle->cantidad) . '<br>';
-                            if (!($flag = $modelProformaDetalle->save(false))) {
-                                $transaction->rollBack();
-                                break;
+            if ($model->save()) {
+                $modelsProformaDetalle = Model::createMultiple(ProformaDetalle::classname());
+                Model::loadMultiple($modelsProformaDetalle, Yii::$app->request->post());
+                // validate all models
+                $valid = $model->validate();
+                $valid = Model::validateMultiple($modelsProformaDetalle) && $valid;
+                if (!$valid) {
+                    $transaction = \Yii::$app->db->beginTransaction();
+                    try {
+                        if ($flag = $model->save(false)) {
+                            foreach ($modelsProformaDetalle as $modelProDeta) {
+                                $modelProDeta->proforma_id = $model->id;
+                                /** @noinspection PhpUndefinedMethodInspection */
+                                if (!($flag = $modelProDeta->save(false))) {
+                                    $transaction->rollBack();
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if ($flag) {
-                        $transaction->commit();
+                        if ($flag) {
+                            $transaction->commit();
 
-                        return $this->redirect(['index']);
+                            return $this->redirect(['index']);
+                        }
+                    } catch (Exception $e) {
+                        $transaction->rollBack();
                     }
-                } catch (Exception $e) {
-                    $transaction->rollBack();
                 }
             }
+        } else {
+            return $this->render('create', [
+                'modelProforma' => $model,
+                'modelsProformaDetalle' => (empty($modelsProformaDetalle)) ? [new ProformaDetalle] : $modelsProformaDetalle,
+            ]);
         }
-
-        return $this->render('create', [
-            'modelProforma' => $modelProforma,
-            'modelsProformaDetalle' => (empty($modelsProformaDetalle)) ? [new ProformaDetalle()] : $modelsProformaDetalle,
-        ]);
     }
 
     /**
@@ -226,11 +227,17 @@ class ProformaController extends Controller
         }
     }
 
-    public function actionProceso()
+    public function actionCliente()
     {
-        $request = Yii::$app->request->post();
-
-        var_dump($request['selection']);
-
+        $idCliente = $_POST['id'];
+        $sqlStatement = "SELECT * FROM cliente WHERE id = '" . $idCliente . "' AND estado = 1";
+        $commands = Yii::$app->db->createCommand($sqlStatement);
+        $result = $commands->query();
+        while ($row = $result->read()) {
+            echo
+                $row['desc_cliente'] . "/" . $row['numero_ruc'] . "/" .
+                $row['num_telf1'] . "/" . $row['razon_social'] . "/" .
+                $row['referencia'] . ' ' . $row['provincia'] . ' ' . $row['departamento'];
+        }
     }
 }

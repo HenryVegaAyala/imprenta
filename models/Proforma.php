@@ -58,9 +58,7 @@ class Proforma extends ActiveRecord
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
             [['ip'], 'string', 'max' => 30],
             [['host'], 'string', 'max' => 150],
-
             [['fecha_ingreso', 'fecha_envio', 'num_proforma', 'client'], 'required'],
-
             ['num_proforma', 'match', 'pattern' => "/^.{1,12}$/", 'message' => 'Mínimo un dígito en la proforma.'],
         ];
     }
