@@ -136,7 +136,7 @@ class UserController extends Controller
             $this->encryptPassword($id, $password);
             $names = $model->nombre . ' ' . $model->apellido;
             $rol = $model->getRol($model->privilegio);
-            $this->notification(2, $names, $rol);
+            $this->notification(4, $names, $rol);
 
             return $this->redirect(['index']);
         } else {
@@ -211,6 +211,11 @@ class UserController extends Controller
             case 3:
                 $title = 'Se Eliminado un Usuario';
                 $message = 'Se ha eliminado satisfactoriamente al usuario ' . $usuario . '.';
+                $type = 'success';
+                break;
+            case 4:
+                $title = 'Se Actualizado el Perfil de ' . $usuario;
+                $message = 'Se ha actualizado satisfactoriamente los datos del perfil.';
                 $type = 'success';
                 break;
         }
