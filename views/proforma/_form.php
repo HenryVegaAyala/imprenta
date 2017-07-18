@@ -157,7 +157,7 @@ $descripcion = "Registrar Proforma";
                                                 "[{$i}]cantidad")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Cantidad',
-                                            ])->label(false) ?>
+                                                'name' => 'cantidad[]'])->label(false) ?>
                                         </div>
 
                                         <div class="col-sm-5">
@@ -165,7 +165,7 @@ $descripcion = "Registrar Proforma";
                                                 "[{$i}]descripcion")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Descripción',
-                                            ])->label(false) ?>
+                                                'name' => 'descripcion[]'])->label(false) ?>
                                         </div>
 
                                         <div class="col-sm-2">
@@ -173,7 +173,7 @@ $descripcion = "Registrar Proforma";
                                                 "[{$i}]precio")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Precio',
-                                            ])->label(false) ?>
+                                                'name' => 'precio[]'])->label(false) ?>
                                         </div>
 
                                         <div class="col-sm-2">
@@ -181,7 +181,7 @@ $descripcion = "Registrar Proforma";
                                                 "[{$i}]total")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Total',
-                                            ])->label(false) ?>
+                                                'name' => 'total[]'])->label(false) ?>
                                         </div>
 
                                         <div class="col-sm-1">

@@ -63,42 +63,44 @@ class ProformaController extends Controller
             $model->id = $model->getIdTable();
             $model->fecha_ingreso = $requestDayStart;
             $model->fecha_envio = $requestDaySend;
-            /** @noinspection PhpUndefinedFieldInspection */
             $model->usuario_digitado = Yii::$app->user->identity->correo;
             $model->fecha_digitada = $this->zonaHoraria();
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
             $model->estado = true;
 
-            if ($model->save()) {
-                $modelsProformaDetalle = Model::createMultiple(ProformaDetalle::classname());
-                Model::loadMultiple($modelsProformaDetalle, Yii::$app->request->post());
-                // validate all models
-                $valid = $model->validate();
-                $valid = Model::validateMultiple($modelsProformaDetalle) && $valid;
-                if (!$valid) {
-                    $transaction = \Yii::$app->db->beginTransaction();
-                    try {
-                        if ($flag = $model->save(false)) {
-                            foreach ($modelsProformaDetalle as $modelProDeta) {
-                                $modelProDeta->proforma_id = $model->id;
-                                /** @noinspection PhpUndefinedMethodInspection */
-                                if (!($flag = $modelProDeta->save(false))) {
-                                    $transaction->rollBack();
-                                    break;
-                                }
-                            }
-                        }
-                        if ($flag) {
-                            $transaction->commit();
+            var_dump($_POST['cantidad']);
+            exit();
 
-                            return $this->redirect(['index']);
-                        }
-                    } catch (Exception $e) {
-                        $transaction->rollBack();
-                    }
-                }
-            }
+            //if ($model->save()) {
+            //    $modelsProformaDetalle = Model::createMultiple(ProformaDetalle::classname());
+            //    Model::loadMultiple($modelsProformaDetalle, Yii::$app->request->post());
+            //    // validate all models
+            //    $valid = $model->validate();
+            //    $valid = Model::validateMultiple($modelsProformaDetalle) && $valid;
+            //    if (!$valid) {
+            //        $transaction = \Yii::$app->db->beginTransaction();
+            //        try {
+            //            if ($flag = $model->save(false)) {
+            //                foreach ($modelsProformaDetalle as $modelProDeta) {
+            //                    $modelProDeta->proforma_id = $model->id;
+            //                    /** @noinspection PhpUndefinedMethodInspection */
+            //                    if (!($flag = $modelProDeta->save(false))) {
+            //                        $transaction->rollBack();
+            //                        break;
+            //                    }
+            //                }
+            //            }
+            //            if ($flag) {
+            //                $transaction->commit();
+            //
+            //                return $this->redirect(['index']);
+            //            }
+            //        } catch (Exception $e) {
+            //            $transaction->rollBack();
+            //        }
+            //    }
+            //}
         } else {
             return $this->render('create', [
                 'modelProforma' => $model,

@@ -1,37 +1,18 @@
 <?php
 $this->title = 'Sistema de Gestión Documentaria';
 ?>
-<!-- page content -->
+
 <div class="right_col" role="main">
 
     <div class="row">
         <div class="col-md-4 col-sm-4 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Recent Activities
-                        <small>Sessions</small>
-                    </h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Settings 1</a>
-                                </li>
-                                <li><a href="#">Settings 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
+                    <h2>Actividades Recientes</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
                     <div class="dashboard-widget-content">
-
                         <ul class="list-unstyled timeline widget">
                             <li>
                                 <div class="block">
@@ -112,25 +93,7 @@ $this->title = 'Sistema de Gestión Documentaria';
                 <div class="col-md-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Inbox Design
-                                <small>User Mail</small>
-                            </h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
+                            <h2>Bandeja de Correos</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
