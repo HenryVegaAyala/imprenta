@@ -25,20 +25,14 @@ use yii\helpers\Url;
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="javascript:;"> Configuraciones</a></li>
-                        <li><a href="javascript:;"> Ayuda</a></li>
-                        <?php
-                        if (!Yii::$app->user->isGuest) {
-                            echo
-                                '<li>'
-                                . '<a>'
-                                . Html::beginForm(['/site/logout'], 'post')
-                                . Html::submitButton('Cerrar Sesión', ['class' => 'btn-link'])
-                                . Html::endForm()
-                                . '</a>'
-                                . '</li>';
-                        }
-                        ?>
+                        <li>
+                            <?= Html::a('Actualizar Perfil', ['/user/change', 'id' => Yii::$app->user->identity->id],
+                                ['data-method' => 'post']) ?>
+                        </li>
+                        <li>
+                            <?= Html::a('Cerrar Sesión', ['/site/logout', 'id' => Yii::$app->user->identity->id],
+                                ['data-method' => 'post']) ?>
+                        </li>
                     </ul>
                 </li>
             </ul>

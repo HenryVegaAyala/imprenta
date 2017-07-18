@@ -93,8 +93,6 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $id = $model->id;
-            //$password = $model->contrasena;
             $model->fecha_modificada = $this->zonaHoraria();
             $model->usuario_modificado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
@@ -107,7 +105,6 @@ class UserController extends Controller
                 Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
             $model->fecha_cumpleanos = $fecha_cumpleanos;
             $model->update();
-            //$this->encryptPassword($id, $password);
             $names = $model->nombre . ' ' . $model->apellido;
             $rol = $model->getRol($model->privilegio);
             $this->notification(2, $names, $rol);
@@ -119,6 +116,36 @@ class UserController extends Controller
             ]);
         }
     }
+
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     */
+    public function actionChange($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            $id = $model->id;
+            $password = $model->contrasena;
+            $model->fecha_modificada = $this->zonaHoraria();
+            $model->usuario_modificado = Yii::$app->user->identity->correo;
+            $model->ip = Yii::$app->request->userIP;
+            $model->host = strval(php_uname());
+            $model->update();
+            $this->encryptPassword($id, $password);
+            $names = $model->nombre . ' ' . $model->apellido;
+            $rol = $model->getRol($model->privilegio);
+            $this->notification(2, $names, $rol);
+
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('change', [
+                'model' => $model,
+            ]);
+        }
+    }
+
 
     /**
      * Deletes an existing User model.

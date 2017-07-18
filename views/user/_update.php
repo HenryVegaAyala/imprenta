@@ -130,7 +130,7 @@ $descripcion = "Actualizar Usuario";
                     <div class="col-md-6 col-md-offset-3">
                         <?= Html::submitButton('<i class="fa fa-floppy-o fa-lg"></i> ' . ' Guardar',
                             ['class' => 'btn btn-success']) ?>
-                        <?= Html::resetButton('<i class="fa fa-times fa-lg"></i> ' . ' Cancelar',
+                        <?= Html::a('<i class="fa fa-times fa-lg"></i> ' . ' Cancelar', ['index'],
                             ['class' => 'btn btn-primary']) ?>
                     </div>
                 </center>
