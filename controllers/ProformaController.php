@@ -234,10 +234,8 @@ class ProformaController extends Controller
         $commands = Yii::$app->db->createCommand($sqlStatement);
         $result = $commands->query();
         while ($row = $result->read()) {
-            echo
-                $row['desc_cliente'] . "/" . $row['numero_ruc'] . "/" .
-                $row['num_telf1'] . "/" . $row['razon_social'] . "/" .
-                $row['referencia'] . ' ' . $row['provincia'] . ' ' . $row['departamento'];
+            echo $row['desc_cliente'] . "/" . $row['numero_ruc'] . "/" . $row['razon_social'] .
+                "/" . $row['referencia'] . ' ' . $row['provincia'] . ' ' . $row['departamento'];
         }
     }
 }

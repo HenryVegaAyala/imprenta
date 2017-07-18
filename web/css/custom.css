@@ -1,7 +1,10 @@
-
 html, body {
-
     height: 100%;
+}
+
+.text-border {
+    border: transparent;
+    background-color: transparent;
 
 }
 
@@ -10,9 +13,7 @@ html, body {
 }
 
 .full-width {
-
     width: 100%;
-
 }
 
 .full-height {
