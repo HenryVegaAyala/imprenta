@@ -36,7 +36,7 @@ class UserController extends Controller
     public function actionIndex()
     {
         $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->post());
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -58,16 +58,21 @@ class UserController extends Controller
             $model->authKey = md5(rand(1, 9999));
             $model->accessToken = md5(rand(1, 9999));
             $model->fecha_digitada = $this->zonaHoraria();
-            /** @noinspection PhpUndefinedFieldInspection */
             $model->usuario_digitado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
             $model->estado = (int)$model->estado;
-            $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
-            $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
+            $fecha_inicio = ($model->fecha_inicio == '') ? '' :
+                Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
+            $model->fecha_inicio = $fecha_inicio;
+            $fecha_cumpleanos = ($model->fecha_inicio == '') ? '' :
+                Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
+            $model->fecha_cumpleanos = $fecha_cumpleanos;
             $model->save();
             $this->encryptPassword($model->id, $model->contrasena);
-            $this->notification(1);
+            $names = $model->nombre . ' ' . $model->apellido;
+            $rol = $model->getRol($model->privilegio);
+            $this->notification(1, $names, $rol);
 
             return $this->redirect(['index']);
         } else {
@@ -89,18 +94,23 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $id = $model->id;
-            $password = $model->contrasena;
+            //$password = $model->contrasena;
             $model->fecha_modificada = $this->zonaHoraria();
-            /** @noinspection PhpUndefinedFieldInspection */
             $model->usuario_modificado = Yii::$app->user->identity->correo;
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
             $model->estado = (int)$model->estado;
-            $model->fecha_inicio = Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
-            $model->fecha_cumpleanos = Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
-            $model->save();
-            $this->encryptPassword($id, $password);
-            $this->notification(2);
+            $fecha_inicio = ($model->fecha_inicio == '') ? '' :
+                Yii::$app->formatter->asDate(strtotime($model->fecha_inicio), 'Y-MM-dd');
+            $model->fecha_inicio = $fecha_inicio;
+            $fecha_cumpleanos = ($model->fecha_inicio == '') ? '' :
+                Yii::$app->formatter->asDate(strtotime($model->fecha_cumpleanos), 'Y-MM-dd');
+            $model->fecha_cumpleanos = $fecha_cumpleanos;
+            $model->update();
+            //$this->encryptPassword($id, $password);
+            $names = $model->nombre . ' ' . $model->apellido;
+            $rol = $model->getRol($model->privilegio);
+            $this->notification(2, $names, $rol);
 
             return $this->redirect(['index']);
         } else {
@@ -118,7 +128,10 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->notification(3);
+        $rol = '';
+        $user = User::find()->where('id', $id)->one();
+        $names = $user->nombre . ' ' . $user->apellido;
+        $this->notification(2, $names, $rol);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -146,31 +159,32 @@ class UserController extends Controller
     public function zonaHoraria()
     {
         date_default_timezone_set('America/Lima');
-        $now = date('Y-m-d h:i:s', time());
 
-        return $now;
-    }/** @noinspection PhpInconsistentReturnPointsInspection */
+        return date('Y-m-d h:i:s', time());
+    }
 
     /**
      * @param $estado
+     * @param $usuario
+     * @param $rol
      */
-    public function notification($estado)
+    public function notification($estado, $usuario, $rol)
     {
         switch ($estado) {
             case 1:
+                $title = 'Se registró un Usuario Nuevo';
+                $message = 'Se ha registrado satisfactoriamente a ' . $usuario . ' como usuario ' . $rol . '.';
                 $type = 'success';
-                $message = 'Se ha registrado satisfactoriamente este usuario.';
-                $title = 'Usuario Nuevo';
                 break;
             case 2:
+                $title = 'El Usuario fué Actualizado';
+                $message = 'Se ha actualizado satisfactoriamente el usuario ' . $usuario . '.';
                 $type = 'success';
-                $message = 'Se ha actualizado satisfactoriamente este usuario.';
-                $title = 'Usuario Actualizado';
                 break;
             case 3:
+                $title = 'Se Eliminado un Usuario';
+                $message = 'Se ha eliminado satisfactoriamente al usuario ' . $usuario . '.';
                 $type = 'success';
-                $message = 'Se ha eliminado satisfactoriamente este usuario.';
-                $title = 'Usuario Eliminado';
                 break;
         }
 

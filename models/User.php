@@ -115,12 +115,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'nombre' => 'Nombre',
-            'apellido' => 'Apellido',
+            'nombre' => 'Nombres',
+            'apellido' => 'Apellidos',
             'telefono' => 'Telefono',
             'dni' => 'DNI',
-            'correo' => 'Correo',
-            'privilegio' => 'Privilegio',
+            'correo' => 'Email',
+            'privilegio' => 'Roles',
             'contrasena' => 'Contraseña',
             'contrasena_desc' => 'Repetir Contraseña',
             'authKey' => 'Auth Key',
@@ -134,7 +134,7 @@ class User extends ActiveRecord implements IdentityInterface
             'ip' => 'Ip',
             'host' => 'Host',
             'estado' => 'Estado',
-            'genero' => 'Genero',
+            'genero' => 'Género',
             'fecha_inicio' => 'Fecha de Inicio',
             'fecha_cumpleanos' => 'Fecha de Cumpleaños',
         ];

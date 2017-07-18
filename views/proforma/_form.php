@@ -208,7 +208,7 @@ $descripcion = "Registrar Proforma";
                     <center>
                         <div class="col-md-6 col-md-offset-3">
                             <?= Html::submitButton('<i class="fa fa-floppy-o fa-lg"></i> ' . ' Guardar',
-                                ['class' => 'btn btn-primary']) ?>
+                                ['class' => 'btn btn-success']) ?>
                             <?= Html::resetButton('<i class="fa fa-times fa-lg"></i> ' . ' Cancelar',
                                 ['class' => 'btn btn-primary']) ?>
                         </div>
