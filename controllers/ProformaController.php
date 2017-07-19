@@ -3,11 +3,9 @@
 namespace app\controllers;
 
 use app\models\ProformaDetalle;
-use Exception;
 use Yii;
 use app\models\Proforma;
 use app\models\ProformaSearch;
-use yii\base\Model;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -68,39 +66,42 @@ class ProformaController extends Controller
             $model->ip = Yii::$app->request->userIP;
             $model->host = strval(php_uname());
             $model->estado = true;
+            $model->save();
 
-            var_dump($_POST['cantidad']);
-            exit();
+            $countProducts = count($_POST['cantidad']);
+            $cantidad = $_POST['cantidad'];
+            $descripcion = $_POST['descripcion'];
+            $precio = $_POST['precio'];
+            $total = $_POST['total'];
 
-            //if ($model->save()) {
-            //    $modelsProformaDetalle = Model::createMultiple(ProformaDetalle::classname());
-            //    Model::loadMultiple($modelsProformaDetalle, Yii::$app->request->post());
-            //    // validate all models
-            //    $valid = $model->validate();
-            //    $valid = Model::validateMultiple($modelsProformaDetalle) && $valid;
-            //    if (!$valid) {
-            //        $transaction = \Yii::$app->db->beginTransaction();
-            //        try {
-            //            if ($flag = $model->save(false)) {
-            //                foreach ($modelsProformaDetalle as $modelProDeta) {
-            //                    $modelProDeta->proforma_id = $model->id;
-            //                    /** @noinspection PhpUndefinedMethodInspection */
-            //                    if (!($flag = $modelProDeta->save(false))) {
-            //                        $transaction->rollBack();
-            //                        break;
-            //                    }
-            //                }
-            //            }
-            //            if ($flag) {
-            //                $transaction->commit();
-            //
-            //                return $this->redirect(['index']);
-            //            }
-            //        } catch (Exception $e) {
-            //            $transaction->rollBack();
-            //        }
-            //    }
-            //}
+            for ($i = 0; $i < $countProducts; $i++) {
+                if ($descripcion[$i] <> '') {
+                    Yii::$app->db->createCommand()->batchInsert('proforma_detalle',
+                        [
+                            'proforma_id',
+                            'cantidad',
+                            'descripcion',
+                            'precio',
+                            'monto_total',
+                            'fecha_digitada',
+                            'usuario_digitado',
+                        ],
+                        [
+                            [
+                                $model->id,
+                                $cantidad[$i],
+                                $descripcion[$i],
+                                $precio[$i],
+                                $total[$i],
+                                $this->zonaHoraria(),
+                                Yii::$app->user->identity->correo,
+                            ],
+                        ]
+                    )->execute();
+                }
+            }
+
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'modelProforma' => $model,

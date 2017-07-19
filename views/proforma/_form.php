@@ -136,7 +136,8 @@ $descripcion = "Registrar Proforma";
                                 <th class="col-sm-2">Total</th>
                                 <th class="col-sm-1">
                                     <div class="text-center" style="width: 90px;">
-                                        <button type="button" class="pull-center add-item btn btn-success btn-xs">
+                                        <button type="button" id="addItem"
+                                                class="pull-center add-item btn btn-success btn-xs">
                                             <span class="fa fa-plus"> <strong>Agregar</strong></span>
                                         </button>
                                     </div>
@@ -157,7 +158,10 @@ $descripcion = "Registrar Proforma";
                                                 "[{$i}]cantidad")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Cantidad',
-                                                'name' => 'cantidad[]'])->label(false) ?>
+                                                'onchange' => 'calcular()',
+                                                'onkeyup' => 'calcular()',
+                                                'name' => 'cantidad[]',
+                                            ])->label(false) ?>
                                         </div>
 
                                         <div class="col-sm-5">
@@ -165,7 +169,8 @@ $descripcion = "Registrar Proforma";
                                                 "[{$i}]descripcion")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Descripción',
-                                                'name' => 'descripcion[]'])->label(false) ?>
+                                                'name' => 'descripcion[]',
+                                            ])->label(false) ?>
                                         </div>
 
                                         <div class="col-sm-2">
@@ -173,7 +178,10 @@ $descripcion = "Registrar Proforma";
                                                 "[{$i}]precio")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Precio',
-                                                'name' => 'precio[]'])->label(false) ?>
+                                                'onchange' => 'calcular()',
+                                                'onkeyup' => 'calcular()',
+                                                'name' => 'precio[]',
+                                            ])->label(false) ?>
                                         </div>
 
                                         <div class="col-sm-2">
@@ -181,7 +189,9 @@ $descripcion = "Registrar Proforma";
                                                 "[{$i}]total")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Total',
-                                                'name' => 'total[]'])->label(false) ?>
+                                                'name' => 'total[]',
+                                                'onkeypress' => 'addField()',
+                                            ])->label(false) ?>
                                         </div>
 
                                         <div class="col-sm-1">
@@ -210,7 +220,7 @@ $descripcion = "Registrar Proforma";
                             <?= Html::submitButton('<i class="fa fa-floppy-o fa-lg"></i> ' . ' Guardar',
                                 ['class' => 'btn btn-success']) ?>
                             <?= Html::resetButton('<i class="fa fa-times fa-lg"></i> ' . ' Cancelar',
-                                ['class' => 'btn btn-primary']) ?>
+                                ['class' => 'btn btn-primary', 'id' => 'cancelar']) ?>
                         </div>
                     </center>
                 </div>

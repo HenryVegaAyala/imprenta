@@ -42,8 +42,8 @@ class ProformaDetalle extends ActiveRecord
     public function rules()
     {
         return [
-            [['precio', 'cantidad', 'total'], 'integer'],
-            [['precio', 'monto_subtotal', 'monto_igv', 'monto_total'], 'number'],
+            [['cantidad'], 'integer'],
+            [['precio', 'monto_subtotal', 'monto_igv', 'monto_total', 'total'], 'number'],
             [['fecha_digitada', 'fecha_modificada', 'fecha_eliminada'], 'safe'],
             [['descripcion'], 'string', 'max' => 250],
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
