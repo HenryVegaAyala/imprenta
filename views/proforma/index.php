@@ -95,7 +95,7 @@ $proforma = new Proforma();
                                         if (empty($data->monto_total)) {
                                             return 'S/. 0.00';
                                         } else {
-                                            return $data->monto_total;
+                                            return 'S/. '.$data->monto_total;
                                         }
                                     },
                                 ],
