@@ -5,7 +5,10 @@ html, body {
 .text-border {
     border: transparent;
     background-color: transparent;
+}
 
+.text-border-total {
+    background-color: transparent;
 }
 
 .pull-center {

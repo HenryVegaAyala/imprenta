@@ -1,6 +1,10 @@
 $("#contenedorCliente").hide();
 $("#line").hide();
 
+$("#proforma-monto_subtotal").prop("disabled", true);
+$("#proforma-monto_igv").prop("disabled", true);
+$("#proforma-monto_total").prop("disabled", true);
+
 $("#cancelar").click(function () {
     $("#contenedorCliente").hide();
     $("#line").hide();
@@ -73,6 +77,17 @@ function calcular() {
         array_total[i].value = validateNan(formatDecimal(total));
     }
 
+    sumaSubTotal = eval(0);
+    for (var x = 0; x < array_total.length; x++) {
+        sumaSubTotal = parseFloat(sumaSubTotal, 2) + parseFloat(array_total[x].value, 2);
+    }
+    igv = parseFloat(parseFloat(sumaSubTotal, 2) * parseFloat(0.18, 2), 2);
+    subtotal = parseFloat(sumaSubTotal - igv, 2);
+    total = parseFloat(sumaSubTotal, 2) + parseFloat(igv, 2);
+
+    document.getElementById("proforma-monto_subtotal").value = subtotal;
+    document.getElementById("proforma-monto_igv").value = igv;
+    document.getElementById("proforma-monto_total").value = sumaSubTotal;
 }
 
 function stopRKey(evt) {
