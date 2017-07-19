@@ -59,6 +59,7 @@ class ProformaController extends Controller
             $requestDayStart = Yii::$app->formatter->asDate(strtotime($model->fecha_ingreso), 'Y-MM-dd');
             $requestDaySend = Yii::$app->formatter->asDate(strtotime($model->fecha_envio), 'Y-MM-dd');
             $model->id = $model->getIdTable();
+            $model->monto_subtotal = number_format($model->monto_subtotal, 2);
             $model->fecha_ingreso = $requestDayStart;
             $model->fecha_envio = $requestDaySend;
             $model->usuario_digitado = Yii::$app->user->identity->correo;

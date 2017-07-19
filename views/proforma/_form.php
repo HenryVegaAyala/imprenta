@@ -188,7 +188,7 @@ $descripcion = "Registrar Proforma";
                                             <?= $form->field($modelProformaDetalle,
                                                 "[{$i}]total")->textInput([
                                                 'maxlength' => true,
-                                                'disabled' => true,
+                                                'readonly' => true,
                                                 'placeholder' => 'Total',
                                                 'name' => 'total[]',
                                                 'onkeypress' => 'addField()',
@@ -212,28 +212,28 @@ $descripcion = "Registrar Proforma";
                     </div>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-xs-12" style="float: right">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">SubTotal</label>
+                <div class="col-md-3 col-sm-12 col-xs-12" style="float: right">
+                    <label class="control-label col-md-3 col-sm-6 col-xs-6">SubTotal</label>
                     <div class="col-md-9 col-sm-6 col-xs-12">
                         <?= $form->field($modelProforma, 'monto_subtotal')->textInput(
                             [
                                 'placeholder' => 'SubTotal',
-                                'class' => 'form-control col-md-2 col-xs-12 text-border-total',
+                                'class' => 'form-control col-md-6 col-xs-6 text-border-total',
                             ]
                         )->label(false) ?>
                     </div>
 
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">I.G.V.</label>
+                    <label class="control-label col-md-3 col-sm-6 col-xs-6">I.G.V.</label>
                     <div class="col-md-9 col-sm-6 col-xs-12">
                         <?= $form->field($modelProforma, 'monto_igv')->textInput(
-                            ['placeholder' => 'I.G.V', 'class' => 'form-control col-md-2 col-xs-12 text-border-total']
+                            ['placeholder' => 'I.G.V', 'class' => 'form-control col-md-6 col-xs-6 text-border-total']
                         )->label(false) ?>
                     </div>
 
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Total</label>
+                    <label class="control-label col-md-3 col-sm-6 col-xs-6">Total</label>
                     <div class="col-md-9 col-sm-6 col-xs-12">
                         <?= $form->field($modelProforma, 'monto_total')->textInput(
-                            ['placeholder' => 'Total', 'class' => 'form-control col-md-2 col-xs-12 text-border-total']
+                            ['placeholder' => 'Total', 'class' => 'form-control col-md-6 col-xs-6 text-border-total']
                         )->label(false) ?>
                     </div>
                 </div>

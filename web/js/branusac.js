@@ -1,13 +1,25 @@
 $("#contenedorCliente").hide();
 $("#line").hide();
 
-$("#proforma-monto_subtotal").prop("disabled", true);
-$("#proforma-monto_igv").prop("disabled", true);
-$("#proforma-monto_total").prop("disabled", true);
+$("#proforma-monto_subtotal").prop("readonly", true);
+$("#proforma-monto_igv").prop("readonly", true);
+$("#proforma-monto_total").prop("readonly", true);
 
 $("#cancelar").click(function () {
     $("#contenedorCliente").hide();
     $("#line").hide();
+});
+
+$(document).on('click', '.remove-item', function () {
+    var array_unidad;
+    array_unidad = document.getElementsByName("cantidad[]");
+    if (array_unidad.length === 0) {
+        document.getElementById("proforma-monto_subtotal").value = '0.00';
+        document.getElementById("proforma-monto_igv").value = '0.00';
+        document.getElementById("proforma-monto_total").value = '0.00';
+    } else {
+        calcular();
+    }
 });
 
 function dataCliente(id) {
@@ -85,9 +97,9 @@ function calcular() {
     subtotal = parseFloat(sumaSubTotal - igv, 2);
     total = parseFloat(sumaSubTotal, 2) + parseFloat(igv, 2);
 
-    document.getElementById("proforma-monto_subtotal").value = subtotal;
-    document.getElementById("proforma-monto_igv").value = igv;
-    document.getElementById("proforma-monto_total").value = sumaSubTotal;
+    document.getElementById("proforma-monto_subtotal").value = formatDecimal(subtotal);
+    document.getElementById("proforma-monto_igv").value = formatDecimal(igv);
+    document.getElementById("proforma-monto_total").value = formatDecimal(sumaSubTotal)
 }
 
 function stopRKey(evt) {
