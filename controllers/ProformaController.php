@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Cliente;
 use app\models\Notificaciones;
 use app\models\ProformaDetalle;
+use app\models\Transaccion;
 use Yii;
 use app\models\Proforma;
 use app\models\ProformaSearch;
@@ -58,6 +59,7 @@ class ProformaController extends Controller
         $modelsProformaDetalle = [new ProformaDetalle];
         $notificaciones = new Notificaciones();
         $cliente = new Cliente();
+        $transacion = new Transaccion();
 
         if ($model->load(Yii::$app->request->post())) {
             $requestDayStart = Yii::$app->formatter->asDate(strtotime($model->fecha_ingreso), 'Y-MM-dd');
@@ -78,6 +80,11 @@ class ProformaController extends Controller
             $notificaciones->usuario = Yii::$app->user->identity->nombre . ' ' . Yii::$app->user->identity->apellido;
             $notificaciones->estado = true;
             $notificaciones->save();
+
+            $transacion->proforma_id = $model->id;
+            $transacion->cliente_id = $model->client;
+            $transacion->estado = true;
+            $transacion->save();
 
             $countProducts = count($_POST['cantidad']);
             $cantidad = $_POST['cantidad'];
@@ -114,7 +121,7 @@ class ProformaController extends Controller
                     )->execute();
                 }
             }
-            $this->notification(4, $model->num_proforma);
+            $this->notification(1, $model->num_proforma);
 
             return $this->redirect(['index']);
         } else {
@@ -133,16 +140,17 @@ class ProformaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $modelProforma = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->save();
-            $this->notification(2, $model->num_proforma);
+        if ($modelProforma->load(Yii::$app->request->post())) {
+            $modelProforma->save();
+            $this->notification(2, $modelProforma->num_proforma);
 
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'modelProforma' => $modelProforma,
+                'modelsProformaDetalle' => (empty($modelsProformaDetalle)) ? [new ProformaDetalle] : $modelsProformaDetalle,
             ]);
         }
     }

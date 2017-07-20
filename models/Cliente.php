@@ -104,11 +104,10 @@ class Cliente extends ActiveRecord
     public function infoCliente($id)
     {
         $query = new Query();
-        $query->select('desc_cliente')->from('cliente')->where("id ='" . $id . "'");
+        $query->select('*')->from('cliente')->where("id ='" . $id . "'")->limit(1);
         $command = $query->createCommand();
-        $data = $command->queryScalar();
+        $data = $command->queryAll();
 
         return $data;
     }
-
 }

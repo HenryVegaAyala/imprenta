@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\db\Query;
 
 /**
  * This is the model class for table "proforma_detalle".
@@ -93,5 +94,33 @@ class ProformaDetalle extends ActiveRecord
     public function getProforma()
     {
         return $this->hasOne(Proforma::className(), ['id' => 'proforma_id']);
+    }
+
+    /**
+     * @param $id
+     * @return false|null|string
+     */
+    public function detailsProforma($id)
+    {
+        $query = new Query();
+        $query->select('*')->from('proforma_detalle')->where("proforma_id ='" . $id . "'");
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+
+        return $data;
+    }
+
+    /**
+     * @param $id
+     * @return false|null|string
+     */
+    public function proforma($id)
+    {
+        $query = new Query();
+        $query->select('*')->from('proforma')->where("id ='" . $id . "'");
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+
+        return $data;
     }
 }
