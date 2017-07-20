@@ -11,7 +11,7 @@ use yii\widgets\Pjax;
 /* @var $modelProforma app\models\Proforma */
 /* @var $modelsProformaDetalle app\models\ProformaDetalle */
 /* @var $form yii\widgets\ActiveForm */
-$descripcion = "Registrar Proforma";
+$descripcion = "Modificar Proforma";
 ?>
 
 <div class="clearfix"></div>
