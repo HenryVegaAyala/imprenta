@@ -155,10 +155,9 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $rol = '';
-        $user = User::find()->where('id', $id)->one();
+        $user = User::find()->where(['id' => $id])->one();
         $names = $user->nombre . ' ' . $user->apellido;
-        $this->notification(2, $names, $rol);
+        $this->notification(3, $names, $rol = '');
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\db\Expression;
+use yii\db\Query;
 
 /**
  * This is the model class for table "cliente".
@@ -94,4 +96,19 @@ class Cliente extends ActiveRecord
     {
         return $this->hasMany(Transaccion::className(), ['cliente_id' => 'id']);
     }
+
+    /**
+     * @param $id
+     * @return false|null|string
+     */
+    public function infoCliente($id)
+    {
+        $query = new Query();
+        $query->select('desc_cliente')->from('cliente')->where("id ='" . $id . "'");
+        $command = $query->createCommand();
+        $data = $command->queryScalar();
+
+        return $data;
+    }
+
 }

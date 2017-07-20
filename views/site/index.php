@@ -1,4 +1,6 @@
 <?php
+use yii\helpers\Url;
+
 $this->title = 'Sistema de Gestión Documentaria';
 ?>
 
@@ -14,74 +16,24 @@ $this->title = 'Sistema de Gestión Documentaria';
                 <div class="x_content">
                     <div class="dashboard-widget-content">
                         <ul class="list-unstyled timeline widget">
-                            <li>
-                                <div class="block">
-                                    <div class="block_content">
-                                        <h2 class="title">
-                                            <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                        </h2>
-                                        <div class="byline">
-                                            <span>13 hours ago</span> by <a>Jane Smith</a>
+                            <?php foreach ($notificaciones AS $notificacion) { ?>
+                                <li>
+                                    <div class="block">
+                                        <div class="block_content">
+                                            <h2 class="title">
+                                                <a><?php echo $notificacion['titulo'] ?></a>
+                                            </h2>
+                                            <div class="byline">
+                                                <span><?php echo $notificacion['creado'] ?></span> por
+                                                <a><?php echo $notificacion['usuario'] ?></a>
+                                            </div>
+                                            <p class="excerpt"><?php echo $notificacion['descripcion'] ?>
+                                                <a href="<?= Url::to(['/proforma/index']); ?>"> Leer más</a>
+                                            </p>
                                         </div>
-                                        <p class="excerpt">Film festivals used to be do-or-die moments for movie
-                                            makers. They were where you met the producers that could fund your
-                                            project, and if the buyers liked your flick, they’d pay to
-                                            Fast-forward and… <a>Read&nbsp;More</a>
-                                        </p>
                                     </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="block">
-                                    <div class="block_content">
-                                        <h2 class="title">
-                                            <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                        </h2>
-                                        <div class="byline">
-                                            <span>13 hours ago</span> by <a>Jane Smith</a>
-                                        </div>
-                                        <p class="excerpt">Film festivals used to be do-or-die moments for movie
-                                            makers. They were where you met the producers that could fund your
-                                            project, and if the buyers liked your flick, they’d pay to
-                                            Fast-forward and… <a>Read&nbsp;More</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="block">
-                                    <div class="block_content">
-                                        <h2 class="title">
-                                            <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                        </h2>
-                                        <div class="byline">
-                                            <span>13 hours ago</span> by <a>Jane Smith</a>
-                                        </div>
-                                        <p class="excerpt">Film festivals used to be do-or-die moments for movie
-                                            makers. They were where you met the producers that could fund your
-                                            project, and if the buyers liked your flick, they’d pay to
-                                            Fast-forward and… <a>Read&nbsp;More</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="block">
-                                    <div class="block_content">
-                                        <h2 class="title">
-                                            <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                        </h2>
-                                        <div class="byline">
-                                            <span>13 hours ago</span> by <a>Jane Smith</a>
-                                        </div>
-                                        <p class="excerpt">Film festivals used to be do-or-die moments for movie
-                                            makers. They were where you met the producers that could fund your
-                                            project, and if the buyers liked your flick, they’d pay to
-                                            Fast-forward and… <a>Read&nbsp;More</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>

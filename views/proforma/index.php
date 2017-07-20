@@ -20,13 +20,6 @@ $proforma = new Proforma();
     <div class="clearfix"></div>
     <div class="x_panel">
         <div class="x_content">
-            <?php //$form = ActiveForm::begin(
-            //    [
-            //        'id' => 'listaProforma',
-            //        'action' => ['proceso'],
-            //        'method' => 'post',
-            //    ]
-            //); ?>
             <?php Pjax::begin([
                 'timeout' => false,
                 'enablePushState' => false,
@@ -43,14 +36,7 @@ $proforma = new Proforma();
                             'dataProvider' => $dataProvider,
                             'filterModel' => $searchModel,
                             'columns' => [
-                                [
-                                    'class' => 'yii\grid\CheckboxColumn',
-                                    //'checkboxOptions' => function ($model, $key, $index, $column) {
-                                    'checkboxOptions' => function ($model) {
-                                        return ['value' => $model->id, 'id' => $model->id];
-                                    },
-                                ],
-                                //['class' => 'yii\grid\SerialColumn'],
+                                ['class' => 'yii\grid\SerialColumn'],
                                 'num_proforma',
                                 [
                                     'attribute' => 'fecha_ingreso',
@@ -95,7 +81,7 @@ $proforma = new Proforma();
                                         if (empty($data->monto_total)) {
                                             return 'S/. 0.00';
                                         } else {
-                                            return 'S/. '.$data->monto_total;
+                                            return 'S/. ' . $data->monto_total;
                                         }
                                     },
                                 ],
@@ -128,7 +114,7 @@ $proforma = new Proforma();
                                                 ['eliminar-usuario/' . $model['id']], [
                                                     'title' => Yii::t('app', 'Eliminar'),
                                                     'data-confirm' => Yii::t('app',
-                                                        '¿Esta Seguro de eliminar esta proforma??'),
+                                                        '¿Esta Seguro de eliminar esta Proforma?'),
                                                     'data-method' => 'post',
                                                 ]);
                                         },
@@ -137,19 +123,15 @@ $proforma = new Proforma();
                             ],
                         ]); ?>
                     </div>
-
                     <div class="panel-footer container-fluid">
                         <div class="col-sm-12">
                             <?= Html::a('<i class="fa fa-refresh" aria-hidden="true"></i> Refrescar', ['index'],
                                 ['class' => 'btn btn-primary']) ?>
-                            <?= Html::submitButton('Ejecutar', ['class' => 'btn btn-success']) ?>
                         </div>
                     </div>
-                    <?php Pjax::end() ?>
-                    <?php //ActiveForm::end(); ?>
                 </div>
+                <?php Pjax::end(); ?>
             </div>
         </div>
     </div>
 </div>
-

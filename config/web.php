@@ -92,7 +92,7 @@ $config = [
                 ['pattern' => '/nuevo-usuario', 'route' => '/user/create', 'suffix' => '.php'],
                 ['pattern' => '/lista-usuario', 'route' => '/user/index', 'suffix' => '.php'],
                 ['pattern' => '/actualizar-usuario/<id:\d+>', 'route' => '/user/update'],
-                ['pattern' => '/actualizar-usuario/<id:\d+>', 'route' => '/user/update'],
+                ['pattern' => '/eliminar-usuario/<id:\d+>', 'route' => '/user/delete'],
                 ['pattern' => '/actualizar/datos/<id:\d+>', 'route' => '/user/change'],
 
                 /**Proforma**/

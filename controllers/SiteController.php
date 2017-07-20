@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Notificaciones;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -59,7 +60,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $remember = new Notificaciones();
+        $notificaciones = $remember->notificaciones();
+
+        return $this->render('index', ['notificaciones' => $notificaciones]);
     }
 
     /**

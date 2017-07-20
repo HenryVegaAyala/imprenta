@@ -1,6 +1,5 @@
 <?php
 
-use app\models\ProformaDetalle;
 use kartik\widgets\DatePicker;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\helpers\Html;
@@ -8,9 +7,10 @@ use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Proforma */
+/* @var $modelProforma app\models\Proforma */
+/* @var $modelsProformaDetalle app\models\ProformaDetalle */
 /* @var $form yii\widgets\ActiveForm */
-$descripcion = "Actualizar Proforma";
+$descripcion = "Registrar Proforma";
 ?>
 
 <div class="clearfix"></div>
@@ -18,12 +18,13 @@ $descripcion = "Actualizar Proforma";
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_content">
-                <?php Pjax::begin(); ?>
+                <?php //Pjax::begin(); ?>
                 <?php $form = ActiveForm::begin(
                     [
                         'id' => 'dynamic-form',
                         'enableAjaxValidation' => false,
                         'enableClientValidation' => true,
+                        'validateOnChange' => false,
                         'method' => 'post',
                         'options' => [
                             'class' => 'form-horizontal form-label-left',
@@ -35,14 +36,14 @@ $descripcion = "Actualizar Proforma";
                 <div class="row">
                     <div class="item form-group">
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'num_proforma')->textInput(
+                            <?= $form->field($modelProforma, 'num_proforma')->textInput(
                                 ['maxlength' => 12],
                                 ['class' => 'form-control col-md-7 col-xs-12']
                             ) ?>
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'fecha_ingreso')->widget(DatePicker::classname(), [
+                            <?= $form->field($modelProforma, 'fecha_ingreso')->widget(DatePicker::classname(), [
                                 'options' => ['placeholder' => ''],
                                 'value' => date('d-M-Y'),
                                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -57,7 +58,7 @@ $descripcion = "Actualizar Proforma";
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'fecha_envio')->widget(DatePicker::classname(), [
+                            <?= $form->field($modelProforma, 'fecha_envio')->widget(DatePicker::classname(), [
                                 'options' => ['placeholder' => ''],
                                 'value' => date('d-M-Y'),
                                 'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -72,12 +73,37 @@ $descripcion = "Actualizar Proforma";
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($model, 'client')->dropDownList($model->getListCliente(), [
+                            <?= $form->field($modelProforma, 'client')->dropDownList($modelProforma->getListCliente(), [
                                 'prompt' => 'Seleccionar Cliente',
                                 'class' => 'form-control col-md-7 col-xs-12',
+                                'onchange' => "dataCliente(this.value);",
                             ]) ?>
                         </div>
+                    </div>
 
+                    <div class="container-fluid" id="contenedorCliente">
+                        <legend>Datos del Cliente</legend>
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-6 col-md-3">
+                                <label>Nombre de la Compañia</label>
+                                <input type="text" id="nameCompany" class="form-control input-sm text-border"/>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-3">
+                                <label>N° de RUC</label>
+                                <input type="text" id="ruc" class="form-control input-sm text-border"/>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-3">
+                                <label>Razón Social</label>
+                                <input type="text" id="businessName" class="form-control input-sm text-border"/>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-3">
+                                <label>Dirección Fiscal</label>
+                                <input type="text" id="fiscalAddress" class="form-control input-sm text-border"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid" id="line">
+                        <legend></legend>
                     </div>
                 </div>
 
@@ -86,8 +112,8 @@ $descripcion = "Actualizar Proforma";
                         <?php DynamicFormWidget::begin([
                             'widgetContainer' => 'dynamicform_wrapper',
                             'widgetBody' => '.container-items',
-                            'widgetItem' => '.item', // required: css class
-                            'limit' => 200,
+                            'widgetItem' => '.item',
+                            'limit' => 50,
                             'min' => 0,
                             'insertButton' => '.add-item',
                             'deleteButton' => '.remove-item',
@@ -97,17 +123,26 @@ $descripcion = "Actualizar Proforma";
                                 'cantidad',
                                 'descripcion',
                                 'precio',
+                                'total',
                             ],
                         ]); ?>
+
                         <div class="container-items">
+                            <table class="table table-bordered table-striped table-responsive">
+                                <th class="col-sm-2">Cantidad</th>
+                                <th class="col-sm-5">Descripción</th>
+                                <th class="col-sm-2">Precio</th>
+                                <th class="col-sm-2">Total</th>
+                                <th class="col-sm-1">
+                                    <div class="text-center" style="width: 90px;">
+                                        <button type="button" id="addItem"
+                                                class="pull-center add-item btn btn-success btn-xs">
+                                            <span class="fa fa-plus"> <strong>Agregar</strong></span>
+                                        </button>
+                                    </div>
+                                </th>
+                            </table>
                             <?php foreach ($modelsProformaDetalle as $i => $modelProformaDetalle) { ?>
-
-                                <div class="container">
-                                    <button type="button" class="pull-left add-item btn btn-success btn-default">
-                                        <i class="fa fa-plus"></i> Agregar Producto
-                                    </button>
-                                </div>
-
                                 <div class="item">
                                     <div class="pull-right"></div>
                                     <div class="clearfix"></div>
@@ -117,11 +152,14 @@ $descripcion = "Actualizar Proforma";
                                     }
                                     ?>
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2">
                                             <?= $form->field($modelProformaDetalle,
                                                 "[{$i}]cantidad")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Cantidad',
+                                                'onchange' => 'calcular()',
+                                                'onkeyup' => 'calcular()',
+                                                'name' => 'cantidad[]',
                                             ])->label(false) ?>
                                         </div>
 
@@ -130,22 +168,39 @@ $descripcion = "Actualizar Proforma";
                                                 "[{$i}]descripcion")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Descripción',
+                                                'name' => 'descripcion[]',
                                             ])->label(false) ?>
                                         </div>
 
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2">
                                             <?= $form->field($modelProformaDetalle,
                                                 "[{$i}]precio")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Precio',
+                                                'onchange' => 'calcular()',
+                                                'onkeyup' => 'calcular()',
+                                                'onkeypress' => 'addField()',
+                                                'name' => 'precio[]',
                                             ])->label(false) ?>
                                         </div>
+
+                                        <div class="col-sm-2">
+                                            <?= $form->field($modelProformaDetalle,
+                                                "[{$i}]total")->textInput([
+                                                'maxlength' => true,
+                                                'readonly' => true,
+                                                'placeholder' => 'Total',
+                                                'name' => 'total[]',
+                                            ])->label(false) ?>
+                                        </div>
+
                                         <div class="col-sm-1">
-                                            <center>
-                                                <button type="button" class="remove-item btn btn-danger btn-xs">
+                                            <div class="text-center" style="width: 90px;">
+                                                <button type="button"
+                                                        class="pull-center remove-item btn btn-danger btn-xs">
                                                     <i class="glyphicon glyphicon-minus"></i>
                                                 </button>
-                                            </center>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -155,16 +210,46 @@ $descripcion = "Actualizar Proforma";
                         <?php DynamicFormWidget::end(); ?>
                     </div>
                 </div>
+
+                <div class="col-md-3 col-sm-12 col-xs-12" style="float: right">
+                    <label class="control-label col-md-3 col-sm-6 col-xs-6">SubTotal</label>
+                    <div class="col-md-9 col-sm-6 col-xs-12">
+                        <?= $form->field($modelProforma, 'monto_subtotal')->textInput(
+                            [
+                                'placeholder' => 'SubTotal',
+                                'class' => 'form-control col-md-6 col-xs-6 text-border-total',
+                            ]
+                        )->label(false) ?>
+                    </div>
+
+                    <label class="control-label col-md-3 col-sm-6 col-xs-6">I.G.V.</label>
+                    <div class="col-md-9 col-sm-6 col-xs-12">
+                        <?= $form->field($modelProforma, 'monto_igv')->textInput(
+                            ['placeholder' => 'I.G.V', 'class' => 'form-control col-md-6 col-xs-6 text-border-total']
+                        )->label(false) ?>
+                    </div>
+
+                    <label class="control-label col-md-3 col-sm-6 col-xs-6">Total</label>
+                    <div class="col-md-9 col-sm-6 col-xs-12">
+                        <?= $form->field($modelProforma, 'monto_total')->textInput(
+                            ['placeholder' => 'Total', 'class' => 'form-control col-md-6 col-xs-6 text-border-total']
+                        )->label(false) ?>
+                    </div>
+                </div>
             </div>
             <div class="ln_solid"></div>
             <div class="form-group">
-                <div class="col-md-6 col-md-offset-3">
-                    <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
-                    <?= Html::a('Cancelar', ['index'], ['class' => 'btn btn-primary']) ?>
-                </div>
+                <center>
+                    <div class="col-md-6 col-md-offset-3">
+                        <?= Html::submitButton('<i class="fa fa-floppy-o fa-lg"></i> ' . ' Guardar',
+                            ['class' => 'btn btn-success']) ?>
+                        <?= Html::resetButton('<i class="fa fa-times fa-lg"></i> ' . ' Cancelar',
+                            ['class' => 'btn btn-primary', 'id' => 'cancelar']) ?>
+                    </div>
+                </center>
             </div>
-            <?php ActiveForm::end(); ?>
-            <?php Pjax::end(); ?>
         </div>
+        <?php ActiveForm::end(); ?>
+        <?php //Pjax::end(); ?>
     </div>
 </div>

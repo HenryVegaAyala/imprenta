@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Cliente;
+use app\models\Notificaciones;
 use app\models\ProformaDetalle;
 use Yii;
 use app\models\Proforma;
@@ -54,12 +56,13 @@ class ProformaController extends Controller
     {
         $model = new Proforma();
         $modelsProformaDetalle = [new ProformaDetalle];
+        $notificaciones = new Notificaciones();
+        $cliente = new Cliente();
 
         if ($model->load(Yii::$app->request->post())) {
             $requestDayStart = Yii::$app->formatter->asDate(strtotime($model->fecha_ingreso), 'Y-MM-dd');
             $requestDaySend = Yii::$app->formatter->asDate(strtotime($model->fecha_envio), 'Y-MM-dd');
             $model->id = $model->getIdTable();
-            $model->monto_subtotal = number_format($model->monto_subtotal, 2);
             $model->fecha_ingreso = $requestDayStart;
             $model->fecha_envio = $requestDaySend;
             $model->usuario_digitado = Yii::$app->user->identity->correo;
@@ -69,11 +72,17 @@ class ProformaController extends Controller
             $model->estado = true;
             $model->save();
 
+            $notificaciones->titulo = 'Nueva Proforma Solicitada';
+            $notificaciones->descripcion = 'Se ha creó una Profoma para el Cliente ' . $cliente->infoCliente($model->client);
+            $notificaciones->creado = $this->zonaHoraria();
+            $notificaciones->usuario = Yii::$app->user->identity->nombre . ' ' . Yii::$app->user->identity->apellido;
+            $notificaciones->estado = true;
+            $notificaciones->save();
+
             $countProducts = count($_POST['cantidad']);
             $cantidad = $_POST['cantidad'];
             $descripcion = $_POST['descripcion'];
             $precio = $_POST['precio'];
-            $total = $_POST['total'];
 
             for ($i = 0; $i < $countProducts; $i++) {
                 if ($descripcion[$i] <> '') {
@@ -95,9 +104,9 @@ class ProformaController extends Controller
                                 $cantidad[$i],
                                 $descripcion[$i],
                                 $precio[$i],
-                                number_format((($cantidad[$i] * $precio[$i]) * 0.18), 2),
-                                number_format((($cantidad[$i] * $precio[$i])) - (($cantidad[$i] * $precio[$i]) * 0.18), 2),
-                                number_format((($cantidad[$i] * $precio[$i])), 2),
+                                (($cantidad[$i] * $precio[$i]) * 0.18),
+                                (($cantidad[$i] * $precio[$i])) - (($cantidad[$i] * $precio[$i]) * 0.18),
+                                (($cantidad[$i] * $precio[$i])),
                                 $this->zonaHoraria(),
                                 Yii::$app->user->identity->correo,
                             ],
@@ -105,6 +114,7 @@ class ProformaController extends Controller
                     )->execute();
                 }
             }
+            $this->notification(4, $model->num_proforma);
 
             return $this->redirect(['index']);
         } else {
@@ -199,19 +209,24 @@ class ProformaController extends Controller
     {
         switch ($estado) {
             case 1:
+                $title = 'Nueva Proforma Registrada';
+                $message = 'Se ha registrado la Proforma N° - ' . $proforma . ' correctamente.';
                 $type = 'success';
-                $message = 'Se ha registrado la Proforma N° - ' . $proforma . ' satisfactoriamente.';
-                $title = 'Usuario Nuevo';
                 break;
             case 2:
+                $title = 'Proforma Actualizado';
+                $message = 'Se ha actualizado la Proforma N° - ' . $proforma . ' correctamente.';
                 $type = 'success';
-                $message = 'Se ha actualizado la Proforma N° - ' . $proforma . ' satisfactoriamente.';
-                $title = 'Usuario Actualizado';
                 break;
             case 3:
+                $title = 'Proforma Eliminada';
+                $message = 'Se ha eliminado la Proforma N° - ' . $proforma . ' correctamente.';
                 $type = 'success';
-                $message = 'Se ha eliminado satisfactoriamente este usuario.';
-                $title = 'Usuario Eliminado';
+                break;
+            case 4:
+                $title = 'Envío de Proforma al correo';
+                $message = 'Se envió correctamente la proforma al correo del Cliente.';
+                $type = 'info';
                 break;
         }
 
