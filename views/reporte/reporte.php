@@ -1,11 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: hpveg
- * Date: 9/07/2017
- * Time: 10:41 PM
- */
+
+/* @var $this yii\web\View */
+/* @var $model app\models\Reporte */
+
+$this->title = 'Branusac - Reporte';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="right_col" role="main">
-
+    <?= $this->render('_reporte', [
+        'model' => $model,
+    ]) ?>
 </div>

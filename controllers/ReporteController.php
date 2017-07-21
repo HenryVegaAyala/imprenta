@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Reporte;
+use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 
@@ -29,6 +31,14 @@ class ReporteController extends Controller
 
     public function actionReporte()
     {
-        return $this->render('reporte');
+        $model = new Reporte();
+        if ($model->load(Yii::$app->request->post())) {
+
+            return $this->redirect('reporte_pdf');
+        } else {
+            return $this->render('reporte', [
+                'model' => $model,
+            ]);
+        }
     }
 }

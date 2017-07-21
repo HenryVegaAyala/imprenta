@@ -41,7 +41,7 @@ $descripcion = "Registrar Factura";
                             ?>
                         </div>
 
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
                             <?= $form->field($model, 'fecha_pago')->widget(DatePicker::classname(), [
                                 'options' => ['placeholder' => ''],
                                 'value' => date('d-M-Y'),
@@ -55,10 +55,11 @@ $descripcion = "Registrar Factura";
                             ]);
                             ?>
                         </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
                             <?= $form->field($model, 'client')->dropDownList($model->getListCliente(), [
                                 'prompt' => 'Seleccionar Cliente',
                                 'class' => 'form-control col-md-7 col-xs-12',
+                                'onchange' => "dataCliente(this.value);",
                             ]) ?>
                         </div>
                     </div>
@@ -99,7 +100,7 @@ $descripcion = "Registrar Factura";
                             'min' => 0,
                             'insertButton' => '.add-item',
                             'deleteButton' => '.remove-item',
-                            'model' => $models[0],
+                            'model' => $modelsFacturaDetalle[0],
                             'formId' => 'dynamic-form',
                             'formFields' => [
                                 'cantidad',
@@ -124,18 +125,18 @@ $descripcion = "Registrar Factura";
                                     </div>
                                 </th>
                             </table>
-                            <?php foreach ($modelsProformaDetalle as $i => $modelProformaDetalle) { ?>
+                            <?php foreach ($modelsFacturaDetalle as $i => $modelDetalle) { ?>
                                 <div class="item">
                                     <div class="pull-right"></div>
                                     <div class="clearfix"></div>
                                     <?php
-                                    if (!$modelProformaDetalle->isNewRecord) {
-                                        echo Html::activeHiddenInput($modelProformaDetalle, "[{$i}]id");
+                                    if (!$modelDetalle->isNewRecord) {
+                                        echo Html::activeHiddenInput($modelDetalle, "[{$i}]id");
                                     }
                                     ?>
                                     <div class="row">
                                         <div class="col-sm-2">
-                                            <?= $form->field($modelProformaDetalle,
+                                            <?= $form->field($modelDetalle,
                                                 "[{$i}]cantidad")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Cantidad',
@@ -146,7 +147,7 @@ $descripcion = "Registrar Factura";
                                         </div>
 
                                         <div class="col-sm-5">
-                                            <?= $form->field($modelProformaDetalle,
+                                            <?= $form->field($modelDetalle,
                                                 "[{$i}]descripcion")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Descripción',
@@ -155,7 +156,7 @@ $descripcion = "Registrar Factura";
                                         </div>
 
                                         <div class="col-sm-2">
-                                            <?= $form->field($modelProformaDetalle,
+                                            <?= $form->field($modelDetalle,
                                                 "[{$i}]precio")->textInput([
                                                 'maxlength' => true,
                                                 'placeholder' => 'Precio',
@@ -167,7 +168,7 @@ $descripcion = "Registrar Factura";
                                         </div>
 
                                         <div class="col-sm-2">
-                                            <?= $form->field($modelProformaDetalle,
+                                            <?= $form->field($modelDetalle,
                                                 "[{$i}]total")->textInput([
                                                 'maxlength' => true,
                                                 'readonly' => true,
@@ -196,7 +197,7 @@ $descripcion = "Registrar Factura";
                 <div class="col-md-3 col-sm-12 col-xs-12" style="float: right">
                     <label class="control-label col-md-3 col-sm-6 col-xs-6">SubTotal</label>
                     <div class="col-md-9 col-sm-6 col-xs-12">
-                        <?= $form->field($modelProforma, 'monto_subtotal')->textInput(
+                        <?= $form->field($model, 'monto_subtotal')->textInput(
                             [
                                 'placeholder' => 'SubTotal',
                                 'class' => 'form-control col-md-6 col-xs-6 text-border-total',
@@ -206,14 +207,14 @@ $descripcion = "Registrar Factura";
 
                     <label class="control-label col-md-3 col-sm-6 col-xs-6">I.G.V.</label>
                     <div class="col-md-9 col-sm-6 col-xs-12">
-                        <?= $form->field($modelProforma, 'monto_igv')->textInput(
+                        <?= $form->field($model, 'monto_igv')->textInput(
                             ['placeholder' => 'I.G.V', 'class' => 'form-control col-md-6 col-xs-6 text-border-total']
                         )->label(false) ?>
                     </div>
 
                     <label class="control-label col-md-3 col-sm-6 col-xs-6">Total</label>
                     <div class="col-md-9 col-sm-6 col-xs-12">
-                        <?= $form->field($modelProforma, 'monto_total')->textInput(
+                        <?= $form->field($model, 'monto_total')->textInput(
                             ['placeholder' => 'Total', 'class' => 'form-control col-md-6 col-xs-6 text-border-total']
                         )->label(false) ?>
                     </div>

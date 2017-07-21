@@ -2,7 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\Cliente;
 use app\models\FacturaDetalle;
+use app\models\Notificaciones;
+use app\models\ProformaDetalle;
+use app\models\Transaccion;
 use Yii;
 use app\models\Factura;
 use app\models\FacturaSearch;
@@ -53,17 +57,78 @@ class FacturaController extends Controller
     public function actionCreate()
     {
         $model = new Factura();
+        $modelsProformaDetalle = [new FacturaDetalle];
+        $notificaciones = new Notificaciones();
+        $cliente = new Cliente();
+        $transacion = new Transaccion();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->fecha_pago = Yii::$app->formatter->asDate(strtotime($model->fecha_pago), 'Y-MM-dd');
+            $requestDayStart = Yii::$app->formatter->asDate(strtotime($model->fecha_ingreso), 'Y-MM-dd');
+            $requestDaySend = Yii::$app->formatter->asDate(strtotime($model->fecha_envio), 'Y-MM-dd');
+            $model->id = $model->getIdTable();
+            $model->fecha_ingreso = $requestDayStart;
+            $model->fecha_envio = $requestDaySend;
+            $model->usuario_digitado = Yii::$app->user->identity->correo;
+            $model->fecha_digitada = $this->zonaHoraria();
+            $model->ip = Yii::$app->request->userIP;
+            $model->host = strval(php_uname());
+            $model->estado = true;
             $model->save();
-            DynamicRelations::relate($model, 'facturaDetalles', Yii::$app->request->post(), 'FacturaDetalle',
-                FacturaDetalle::className());
+
+            $notificaciones->titulo = 'Nueva Proforma Solicitada';
+            $notificaciones->descripcion = 'Se ha creó una Profoma para el Cliente ' . $cliente->infoCliente($model->client);
+            $notificaciones->creado = $this->zonaHoraria();
+            $notificaciones->usuario = Yii::$app->user->identity->nombre . ' ' . Yii::$app->user->identity->apellido;
+            $notificaciones->estado = true;
+            $notificaciones->save();
+
+            $transacion->proforma_id = $model->id;
+            $transacion->cliente_id = $model->client;
+            $transacion->estado = true;
+            $transacion->save();
+
+            $countProducts = count($_POST['cantidad']);
+            $cantidad = $_POST['cantidad'];
+            $descripcion = $_POST['descripcion'];
+            $precio = $_POST['precio'];
+
+            for ($i = 0; $i < $countProducts; $i++) {
+                if ($descripcion[$i] <> '') {
+                    Yii::$app->db->createCommand()->batchInsert('proforma_detalle',
+                        [
+                            'proforma_id',
+                            'cantidad',
+                            'descripcion',
+                            'precio',
+                            'monto_subtotal',
+                            'monto_igv',
+                            'monto_total',
+                            'fecha_digitada',
+                            'usuario_digitado',
+                        ],
+                        [
+                            [
+                                $model->id,
+                                $cantidad[$i],
+                                $descripcion[$i],
+                                $precio[$i],
+                                (($cantidad[$i] * $precio[$i]) * 0.18),
+                                (($cantidad[$i] * $precio[$i])) - (($cantidad[$i] * $precio[$i]) * 0.18),
+                                (($cantidad[$i] * $precio[$i])),
+                                $this->zonaHoraria(),
+                                Yii::$app->user->identity->correo,
+                            ],
+                        ]
+                    )->execute();
+                }
+            }
+            $this->notification(1, $model->num_proforma);
 
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'modelProforma' => $model,
+                'modelsProformaDetalle' => (empty($modelsProformaDetalle)) ? [new ProformaDetalle] : $modelsProformaDetalle,
             ]);
         }
     }
