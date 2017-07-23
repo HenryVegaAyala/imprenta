@@ -5,7 +5,6 @@ namespace app\controllers;
 use app\models\Cliente;
 use app\models\Notificaciones;
 use app\models\ProformaDetalle;
-use app\models\Transaccion;
 use Yii;
 use app\models\Proforma;
 use app\models\ProformaSearch;
@@ -46,7 +45,7 @@ class ProformaController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }/** @noinspection PhpInconsistentReturnPointsInspection */
+    }
 
     /**
      * Creates a new Proforma model.
@@ -59,7 +58,6 @@ class ProformaController extends Controller
         $modelsProformaDetalle = [new ProformaDetalle];
         $notificaciones = new Notificaciones();
         $cliente = new Cliente();
-        $transacion = new Transaccion();
 
         if ($model->load(Yii::$app->request->post())) {
             $requestDayStart = Yii::$app->formatter->asDate(strtotime($model->fecha_ingreso), 'Y-MM-dd');
@@ -75,16 +73,11 @@ class ProformaController extends Controller
             $model->save();
 
             $notificaciones->titulo = 'Nueva Proforma Solicitada';
-            $notificaciones->descripcion = 'Se ha creó una Profoma para el Cliente ' . $cliente->infoCliente($model->client);
+            $notificaciones->descripcion = 'Se ha creó una Profoma para el Cliente ' . $cliente->infoCliente($model->cliente_id);
             $notificaciones->creado = $this->zonaHoraria();
             $notificaciones->usuario = Yii::$app->user->identity->nombre . ' ' . Yii::$app->user->identity->apellido;
             $notificaciones->estado = true;
             $notificaciones->save();
-
-            $transacion->proforma_id = $model->id;
-            $transacion->cliente_id = $model->client;
-            $transacion->estado = true;
-            $transacion->save();
 
             $countProducts = count($_POST['cantidad']);
             $cantidad = $_POST['cantidad'];
@@ -140,17 +133,13 @@ class ProformaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $modelProforma = $this->findModel($id);
+        $model = $this->findModel($id);
 
-        if ($modelProforma->load(Yii::$app->request->post())) {
-            $modelProforma->save();
-            $this->notification(2, $modelProforma->num_proforma);
-
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'modelProforma' => $modelProforma,
-                'modelsProformaDetalle' => (empty($modelsProformaDetalle)) ? [new ProformaDetalle] : $modelsProformaDetalle,
+                'model' => $model,
             ]);
         }
     }
@@ -172,24 +161,12 @@ class ProformaController extends Controller
      * Finds the Proforma model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Proforma|array|\yii\db\ActiveRecord
+     * @return Proforma the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        $model = Proforma::find()
-            ->select([
-                'proforma.id AS id',
-                'num_proforma',
-                'fecha_ingreso',
-                'fecha_envio',
-                'cliente_id AS client',
-                'proforma.estado AS estado',
-            ])
-            ->leftJoin('transaccion', 'transaccion.proforma_id = proforma.id')
-            ->where(['proforma.id' => $id])
-            ->one();
-        if (($model) !== null) {
+        if (($model = Proforma::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -238,23 +215,20 @@ class ProformaController extends Controller
                 break;
         }
 
-        if (isset($type)) {
-            if (isset($message)) {
-                if (isset($title)) {
-                    /** @noinspection PhpVoidFunctionResultUsedInspection */
-                    $notification = Yii::$app->getSession()->setFlash('success', [
-                        'type' => $type,
-                        'duration' => 6000,
-                        'icon' => 'fa fa-users',
-                        'message' => $message,
-                        'title' => $title,
-                        'positonY' => 'top',
-                        'positonX' => 'right',
-                    ]);
+        if (!empty($type) && !empty($message) && !empty($title)) {
+            $notification = Yii::$app->getSession()->setFlash('success', [
+                'type' => $type,
+                'duration' => 6000,
+                'icon' => 'fa fa-users',
+                'message' => $message,
+                'title' => $title,
+                'positonY' => 'top',
+                'positonX' => 'right',
+            ]);
+        }
 
-                    return $notification;
-                }
-            }
+        if (!empty($notification)) {
+            return $notification;
         }
     }
 

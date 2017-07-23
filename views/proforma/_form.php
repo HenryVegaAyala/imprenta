@@ -73,7 +73,7 @@ $descripcion = "Registrar Proforma";
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($modelProforma, 'client')->dropDownList($modelProforma->getListCliente(), [
+                            <?= $form->field($modelProforma, 'cliente_id')->dropDownList($modelProforma->getListCliente(), [
                                 'prompt' => 'Seleccionar Cliente',
                                 'class' => 'form-control col-md-7 col-xs-12',
                                 'onchange' => "dataCliente(this.value);",

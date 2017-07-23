@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "proforma".
  *
  * @property integer $id
+ * @property integer $cliente_id
  * @property string $num_proforma
  * @property string $fecha_ingreso
  * @property string $fecha_envio
@@ -27,16 +28,14 @@ use yii\helpers\ArrayHelper;
  * @property string $host
  * @property integer $estado
  *
- * @property ProformaDetalle[] $proformaDetalles
+ * @property Factura[] $facturas
+ * @property Cliente $cliente
  * @property array $listCliente
  * @property null|string|false $idTable
- * @property Transaccion[] $transaccions
+ * @property ProformaDetalle[] $proformaDetalles
  */
 class Proforma extends ActiveRecord
 {
-
-    public $client;
-
     /**
      * @inheritdoc
      */
@@ -51,14 +50,32 @@ class Proforma extends ActiveRecord
     public function rules()
     {
         return [
+            [['cliente_id', 'estado'], 'integer'],
             [['fecha_ingreso', 'fecha_envio', 'fecha_digitada', 'fecha_modificada', 'fecha_eliminada'], 'safe'],
             [['monto_subtotal', 'monto_igv', 'monto_total'], 'number'],
-            [['estado'], 'integer'],
             [['num_proforma'], 'string', 'max' => 12],
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
             [['ip'], 'string', 'max' => 30],
             [['host'], 'string', 'max' => 150],
-            [['fecha_ingreso', 'fecha_envio', 'num_proforma', 'client', 'monto_subtotal', 'monto_igv', 'monto_total'], 'required'],
+            [
+                ['cliente_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Cliente::className(),
+                'targetAttribute' => ['cliente_id' => 'id'],
+            ],
+            [
+                [
+                    'fecha_ingreso',
+                    'fecha_envio',
+                    'num_proforma',
+                    'cliente_id',
+                    'monto_subtotal',
+                    'monto_igv',
+                    'monto_total',
+                ],
+                'required',
+            ],
             ['num_proforma', 'match', 'pattern' => "/^.{1,12}$/", 'message' => 'Mínimo un dígito en la proforma.'],
         ];
     }
@@ -70,12 +87,13 @@ class Proforma extends ActiveRecord
     {
         return [
             'id' => 'ID',
+            'cliente_id' => 'Cliente',
             'num_proforma' => 'Número de Proforma',
             'fecha_ingreso' => 'Fecha de Ingreso',
             'fecha_envio' => 'Fecha de Envio',
             'monto_subtotal' => 'Subtotal',
             'monto_igv' => 'I.G.V',
-            'monto_total' => 'Monto Total',
+            'monto_total' => 'Total',
             'fecha_digitada' => 'Fecha Digitada',
             'fecha_modificada' => 'Fecha Modificada',
             'fecha_eliminada' => 'Fecha Eliminada',
@@ -85,8 +103,23 @@ class Proforma extends ActiveRecord
             'ip' => 'Ip',
             'host' => 'Host',
             'estado' => 'Estado',
-            'client' => 'Cliente',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFacturas()
+    {
+        return $this->hasMany(Factura::className(), ['proforma_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCliente()
+    {
+        return $this->hasOne(Cliente::className(), ['id' => 'cliente_id']);
     }
 
     /**
@@ -95,14 +128,6 @@ class Proforma extends ActiveRecord
     public function getProformaDetalles()
     {
         return $this->hasMany(ProformaDetalle::className(), ['proforma_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTransaccions()
-    {
-        return $this->hasMany(Transaccion::className(), ['proforma_id' => 'id']);
     }
 
     /**
@@ -132,7 +157,7 @@ class Proforma extends ActiveRecord
         $value = $command->queryScalar();
 
         return $value;
-    }/** @noinspection PhpInconsistentReturnPointsInspection */
+    }
 
     /**
      * @param $status

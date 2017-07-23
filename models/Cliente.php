@@ -90,24 +90,15 @@ class Cliente extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTransaccions()
-    {
-        return $this->hasMany(Transaccion::className(), ['cliente_id' => 'id']);
-    }
-
-    /**
      * @param $id
      * @return false|null|string
      */
     public function infoCliente($id)
     {
         $query = new Query();
-        $query->select('*')->from('cliente')->where("id ='" . $id . "'")->limit(1);
+        $query->select('desc_cliente')->from('cliente')->where("id ='" . $id . "'");
         $command = $query->createCommand();
-        $data = $command->queryAll();
-
+        $data = $command->queryScalar();
         return $data;
     }
 }
