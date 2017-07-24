@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 use yii\db\Query;
 
 /**
@@ -15,7 +16,7 @@ use yii\db\Query;
  * @property string $usuario
  * @property integer $estado
  */
-class Notificaciones extends \yii\db\ActiveRecord
+class Notificaciones extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -53,6 +54,9 @@ class Notificaciones extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return array
+     */
     public function notificaciones()
     {
         $query = new Query();

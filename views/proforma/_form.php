@@ -37,8 +37,13 @@ $descripcion = "Registrar Proforma";
                     <div class="item form-group">
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <?= $form->field($modelProforma, 'num_proforma')->textInput(
-                                ['maxlength' => 12],
-                                ['class' => 'form-control col-md-7 col-xs-12']
+                                [
+                                    'maxlength' => 12,
+                                    'onkeyup' => "validateProforma(this.value);",
+                                ],
+                                [
+                                    'class' => 'form-control col-md-7 col-xs-12',
+                                ]
                             ) ?>
                         </div>
 
@@ -73,7 +78,8 @@ $descripcion = "Registrar Proforma";
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <?= $form->field($modelProforma, 'cliente_id')->dropDownList($modelProforma->getListCliente(), [
+                            <?= $form->field($modelProforma,
+                                'cliente_id')->dropDownList($modelProforma->getListCliente(), [
                                 'prompt' => 'Seleccionar Cliente',
                                 'class' => 'form-control col-md-7 col-xs-12',
                                 'onchange' => "dataCliente(this.value);",
@@ -242,9 +248,9 @@ $descripcion = "Registrar Proforma";
                 <center>
                     <div class="col-md-6 col-md-offset-3">
                         <?= Html::submitButton('<i class="fa fa-floppy-o fa-lg"></i> ' . ' Guardar',
-                            ['class' => 'btn btn-success']) ?>
+                            ['class' => 'btn btn-success', 'id' => 'btnGuardarProforma']) ?>
                         <?= Html::resetButton('<i class="fa fa-times fa-lg"></i> ' . ' Cancelar',
-                            ['class' => 'btn btn-primary', 'id' => 'cancelar']) ?>
+                            ['class' => 'btn btn-primary', 'id' => 'cancelar', 'onclick' => "inactiveProforma()",]) ?>
                     </div>
                 </center>
             </div>

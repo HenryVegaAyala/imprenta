@@ -33,7 +33,6 @@ class ReporteController extends Controller
     {
         $model = new Reporte();
         if ($model->load(Yii::$app->request->post())) {
-
             return $this->redirect('reporte_pdf');
         } else {
             return $this->render('reporte', [

@@ -187,7 +187,7 @@ class UserController extends Controller
         date_default_timezone_set('America/Lima');
 
         return date('Y-m-d h:i:s', time());
-    }
+    }/** @noinspection PhpInconsistentReturnPointsInspection */
 
     /**
      * @param $estado

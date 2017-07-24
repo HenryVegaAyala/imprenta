@@ -1,5 +1,6 @@
 $("#contenedorCliente").hide();
 $("#line").hide();
+$("#validateProforma").hide();
 
 $("#proforma-monto_subtotal").prop("readonly", true);
 $("#proforma-monto_igv").prop("readonly", true);
@@ -120,4 +121,45 @@ function addField(evt) {
         AddButton = $("#addItem");
         AddButton.click();
     }
+}
+
+function validateProforma(proforma) {
+
+    var parametros = {"proforma": proforma};
+    var resultado =
+        '<div class="x_content bs-example-popovers">' +
+        '<div class="alert alert-danger alert-dismissible fade in" role="alert">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+        '<span aria-hidden="true">×</span> </button>' +
+        '<strong>La Proforma N° ' + proforma + '</strong> ya se encuentra registrado en el sistema.</div>' +
+        '</div>';
+
+    $.ajax({
+        async: true,
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        timeout: 4000,
+        data: parametros,
+        url: 'proforma/serie',
+        type: 'post',
+
+        beforeSend: function () {
+            $("#btnGuardarProforma").attr('disabled', false);
+        },
+
+        success: function (response) {
+            if (response === '' || response === null) {
+                $("#validateProforma").hide();
+            } else {
+                $("#validateProforma").show();
+                $("#validateProforma").html(resultado);
+                $("#btnGuardarProforma").attr('disabled', true);
+            }
+        }
+    });
+}
+
+function inactiveProforma() {
+    var id = document.getElementById("proforma-num_proforma").value;
+    (id === '' || id === null) ? $("#validateProforma").hide() : $("#validateProforma").hide();
+    $("#btnGuardarProforma").attr('disabled', false);
 }

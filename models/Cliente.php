@@ -3,7 +3,6 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
-use yii\db\Expression;
 use yii\db\Query;
 
 /**
@@ -17,6 +16,7 @@ use yii\db\Query;
  * @property string $num_telf2
  * @property string $dir_mail1
  * @property string $dir_mail2
+ * @property string $razon_social
  * @property string $fecha_digitada
  * @property string $fecha_modificada
  * @property string $fecha_eliminada
@@ -28,11 +28,10 @@ use yii\db\Query;
  * @property integer $estado
  * @property string $distrito
  * @property string $provincia
+ * @property string $departamento
  * @property string $referencia
  *
- * @property Transaccion[] $transaccions
- * @property string $razon_social [varchar(100)]
- * @property string $departamento [varchar(40)]
+ * @property Proforma[] $proformas
  */
 class Cliente extends ActiveRecord
 {
@@ -52,9 +51,13 @@ class Cliente extends ActiveRecord
         return [
             [['fecha_digitada', 'fecha_modificada', 'fecha_eliminada'], 'safe'],
             [['estado'], 'integer'],
-            [['desc_cliente', 'dir_fisica'], 'string', 'max' => 100],
+            [['desc_cliente', 'dir_fisica', 'razon_social'], 'string', 'max' => 100],
             [['numero_ruc', 'num_telf1', 'num_telf2'], 'string', 'max' => 20],
-            [['dir_mail1', 'dir_mail2', 'host', 'distrito', 'provincia', 'referencia'], 'string', 'max' => 40],
+            [
+                ['dir_mail1', 'dir_mail2', 'host', 'distrito', 'provincia', 'departamento', 'referencia'],
+                'string',
+                'max' => 40,
+            ],
             [['usuario_digitado', 'usuario_modificado', 'usuario_eliminado'], 'string', 'max' => 50],
             [['ip'], 'string', 'max' => 30],
         ];
@@ -74,6 +77,7 @@ class Cliente extends ActiveRecord
             'num_telf2' => 'Num Telf2',
             'dir_mail1' => 'Dir Mail1',
             'dir_mail2' => 'Dir Mail2',
+            'razon_social' => 'Razon Social',
             'fecha_digitada' => 'Fecha Digitada',
             'fecha_modificada' => 'Fecha Modificada',
             'fecha_eliminada' => 'Fecha Eliminada',
@@ -85,20 +89,26 @@ class Cliente extends ActiveRecord
             'estado' => 'Estado',
             'distrito' => 'Distrito',
             'provincia' => 'Provincia',
+            'departamento' => 'Departamento',
             'referencia' => 'Referencia',
         ];
     }
 
     /**
-     * @param $id
-     * @return false|null|string
+     * @return \yii\db\ActiveQuery
      */
+    public function getProformas()
+    {
+        return $this->hasMany(Proforma::className(), ['cliente_id' => 'id']);
+    }
+
     public function infoCliente($id)
     {
         $query = new Query();
         $query->select('desc_cliente')->from('cliente')->where("id ='" . $id . "'");
         $command = $query->createCommand();
         $data = $command->queryScalar();
+
         return $data;
     }
 }

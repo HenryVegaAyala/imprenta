@@ -73,7 +73,8 @@ class ProformaController extends Controller
             $model->save();
 
             $notificaciones->titulo = 'Nueva Proforma Solicitada';
-            $notificaciones->descripcion = 'Se ha creó una Profoma para el Cliente ' . $cliente->infoCliente($model->cliente_id);
+            $notificaciones->descripcion = 'Se ha creó una Proforma para el Cliente ' .
+                $cliente->infoCliente($model->cliente_id);
             $notificaciones->creado = $this->zonaHoraria();
             $notificaciones->usuario = Yii::$app->user->identity->nombre . ' ' . Yii::$app->user->identity->apellido;
             $notificaciones->estado = true;
@@ -120,7 +121,8 @@ class ProformaController extends Controller
         } else {
             return $this->render('create', [
                 'modelProforma' => $model,
-                'modelsProformaDetalle' => (empty($modelsProformaDetalle)) ? [new ProformaDetalle] : $modelsProformaDetalle,
+                'modelsProformaDetalle' => (
+                empty($modelsProformaDetalle)) ? [new ProformaDetalle] : $modelsProformaDetalle,
             ]);
         }
     }
@@ -195,23 +197,28 @@ class ProformaController extends Controller
         switch ($estado) {
             case 1:
                 $title = 'Nueva Proforma Registrada';
-                $message = 'Se ha registrado la Proforma N° - ' . $proforma . ' correctamente.';
+                $message = 'Se ha registrado la Proforma N° - ' . $proforma . ' Correctamente.';
                 $type = 'success';
                 break;
             case 2:
                 $title = 'Proforma Actualizado';
-                $message = 'Se ha actualizado la Proforma N° - ' . $proforma . ' correctamente.';
+                $message = 'Se ha actualizado la Proforma N° - ' . $proforma . ' Correctamente.';
                 $type = 'success';
                 break;
             case 3:
                 $title = 'Proforma Eliminada';
-                $message = 'Se ha eliminado la Proforma N° - ' . $proforma . ' correctamente.';
+                $message = 'Se ha eliminado la Proforma N° - ' . $proforma . ' Correctamente.';
                 $type = 'success';
                 break;
             case 4:
                 $title = 'Envío de Proforma al correo';
                 $message = 'Se envió correctamente la proforma al correo del Cliente.';
                 $type = 'info';
+                break;
+            case 5:
+                $title = 'El N° de Proforma ya fué Registrada';
+                $message = 'La proforma N° - ' . $proforma . ' ya fue registrada anteriormente.';
+                $type = 'error';
                 break;
         }
 
@@ -242,5 +249,14 @@ class ProformaController extends Controller
             echo $row['desc_cliente'] . "/" . $row['numero_ruc'] . "/" . $row['razon_social'] .
                 "/" . $row['referencia'] . ' ' . $row['provincia'] . ' ' . $row['departamento'];
         }
+    }
+
+    public function actionSerie()
+    {
+        $model = new Proforma();
+        $numero_proforma = $_POST['proforma'];
+        $validate = $model->validateProforma($numero_proforma);
+
+        return $validate;
     }
 }

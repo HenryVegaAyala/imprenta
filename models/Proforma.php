@@ -68,15 +68,17 @@ class Proforma extends ActiveRecord
                 [
                     'fecha_ingreso',
                     'fecha_envio',
-                    'num_proforma',
                     'cliente_id',
-                    'monto_subtotal',
-                    'monto_igv',
-                    'monto_total',
                 ],
                 'required',
             ],
             ['num_proforma', 'match', 'pattern' => "/^.{1,12}$/", 'message' => 'Mínimo un dígito en la proforma.'],
+
+            ['num_proforma', 'required', 'message' => 'N° de Proforma no puede estar vacía.'],
+
+            ['monto_subtotal', 'required', 'message' => 'Subtotal esta vacío.'],
+            ['monto_igv', 'required', 'message' => 'I.G.V esta vacío.'],
+            ['monto_total', 'required', 'message' => 'Total esta vacío.'],
         ];
     }
 
@@ -194,5 +196,19 @@ class Proforma extends ActiveRecord
         ];
 
         return $status;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function validateProforma($id)
+    {
+        $query = new Query();
+        $query->select('id')->from('proforma')->where("num_proforma ='" . $id . "'");
+        $command = $query->createCommand();
+        $data = $command->queryScalar();
+
+        return (!empty($data)) ? true : false;
     }
 }
