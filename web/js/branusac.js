@@ -129,8 +129,7 @@ function validateProforma(proforma) {
     var resultado =
         '<div class="x_content bs-example-popovers">' +
         '<div class="alert alert-danger alert-dismissible fade in" role="alert">' +
-        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-        '<span aria-hidden="true">×</span> </button>' +
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>' +
         '<strong>La Proforma N° ' + proforma + '</strong> ya se encuentra registrado en el sistema.</div>' +
         '</div>';
 
