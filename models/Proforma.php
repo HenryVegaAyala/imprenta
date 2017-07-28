@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use nepstor\validators\DateTimeCompareValidator;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\db\Query;
@@ -79,6 +80,9 @@ class Proforma extends ActiveRecord
             ['monto_subtotal', 'required', 'message' => 'Subtotal esta vacío.'],
             ['monto_igv', 'required', 'message' => 'I.G.V esta vacío.'],
             ['monto_total', 'required', 'message' => 'Total esta vacío.'],
+
+            ['fecha_envio', 'date', 'format' => 'php:Y-m-d', 'skipOnEmpty' => false],
+            ['fecha_ingreso', 'date', 'format' => 'php:Y-m-d', 'skipOnEmpty' => false],
         ];
     }
 
@@ -159,7 +163,7 @@ class Proforma extends ActiveRecord
         $value = $command->queryScalar();
 
         return $value;
-    }
+    }/** @noinspection PhpInconsistentReturnPointsInspection */
 
     /**
      * @param $status
@@ -211,4 +215,5 @@ class Proforma extends ActiveRecord
 
         return (!empty($data)) ? true : false;
     }
+
 }

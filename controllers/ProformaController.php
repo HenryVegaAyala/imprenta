@@ -251,6 +251,9 @@ class ProformaController extends Controller
         }
     }
 
+    /**
+     * @return bool
+     */
     public function actionSerie()
     {
         $model = new Proforma();
@@ -258,5 +261,52 @@ class ProformaController extends Controller
         $validate = $model->validateProforma($numero_proforma);
 
         return $validate;
+    }
+
+    /**
+     * @return string
+     */
+    public function actionValidate()
+    {
+        $fechaIng = $_POST['fecha_ini'];
+        $fechaEnv = $_POST['fecha_env'];
+
+        if (!empty($fechaIng) && !empty($fechaEnv)) {
+            $fechaIng_explode = explode("-", $fechaIng);
+            $fechaEnv_explode = explode("-", $fechaEnv);
+            $formatIng = $fechaIng_explode[0] . $fechaIng_explode[1] . $fechaIng_explode[2];
+            $formatEnv = $fechaEnv_explode[0] . $fechaEnv_explode[1] . $fechaEnv_explode[2];
+
+            if ($fechaIng_explode[2] > $fechaEnv_explode[2] || $formatIng > $formatEnv) {
+                return ' fecha de envio ' . "/" . $this->formatDay($fechaEnv) . ',' . "/" .
+                    ' debe de ser mayor a la fecha de ingreso ' . "/" .
+                    $this->formatDay($fechaIng);
+            }
+        }
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    public function formatDay($date)
+    {
+        $month = [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+        ];
+        $nowDate = explode('-', $date);
+
+        return $nowDate[0] . ' de ' . $month[intval($nowDate[1])] . ' del ' . $nowDate[2];
     }
 }

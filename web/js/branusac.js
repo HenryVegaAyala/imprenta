@@ -162,3 +162,49 @@ function inactiveProforma() {
     (id === '' || id === null) ? $("#validateProforma").hide() : $("#validateProforma").hide();
     $("#btnGuardarProforma").attr('disabled', false);
 }
+
+jQuery('#proforma-fecha_ingreso').on('change', function () {
+    var fecha_env = document.getElementById('proforma-fecha_envio').value;
+    validatePeriods(this.value, fecha_env)
+});
+
+jQuery('#proforma-fecha_envio').on('change', function () {
+    var fecha_ini = document.getElementById('proforma-fecha_ingreso').value;
+    validatePeriods(fecha_ini, this.value)
+});
+
+function validatePeriods(fecha_ini, fecha_env) {
+    var parametros, cadena;
+    parametros = {"fecha_ini": fecha_ini, "fecha_env": fecha_env};
+
+    $.ajax({
+        async: true,
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        timeout: 4000,
+        data: parametros,
+        url: 'proforma/validate',
+        type: 'post',
+
+        beforeSend: function () {
+            $("#btnGuardarProforma").attr('disabled', false);
+        },
+
+        success: function (response) {
+            cadena = response.split('/');
+            document.getElementById('nameCompany').value = cadena[0];
+            if (response === '' || response === null) {
+                $("#validateProforma").hide();
+            } else {
+                $("#validateProforma").show();
+                $("#validateProforma").html(
+                    '<div class="x_content bs-example-popovers">' +
+                    '<div class="alert alert-danger alert-dismissible fade in" role="alert">' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>' +
+                    'La ' + '<strong>' + cadena[0] + cadena[1] + '</strong>' + cadena[2] + '<strong>' + cadena[3] + '.' + '</strong> </div>' +
+                    '</div>'
+                );
+                $("#btnGuardarProforma").attr('disabled', true);
+            }
+        }
+    });
+}

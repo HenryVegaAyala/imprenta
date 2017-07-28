@@ -6,6 +6,9 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'sourceLanguage' => 'es',
+    'language' => 'es',
+    'timeZone' => 'America/Lima',
     'modules' => [
         'gridview' => [
             'class' => 'kartik\grid\Module',
@@ -25,9 +28,9 @@ $config = [
             ],
 
             'saveSettings' => [
-                'date' => 'Y-m-d',
+                'date' => 'd-m-Y',
                 'time' => 'H:i:s',
-                'datetime' => 'Y-m-d H:i:s',
+                'datetime' => 'd-m-Y H:i:s A',
             ],
 
             'autoWidget' => true,
@@ -48,6 +51,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'formatter' => [
+            'class' => 'yii\i18n\Formatter',
             'defaultTimeZone' => 'UTC',
             'timeZone' => 'America/Lima',
         ],
