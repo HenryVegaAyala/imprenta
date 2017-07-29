@@ -268,10 +268,9 @@ class ProformaController extends Controller
      */
     public function actionValidate()
     {
-        $fechaIng = $_POST['fecha_ini'];
-        $fechaEnv = $_POST['fecha_env'];
-
-        if (!empty($fechaIng) && !empty($fechaEnv)) {
+        if (!empty($_POST['fecha_ini']) && !empty($_POST['fecha_env'])) {
+            $fechaIng = $_POST['fecha_ini'];
+            $fechaEnv = $_POST['fecha_env'];
             $fechaIng_explode = explode("-", $fechaIng);
             $fechaEnv_explode = explode("-", $fechaEnv);
             $formatIng = $fechaIng_explode[0] . $fechaIng_explode[1] . $fechaIng_explode[2];

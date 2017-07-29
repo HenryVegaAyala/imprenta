@@ -164,13 +164,14 @@ function inactiveProforma() {
 }
 
 jQuery('#proforma-fecha_ingreso').on('change', function () {
-    var fecha_env = document.getElementById('proforma-fecha_envio').value;
-    validatePeriods(this.value, fecha_env)
+    var fecha_env = $("#proforma-fecha_envio").val();
+    validatePeriods(this.value, fecha_env);
 });
 
 jQuery('#proforma-fecha_envio').on('change', function () {
-    var fecha_ini = document.getElementById('proforma-fecha_ingreso').value;
-    validatePeriods(fecha_ini, this.value)
+    var fecha_ini = $("#proforma-fecha_ingreso").val();
+    console.log(fecha_ini + ' - ' + this.value);
+    validatePeriods(fecha_ini, this.value);
 });
 
 function validatePeriods(fecha_ini, fecha_env) {

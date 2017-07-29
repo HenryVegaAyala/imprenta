@@ -132,21 +132,17 @@ $descripcion = "Registrar Proforma";
                                 'total',
                             ],
                         ]); ?>
-
+                        <button type="button" id="addItem"
+                                class="pull-center add-item btn btn-success btn-sm">
+                            <i class="fa fa-plus"> <strong>Agregar Productos</strong></i>
+                        </button>
                         <div class="container-items">
                             <table class="table table-bordered table-striped table-responsive">
-                                <th class="col-sm-2">Cantidad</th>
-                                <th class="col-sm-5">Descripción</th>
-                                <th class="col-sm-2">Precio</th>
-                                <th class="col-sm-2">Total</th>
-                                <th class="col-sm-1">
-                                    <div class="text-center" style="width: 90px;">
-                                        <button type="button" id="addItem"
-                                                class="pull-center add-item btn btn-success btn-xs">
-                                            <span class="fa fa-plus"> <strong>Agregar</strong></span>
-                                        </button>
-                                    </div>
-                                </th>
+                                <th class="col-sm-2 col-xs-2">Cantidad</th>
+                                <th class="col-sm-5 col-xs-5">Descripción</th>
+                                <th class="col-sm-2 col-xs-2">Precio</th>
+                                <th class="col-sm-2 col-xs-2">Total</th>
+                                <th class="col-sm-1 col-xs-1"></th>
                             </table>
                             <?php foreach ($modelsProformaDetalle as $i => $modelProformaDetalle) { ?>
                                 <div class="item">
@@ -158,7 +154,7 @@ $descripcion = "Registrar Proforma";
                                     }
                                     ?>
                                     <div class="row">
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-2 col-xs-2">
                                             <?= $form->field($modelProformaDetalle,
                                                 "[{$i}]cantidad")->textInput([
                                                 'maxlength' => true,
@@ -169,7 +165,7 @@ $descripcion = "Registrar Proforma";
                                             ])->label(false) ?>
                                         </div>
 
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-5 col-xs-4">
                                             <?= $form->field($modelProformaDetalle,
                                                 "[{$i}]descripcion")->textInput([
                                                 'maxlength' => true,
@@ -178,7 +174,7 @@ $descripcion = "Registrar Proforma";
                                             ])->label(false) ?>
                                         </div>
 
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-2 col-xs-2">
                                             <?= $form->field($modelProformaDetalle,
                                                 "[{$i}]precio")->textInput([
                                                 'maxlength' => true,
@@ -190,7 +186,7 @@ $descripcion = "Registrar Proforma";
                                             ])->label(false) ?>
                                         </div>
 
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-2 col-xs-2">
                                             <?= $form->field($modelProformaDetalle,
                                                 "[{$i}]total")->textInput([
                                                 'maxlength' => true,
@@ -200,7 +196,7 @@ $descripcion = "Registrar Proforma";
                                             ])->label(false) ?>
                                         </div>
 
-                                        <div class="col-sm-1">
+                                        <div class="col-sm-1 col-xs-2">
                                             <div class="text-center" style="width: 90px;">
                                                 <button type="button"
                                                         class="pull-center remove-item btn btn-danger btn-xs">
@@ -212,7 +208,6 @@ $descripcion = "Registrar Proforma";
                                 </div>
                             <?php } ?>
                         </div>
-
                         <?php DynamicFormWidget::end(); ?>
                     </div>
                 </div>
@@ -246,7 +241,7 @@ $descripcion = "Registrar Proforma";
             <div class="ln_solid"></div>
             <div class="form-group">
                 <center>
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-6 col-md-12 col-md-offset-3">
                         <?= Html::submitButton('<i class="fa fa-floppy-o fa-lg"></i> ' . ' Guardar',
                             ['class' => 'btn btn-success', 'id' => 'btnGuardarProforma']) ?>
                         <?= Html::resetButton('<i class="fa fa-times fa-lg"></i> ' . ' Cancelar',
