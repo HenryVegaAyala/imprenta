@@ -116,6 +116,7 @@ class ProformaController extends Controller
                 }
             }
             $this->notification(1, $model->num_proforma);
+            $this->notification(4, $model->num_proforma);
 
             return $this->redirect(['index']);
         } else {
@@ -223,7 +224,7 @@ class ProformaController extends Controller
         }
 
         if (!empty($type) && !empty($message) && !empty($title)) {
-            $notification = Yii::$app->getSession()->setFlash('success', [
+            $notification = Yii::$app->getSession()->setFlash($type, [
                 'type' => $type,
                 'duration' => 6000,
                 'icon' => 'fa fa-users',
