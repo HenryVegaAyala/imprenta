@@ -55,9 +55,7 @@ $proforma = new Proforma();
                                         ],
                                     ]),
                                     'value' => function ($data) {
-                                        $proforma = new Proforma();
-
-                                        return $proforma->cliente($data->cliente_id);
+                                        return $data->cliente_name;
                                     },
                                 ],
                                 [
@@ -67,6 +65,7 @@ $proforma = new Proforma();
                                         'model' => $searchModel,
                                         'attribute' => 'fecha_ingreso',
                                         'convertFormat' => true,
+                                        'language' => 'es',
                                         'pluginOptions' => [
                                             'locale' => [
                                                 'format' => 'Y-m-d',
@@ -74,7 +73,7 @@ $proforma = new Proforma();
                                         ],
                                     ]),
                                     'value' => function ($data) {
-                                        return date('d-m-Y', strtotime($data->fecha_ingreso));
+                                        return $data->fecha_ingreso;
                                     },
                                 ],
                                 [
@@ -91,18 +90,14 @@ $proforma = new Proforma();
                                         ],
                                     ]),
                                     'value' => function ($data) {
-                                        return date('d-m-Y', strtotime($data->fecha_envio));
+                                        return $data->fecha_envio;
                                     },
                                 ],
                                 [
                                     'attribute' => 'monto_total',
                                     'label' => 'Monto Total',
                                     'value' => function ($data) {
-                                        if (empty($data->monto_total)) {
-                                            return 'S/. 0.00';
-                                        } else {
-                                            return 'S/. ' . $data->monto_total;
-                                        }
+                                        return 'S/. ' . $data->monto_total;
                                     },
                                 ],
                                 [
@@ -110,10 +105,7 @@ $proforma = new Proforma();
                                     'label' => 'Estado',
                                     'filter' => $proforma->status(),
                                     'value' => function ($data) {
-                                        $proforma = new Proforma();
-                                        $status = $proforma->getStatus($data->estado);
-
-                                        return $status;
+                                        return $data->proforma_estado;
                                     },
                                 ],
                                 [

@@ -7,7 +7,9 @@ $this->title = 'Branusac - Actualizar Proforma';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="right_col" role="main">
+    <div id="validateProforma"></div>
     <?= $this->render('_update', [
         'modelProforma' => $modelProforma,
+        'modelsProformaDetalle' => $modelsProformaDetalle,
     ]) ?>
 </div>

@@ -291,7 +291,7 @@ class User extends ActiveRecord implements IdentityInterface
         $value = $command->queryScalar();
 
         return $value;
-    }/** @noinspection PhpInconsistentReturnPointsInspection */
+    }
 
     /**
      * @param $value
@@ -307,7 +307,7 @@ class User extends ActiveRecord implements IdentityInterface
                 return 'Secretaria';
                 break;
         }
-    }/** @noinspection PhpInconsistentReturnPointsInspection */
+    }
 
     /**
      * @param $status
@@ -324,5 +324,4 @@ class User extends ActiveRecord implements IdentityInterface
                 break;
         }
     }
-    /** @noinspection PhpInconsistentReturnPointsInspection */
 }

@@ -38,6 +38,9 @@ use yii\helpers\Json;
  */
 class Proforma extends ActiveRecord
 {
+    public $cliente_name;
+    public $proforma_estado;
+
     /**
      * @inheritdoc
      */
@@ -164,28 +167,6 @@ class Proforma extends ActiveRecord
         $value = $command->queryScalar();
 
         return $value;
-    }/** @noinspection PhpInconsistentReturnPointsInspection */
-
-    /**
-     * @param $status
-     * @return string
-     */
-    public function getStatus($status)
-    {
-        switch ($status) {
-            case 1:
-                return 'Creado';
-                break;
-            case 2:
-                return 'En Proceso';
-                break;
-            case 3:
-                return 'Despachadado / Atendido';
-                break;
-            case 0:
-                return 'Anulado';
-                break;
-        }
     }
 
     /**
@@ -194,10 +175,10 @@ class Proforma extends ActiveRecord
     public static function status()
     {
         $status = [
-            '0' => 'Anulado',
-            '1' => 'Creado',
-            '2' => 'En Proceso',
-            '3' => 'Despachadado / Atendido',
+            0 => 'Anulado',
+            1 => 'Creado',
+            2 => 'En Proceso',
+            3 => 'Despachadado / Atendido',
         ];
 
         return $status;
@@ -210,24 +191,11 @@ class Proforma extends ActiveRecord
     public function validateProforma($id)
     {
         $query = new Query();
-        $query->select('id')->from('proforma')->where("num_proforma ='" . $id . "'");
+        $query->select('id')->from('proforma')->where('num_proforma = :id', [':id' => $id]);
         $command = $query->createCommand();
         $data = $command->queryScalar();
 
         return (!empty($data)) ? true : false;
-    }
-
-    /**
-     * @param $id
-     * @return false|null|string
-     */
-    public function cliente($id)
-    {
-        $query = new Query();
-        $query->select('desc_cliente')->from('cliente')->where("id ='" . $id . "'");
-        $command = $query->createCommand();
-
-        return $data = $command->queryScalar();
     }
 
     /**
@@ -237,6 +205,7 @@ class Proforma extends ActiveRecord
     {
         return ArrayHelper::map(
             Cliente::find()
+                ->select(['id', 'desc_cliente'])
                 ->where('estado = 1')
                 ->limit(5)
                 ->orderBy('desc_cliente')

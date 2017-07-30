@@ -25,7 +25,9 @@
         "setasign/fpdf": "1.8.1",
         "kartik-v/yii2-widget-growl": "*",
         "wbraganca/yii2-dynamicform": "dev-master",
-        "kartik-v/yii2-date-range": "dev-master"
+        "kartik-v/yii2-date-range": "dev-master",
+        "mbrowniebytes/yii2-clean-vendors": "dev-master",
+        "bryglen/yii2-sendgrid": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -48,6 +50,9 @@
     "scripts": {
         "post-create-project-cmd": [
             "yii\\composer\\Installer::postCreateProject"
+        ],
+        "post-update-cmd": [
+            "php yii clean-vendors"
         ]
     },
     "extra": {

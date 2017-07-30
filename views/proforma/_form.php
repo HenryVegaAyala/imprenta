@@ -241,7 +241,7 @@ $descripcion = "Registrar Proforma";
             <div class="ln_solid"></div>
             <div class="form-group">
                 <center>
-                    <div class="col-md-6 col-md-12 col-md-offset-3">
+                    <div class="col-md-6 col-xs-12 col-md-offset-3">
                         <?= Html::submitButton('<i class="fa fa-floppy-o fa-lg"></i> ' . ' Guardar',
                             ['class' => 'btn btn-success', 'id' => 'btnGuardarProforma']) ?>
                         <?= Html::resetButton('<i class="fa fa-times fa-lg"></i> ' . ' Cancelar',

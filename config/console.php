@@ -23,13 +23,16 @@ $config = [
         'db' => $db,
     ],
     'params' => $params,
-    /*
+
     'controllerMap' => [
-        'fixture' => [ // Fixture generation command line.
-            'class' => 'yii\faker\FixtureController',
+        //'fixture' => [ // Fixture generation command line.
+        //    'class' => 'yii\faker\FixtureController',
+        //],
+        'clean-vendors' => [
+            'class' => 'mbrowniebytes\yii2cleanvendors\CleanVendorsController',
         ],
     ],
-    */
+
 ];
 
 if (YII_ENV_DEV) {

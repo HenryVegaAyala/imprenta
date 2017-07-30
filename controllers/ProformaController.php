@@ -136,13 +136,16 @@ class ProformaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $modelProforma = $this->findModel($id);
+        $modelsProformaDetalle = [new ProformaDetalle];
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($modelProforma->load(Yii::$app->request->post()) && $modelProforma->save()) {
+            return $this->redirect(['view', 'id' => $modelProforma->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'modelProforma' => $modelProforma,
+                'modelsProformaDetalle' => (
+                empty($modelsProformaDetalle)) ? [new ProformaDetalle] : $modelsProformaDetalle,
             ]);
         }
     }
@@ -243,8 +246,9 @@ class ProformaController extends Controller
     public function actionCliente()
     {
         $idCliente = $_POST['id'];
-        $sqlStatement = "SELECT * FROM cliente WHERE id = '" . $idCliente . "' AND estado = 1";
-        $commands = Yii::$app->db->createCommand($sqlStatement);
+        $sqlStatement = "SELECT desc_cliente,numero_ruc,razon_social,referencia,provincia,departamento 
+        FROM cliente WHERE id = :idCliente AND estado = 1";
+        $commands = Yii::$app->db->createCommand($sqlStatement)->cache(3600)->bindValue(':idCliente', $idCliente);
         $result = $commands->query();
         while ($row = $result->read()) {
             echo $row['desc_cliente'] . "/" . $row['numero_ruc'] . "/" . $row['razon_social'] .
