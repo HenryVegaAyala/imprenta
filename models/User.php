@@ -151,13 +151,21 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Finds an identity by the given ID.
      * @param string|int $id the ID to be looked for
-     * @return IdentityInterface the identity object that matches the given ID.
+     * @return array|ActiveRecord|IdentityInterface
      * Null should be returned if such an identity cannot be found
      * or the identity is not in an active state (disabled, deleted, etc.)
      */
     public static function findIdentity($id)
     {
-        return static::findOne($id);
+        return static::find()->select([
+            'id',
+            'nombre',
+            'apellido',
+            'correo',
+            'privilegio',
+            'genero',
+            'contrasena',
+        ])->where('id = :id', [':id' => $id])->one();
     }
 
     /**
@@ -165,13 +173,21 @@ class User extends ActiveRecord implements IdentityInterface
      * @param mixed $token the token to be looked for
      * @param mixed $type the type of the token. The value of this parameter depends on the implementation.
      * For example,[[\yii\filters\auth\HttpBearerAuth]] will set this parameter to be `yii\filters\auth\HttpBearerAuth`.
-     * @return IdentityInterface the identity object that matches the given token.
+     * @return array|ActiveRecord|IdentityInterface
      * Null should be returned if such an identity cannot be found
      * or the identity is not in an active state (disabled, deleted, etc.)
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['access_token' => $token]);
+        return static::find()->select([
+            'id',
+            'nombre',
+            'apellido',
+            'correo',
+            'privilegio',
+            'genero',
+            'contrasena',
+        ])->where('accessToken = :token', [':token' => $token])->one();
     }
 
     /**
@@ -216,11 +232,22 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @param $username
      * @param $estado
-     * @return static
+     * @return User|array|ActiveRecord
      */
     public static function findByUsername($username, $estado)
     {
-        return self::findOne(['correo' => $username, 'estado' => (int)$estado]);
+        return self::find()->select([
+            'id',
+            'nombre',
+            'apellido',
+            'correo',
+            'privilegio',
+            'genero',
+            'contrasena',
+        ])->where([
+            'correo' => $username,
+            'estado' => (int)$estado,
+        ])->one();
     }
 
     /**

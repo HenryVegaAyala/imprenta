@@ -60,7 +60,12 @@ class Notificaciones extends ActiveRecord
     public function notificaciones()
     {
         $query = new Query();
-        $query->select('*')->from('notificaciones')->where('estado = 1')->limit(5);
+        $query->select([
+            'titulo',
+            'descripcion',
+            'creado',
+            'usuario',
+        ])->from('notificaciones')->where('estado = 1')->limit(5);
         $command = $query->createCommand();
         $data = $command->queryAll();
 

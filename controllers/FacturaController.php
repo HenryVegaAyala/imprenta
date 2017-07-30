@@ -76,7 +76,7 @@ class FacturaController extends Controller
             $model->save();
 
             $notificaciones->titulo = 'Nueva Proforma Solicitada';
-            $notificaciones->descripcion = 'Se ha creó una Profoma para el Cliente ' . $cliente->infoCliente($model->client);
+            $notificaciones->descripcion = 'Se ha creó una Proforma para el Cliente ' . $cliente->infoCliente($model->client);
             $notificaciones->creado = $this->zonaHoraria();
             $notificaciones->usuario = Yii::$app->user->identity->nombre . ' ' . Yii::$app->user->identity->apellido;
             $notificaciones->estado = true;
