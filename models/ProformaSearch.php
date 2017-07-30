@@ -61,6 +61,7 @@ class ProformaSearch extends Proforma
         $query->andFilterWhere([
             'cliente_id' => $this->cliente_id,
             'monto_total' => $this->monto_total,
+            'estado' => $this->estado
         ]);
 
         $query->andFilterWhere(['like', 'num_proforma', $this->num_proforma]);
