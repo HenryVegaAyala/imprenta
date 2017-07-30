@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "proforma".
@@ -216,4 +217,30 @@ class Proforma extends ActiveRecord
         return (!empty($data)) ? true : false;
     }
 
+    /**
+     * @param $id
+     * @return false|null|string
+     */
+    public function cliente($id)
+    {
+        $query = new Query();
+        $query->select('desc_cliente')->from('cliente')->where("id ='" . $id . "'");
+        $command = $query->createCommand();
+
+        return $data = $command->queryScalar();
+    }
+
+    /**
+     * @return array
+     */
+    public function listCliente()
+    {
+        return ArrayHelper::map(
+            Cliente::find()
+                ->where('estado = 1')
+                ->limit(5)
+                ->orderBy('desc_cliente')
+                ->asArray()
+                ->all(), 'id', 'desc_cliente');
+    }
 }
