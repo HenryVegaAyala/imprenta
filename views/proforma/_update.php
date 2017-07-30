@@ -4,7 +4,6 @@ use kartik\widgets\DatePicker;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $modelProforma app\models\Proforma */
@@ -16,22 +15,21 @@ $descripcion = "Modificar Proforma";
 <div class="clearfix"></div>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
+        <?php $form = ActiveForm::begin(
+            [
+                'id' => 'dynamic-form',
+                'enableAjaxValidation' => false,
+                'enableClientValidation' => true,
+                'validateOnChange' => false,
+                'method' => 'post',
+                'options' => [
+                    'class' => 'form-horizontal form-label-left',
+                    'data-pjax' => true,
+                ],
+            ]
+        ); ?>
         <div class="x_panel">
             <div class="x_content">
-                <?php //Pjax::begin(); ?>
-                <?php $form = ActiveForm::begin(
-                    [
-                        'id' => 'dynamic-form',
-                        'enableAjaxValidation' => false,
-                        'enableClientValidation' => true,
-                        'validateOnChange' => false,
-                        'method' => 'post',
-                        'options' => [
-                            'class' => 'form-horizontal form-label-left',
-                            'data-pjax' => true,
-                        ],
-                    ]
-                ); ?>
                 <span class="section"><?php echo Html::encode($descripcion) ?></span>
                 <div class="row">
                     <div class="item form-group">
@@ -112,7 +110,6 @@ $descripcion = "Modificar Proforma";
                         <legend></legend>
                     </div>
                 </div>
-
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <?php DynamicFormWidget::begin([
@@ -212,39 +209,40 @@ $descripcion = "Modificar Proforma";
                     </div>
                 </div>
                 <div class="row">
-                <div class="col-md-3 col-sm-12 col-xs-12" style="float: right">
-                    <label class="control-label col-md-3 col-sm-6 col-xs-6">SubTotal</label>
-                    <div class="col-md-9 col-sm-6 col-xs-12">
-                        <?= $form->field($modelProforma, 'monto_subtotal')->textInput(
-                            [
-                                'placeholder' => 'SubTotal',
-                                'class' => 'form-control col-md-6 col-xs-6 text-border-total',
-                            ]
-                        )->label(false) ?>
-                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12" style="float: right">
+                        <label class="control-label col-md-3 col-sm-6 col-xs-6">SubTotal</label>
+                        <div class="col-md-9 col-sm-6 col-xs-12">
+                            <?= $form->field($modelProforma, 'monto_subtotal')->textInput(
+                                [
+                                    'placeholder' => 'SubTotal',
+                                    'class' => 'form-control col-md-6 col-xs-6 text-border-total',
+                                ]
+                            )->label(false) ?>
+                        </div>
 
-                    <label class="control-label col-md-3 col-sm-6 col-xs-6">I.G.V.</label>
-                    <div class="col-md-9 col-sm-6 col-xs-12">
-                        <?= $form->field($modelProforma, 'monto_igv')->textInput(
-                            [
-                                'placeholder' => 'I.G.V',
-                                'class' => 'form-control col-md-6 col-xs-6 text-border-total',
-                            ]
-                        )->label(false) ?>
-                    </div>
+                        <label class="control-label col-md-3 col-sm-6 col-xs-6">I.G.V.</label>
+                        <div class="col-md-9 col-sm-6 col-xs-12">
+                            <?= $form->field($modelProforma, 'monto_igv')->textInput(
+                                [
+                                    'placeholder' => 'I.G.V',
+                                    'class' => 'form-control col-md-6 col-xs-6 text-border-total',
+                                ]
+                            )->label(false) ?>
+                        </div>
 
-                    <label class="control-label col-md-3 col-sm-6 col-xs-6">Total</label>
-                    <div class="col-md-9 col-sm-6 col-xs-12">
-                        <?= $form->field($modelProforma, 'monto_total')->textInput(
-                            [
-                                'placeholder' => 'Total',
-                                'class' => 'form-control col-md-6 col-xs-6 text-border-total',
-                            ]
-                        )->label(false) ?>
+                        <label class="control-label col-md-3 col-sm-6 col-xs-6">Total</label>
+                        <div class="col-md-9 col-sm-6 col-xs-12">
+                            <?= $form->field($modelProforma, 'monto_total')->textInput(
+                                [
+                                    'placeholder' => 'Total',
+                                    'class' => 'form-control col-md-6 col-xs-6 text-border-total',
+                                ]
+                            )->label(false) ?>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
+            <div class="clearfix"></div>
             <div class="ln_solid"></div>
             <div class="form-group">
                 <center>
@@ -258,6 +256,5 @@ $descripcion = "Modificar Proforma";
             </div>
         </div>
         <?php ActiveForm::end(); ?>
-        <?php //Pjax::end(); ?>
     </div>
 </div>
