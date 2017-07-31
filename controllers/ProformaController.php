@@ -139,6 +139,8 @@ class ProformaController extends Controller
     {
         $modelProforma = $this->findModel($id);
         $modelsProformaDetalle = [new ProformaDetalle];
+        $notificaciones = new Notificaciones();
+        $cliente = new Cliente();
 
         if ($modelProforma->load(Yii::$app->request->post())) {
             $date_ing = Yii::$app->formatter->asDate(strtotime($modelProforma->fecha_ingreso), 'Y-MM-dd');
@@ -158,6 +160,16 @@ class ProformaController extends Controller
                     ],
                     'id = :id', [':id' => $id])
                 ->execute();
+
+            $notificaciones->titulo = 'Proforma Actualizada';
+            $notificaciones->descripcion = 'Se ha actualizado la Proforma del Cliente ' .
+                $cliente->infoCliente($modelProforma->cliente_id);
+            $notificaciones->creado = $this->zonaHoraria();
+            $notificaciones->usuario = Yii::$app->user->identity->nombre . ' ' . Yii::$app->user->identity->apellido;
+            $notificaciones->estado = true;
+            $notificaciones->save();
+
+            $this->notification(2, $modelProforma->num_proforma);
 
             return $this->redirect(['index']);
         } else {

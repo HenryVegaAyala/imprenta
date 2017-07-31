@@ -79,6 +79,7 @@ $descripcion = "Modificar Proforma";
                             <?= $form->field($modelProforma,
                                 'cliente_id')->dropDownList($modelProforma->getListCliente(), [
                                 'prompt' => 'Seleccionar Cliente',
+                                'disabled' => true,
                                 'class' => 'form-control col-md-7 col-xs-12',
                                 'onchange' => "dataClienteUpdate(this.value);",
                             ]) ?>
