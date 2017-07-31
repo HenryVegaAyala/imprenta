@@ -15,7 +15,6 @@ $("#proforma-namecompany").attr('disabled', true);
 $("#proforma-ruc").attr('disabled', true);
 $("#proforma-businessname").attr('disabled', true);
 $("#proforma-fiscaladdress").attr('disabled', true);
-$("#proforma-num_proforma").attr('disabled', true);
 
 $(document).on('click', '.remove-item', function () {
     var array_unidad;
@@ -234,7 +233,6 @@ function validatePeriods(fecha_ini, fecha_env) {
 
         success: function (response) {
             cadena = response.split('/');
-            document.getElementById('nameCompany').value = cadena[0];
             if (response === '' || response === null) {
                 $("#validateProforma").hide();
             } else {

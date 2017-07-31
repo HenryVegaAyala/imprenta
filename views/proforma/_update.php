@@ -37,6 +37,7 @@ $descripcion = "Modificar Proforma";
                             <?= $form->field($modelProforma, 'num_proforma')->textInput(
                                 [
                                     'maxlength' => 12,
+                                    'disabled' => true,
                                     'onkeyup' => "validateProforma(this.value);",
                                 ],
                                 [
