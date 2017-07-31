@@ -90,8 +90,8 @@ class Proforma extends ActiveRecord
             ['monto_igv', 'required', 'message' => 'I.G.V esta vacío.'],
             ['monto_total', 'required', 'message' => 'Total esta vacío.'],
 
-            ['fecha_envio', 'date', 'format' => 'php:Y-m-d', 'skipOnEmpty' => false],
-            ['fecha_ingreso', 'date', 'format' => 'php:Y-m-d', 'skipOnEmpty' => false],
+            ['fecha_envio', 'date', 'format' => 'php:d-m-Y', 'skipOnEmpty' => false],
+            ['fecha_ingreso', 'date', 'format' => 'php:d-m-Y', 'skipOnEmpty' => false],
         ];
     }
 

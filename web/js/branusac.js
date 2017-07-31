@@ -11,6 +11,12 @@ $("#cancelar").click(function () {
     $("#line").hide();
 });
 
+$("#proforma-namecompany").attr('disabled', true);
+$("#proforma-ruc").attr('disabled', true);
+$("#proforma-businessname").attr('disabled', true);
+$("#proforma-fiscaladdress").attr('disabled', true);
+$("#proforma-num_proforma").attr('disabled', true);
+
 $(document).on('click', '.remove-item', function () {
     var array_unidad;
     array_unidad = document.getElementsByName("cantidad[]");
@@ -52,6 +58,39 @@ function dataCliente(id) {
             document.getElementById('ruc').value = cadena[1];
             document.getElementById('businessName').value = cadena[2];
             document.getElementById('fiscalAddress').value = cadena[3];
+        }
+    });
+}
+
+function dataClienteUpdate(id) {
+
+    (id === '' || id === null) ? $("#contenedorClienteUpdate").hide() : $("#contenedorClienteUpdate").show();
+    var parametros, cadena;
+    parametros = {"id": id};
+    var url = window.location + '';
+
+    $.ajax({
+        async: true,
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        timeout: 4000,
+        data: parametros,
+        url: 'http://' + location.hostname + (url.split("/")[3] !== 'imprenta' ? '' : '/imprenta') + '/proforma/cliente',
+        type: 'post',
+
+        beforeSend: function () {
+            $("#line").hide();
+            $("#proforma-namecompany").attr('disabled', true);
+            $("#proforma-ruc").attr('disabled', true);
+            $("#proforma-businessname").attr('disabled', true);
+            $("#proforma-fiscaladdress").attr('disabled', true);
+        },
+
+        success: function (response) {
+            cadena = response.split('/');
+            document.getElementById('proforma-namecompany').value = cadena[0];
+            document.getElementById('proforma-ruc').value = cadena[1];
+            document.getElementById('proforma-businessname').value = cadena[2];
+            document.getElementById('proforma-fiscaladdress').value = cadena[3];
         }
     });
 }

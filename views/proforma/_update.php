@@ -80,7 +80,7 @@ $descripcion = "Modificar Proforma";
                                 'cliente_id')->dropDownList($modelProforma->getListCliente(), [
                                 'prompt' => 'Seleccionar Cliente',
                                 'class' => 'form-control col-md-7 col-xs-12',
-                                'onchange' => "dataCliente(this.value);",
+                                'onchange' => "dataClienteUpdate(this.value);",
                             ]) ?>
                         </div>
                     </div>

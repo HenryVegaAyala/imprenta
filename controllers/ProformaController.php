@@ -187,8 +187,9 @@ class ProformaController extends Controller
                 'cliente.numero_ruc                       AS ruc',
                 'cliente.razon_social                     AS businessName',
             ])
-            ->addSelect([new Expression("
-                concat(dir_fisica, ' ', distrito, ' ', provincia, ' ', departamento) AS fiscalAddress")
+            ->addSelect([
+                new Expression("
+                concat(dir_fisica, ' ', distrito, ' ', provincia, ' ', departamento) AS fiscalAddress"),
             ])
             ->leftJoin('cliente', 'proforma.cliente_id = cliente.id')
             ->where('proforma.id = :id', [':id' => $id])
