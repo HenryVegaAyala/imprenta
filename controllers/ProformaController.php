@@ -140,8 +140,26 @@ class ProformaController extends Controller
         $modelProforma = $this->findModel($id);
         $modelsProformaDetalle = [new ProformaDetalle];
 
-        if ($modelProforma->load(Yii::$app->request->post()) && $modelProforma->save()) {
-            return $this->redirect(['view', 'id' => $modelProforma->id]);
+        if ($modelProforma->load(Yii::$app->request->post())) {
+            $date_ing = Yii::$app->formatter->asDate(strtotime($modelProforma->fecha_ingreso), 'Y-MM-dd');
+            $date_send = Yii::$app->formatter->asDate(strtotime($modelProforma->fecha_envio), 'Y-MM-dd');
+
+            $connection = Yii::$app->db;
+            $connection->createCommand()
+                ->update('proforma',
+                    [
+                        'fecha_ingreso' => $date_ing,
+                        'fecha_envio' => $date_send,
+                        'cliente_id' => $modelProforma->cliente_id,
+                        'fecha_modificada' => $this->zonaHoraria(),
+                        'usuario_modificado' => Yii::$app->user->identity->correo,
+                        'ip' => Yii::$app->request->userIP,
+                        'host' => strval(php_uname()),
+                    ],
+                    'id = :id', [':id' => $id])
+                ->execute();
+
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'modelProforma' => $modelProforma,

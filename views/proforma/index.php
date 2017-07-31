@@ -83,6 +83,7 @@ $proforma = new Proforma();
                                         'model' => $searchModel,
                                         'attribute' => 'fecha_envio',
                                         'convertFormat' => true,
+                                        'language' => 'es',
                                         'pluginOptions' => [
                                             'locale' => [
                                                 'format' => 'Y-m-d',
