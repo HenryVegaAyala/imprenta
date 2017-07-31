@@ -28,13 +28,14 @@ function dataCliente(id) {
     (id === '' || id === null) ? $("#contenedorCliente").hide() : $("#contenedorCliente").show();
     var parametros, cadena;
     parametros = {"id": id};
+    var url = window.location + '';
 
     $.ajax({
         async: true,
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         timeout: 4000,
         data: parametros,
-        url: 'proforma/cliente',
+        url: 'http://' + location.hostname + (url.split("/")[3] !== 'imprenta' ? '' : '/imprenta') + '/proforma/cliente',
         type: 'post',
 
         beforeSend: function () {
@@ -126,6 +127,7 @@ function addField(evt) {
 function validateProforma(proforma) {
 
     var parametros = {"proforma": proforma};
+    var url = window.location + '';
     var resultado =
         '<div class="x_content bs-example-popovers">' +
         '<div class="alert alert-danger alert-dismissible fade in" role="alert">' +
@@ -138,7 +140,7 @@ function validateProforma(proforma) {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         timeout: 4000,
         data: parametros,
-        url: 'proforma/serie',
+        url: 'http://' + location.hostname + (url.split("/")[3] !== 'imprenta' ? '' : '/imprenta') + '/proforma/serie',
         type: 'post',
 
         beforeSend: function () {
@@ -176,6 +178,7 @@ jQuery('#proforma-fecha_envio').on('change', function () {
 
 function validatePeriods(fecha_ini, fecha_env) {
     var parametros, cadena;
+    var url = window.location + '';
     parametros = {"fecha_ini": fecha_ini, "fecha_env": fecha_env};
 
     $.ajax({
@@ -183,7 +186,7 @@ function validatePeriods(fecha_ini, fecha_env) {
         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         timeout: 4000,
         data: parametros,
-        url: 'proforma/validate',
+        url: 'http://' + location.hostname + (url.split("/")[3] !== 'imprenta' ? '' : '/imprenta') + '/proforma/validate',
         type: 'post',
 
         beforeSend: function () {

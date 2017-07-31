@@ -41,6 +41,11 @@ class Proforma extends ActiveRecord
     public $cliente_name;
     public $proforma_estado;
 
+    public $nameCompany;
+    public $ruc;
+    public $businessName;
+    public $fiscalAddress;
+
     /**
      * @inheritdoc
      */

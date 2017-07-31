@@ -85,24 +85,28 @@ $descripcion = "Modificar Proforma";
                         </div>
                     </div>
 
-                    <div class="container-fluid" id="contenedorCliente">
+                    <div class="container-fluid" id="contenedorClienteUpdate">
                         <legend>Datos del Cliente</legend>
                         <div class="form-group">
                             <div class="col-xs-12 col-sm-6 col-md-3">
                                 <label>Nombre de la Compañia</label>
-                                <input type="text" id="nameCompany" class="form-control input-sm text-border"/>
+                                <?= $form->field($modelProforma, 'nameCompany')->textInput(
+                                    ['class' => 'form-control input-sm text-border'])->label(false) ?>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-3">
                                 <label>N° de RUC</label>
-                                <input type="text" id="ruc" class="form-control input-sm text-border"/>
+                                <?= $form->field($modelProforma, 'ruc')->textInput(
+                                    ['class' => 'form-control input-sm text-border'])->label(false) ?>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-3">
                                 <label>Razón Social</label>
-                                <input type="text" id="businessName" class="form-control input-sm text-border"/>
+                                <?= $form->field($modelProforma, 'businessName')->textInput(
+                                    ['class' => 'form-control input-sm text-border'])->label(false) ?>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-3">
                                 <label>Dirección Fiscal</label>
-                                <input type="text" id="fiscalAddress" class="form-control input-sm text-border"/>
+                                <?= $form->field($modelProforma, 'fiscalAddress')->textInput(
+                                    ['class' => 'form-control input-sm text-border'])->label(false) ?>
                             </div>
                         </div>
                     </div>

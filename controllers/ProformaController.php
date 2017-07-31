@@ -8,6 +8,7 @@ use app\models\ProformaDetalle;
 use Yii;
 use app\models\Proforma;
 use app\models\ProformaSearch;
+use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -167,12 +168,33 @@ class ProformaController extends Controller
      * Finds the Proforma model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Proforma the loaded model
+     * @return Proforma|array|\yii\db\ActiveQuery|\yii\db\ActiveRecord
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Proforma::findOne($id)) !== null) {
+        $model = Proforma::find()
+            ->select([
+                'proforma.id                              AS id',
+                'proforma.num_proforma                    AS num_proforma',
+                'proforma.cliente_id                      AS cliente_id',
+                'date_format(fecha_ingreso, \'%d-%m-%Y\') AS fecha_ingreso',
+                'date_format(fecha_envio, \'%d-%m-%Y\')   AS fecha_envio',
+                'monto_total                              AS monto_total',
+                'monto_subtotal                           AS monto_subtotal',
+                'monto_igv                                AS monto_igv',
+                'cliente.desc_cliente                     AS nameCompany',
+                'cliente.numero_ruc                       AS ruc',
+                'cliente.razon_social                     AS businessName',
+            ])
+            ->addSelect([new Expression("
+                concat(dir_fisica, ' ', distrito, ' ', provincia, ' ', departamento) AS fiscalAddress")
+            ])
+            ->leftJoin('cliente', 'proforma.cliente_id = cliente.id')
+            ->where('proforma.id = :id', [':id' => $id])
+            ->one();
+
+        if (($model) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
