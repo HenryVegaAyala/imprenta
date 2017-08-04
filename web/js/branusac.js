@@ -116,7 +116,7 @@ function validateNan(valor) {
 }
 
 function calcular() {
-    var array_unidad, array_precio, array_total, cantidad, precio, total;
+    var array_unidad, array_precio, array_total, cantidad, precio, total, sumaSubTotal, igv, subtotal;
 
     array_unidad = document.getElementsByName("cantidad[]");
     array_precio = document.getElementsByName("precio[]");

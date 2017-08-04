@@ -138,7 +138,11 @@ class ProformaController extends Controller
     public function actionUpdate($id)
     {
         $modelProforma = $this->findModel($id);
-        $modelsProformaDetalle = [new ProformaDetalle];
+        //$modelsProformaDetalle = [new ProformaDetalle];
+        $modelsProformaDetalle = ProformaDetalle::find()
+            ->select(['cantidad', 'descripcion', 'precio', 'monto_total AS total'])
+            ->where('proforma_id = :id', [':id' => $id])
+            ->all();
         $notificaciones = new Notificaciones();
         $cliente = new Cliente();
 
